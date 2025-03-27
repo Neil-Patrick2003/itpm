@@ -15,7 +15,9 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', fn() => Inertia::render('Dashboard'))->name('dashboard');
+    Route::get('/dashboard', fn() => Inertia::render('Dashboard', [
+        'user' => auth()->user(),
+    ]))->name('dashboard');
     Route::get('/users', fn() => Inertia::render('Admin/User'))->name('users');
     Route::get('/childrens', fn() => Inertia::render('Admin/Children'))->name('children'); // Fixed typo
     Route::get('/sponsorships', fn() => Inertia::render('Admin/Sponsorship'))->name('sponsors'); // Fixed typo

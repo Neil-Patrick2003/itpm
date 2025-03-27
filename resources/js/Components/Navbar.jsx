@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
-import { Link } from 'react-scroll'
+import { Link as ScrollLink} from 'react-scroll'
 import { motion } from 'framer-motion'
 import logo from '../../assets/image/logo.png';
+import { Link } from '@inertiajs/react';
+
 
 
 
@@ -56,9 +58,9 @@ const Navbar = () => {
                     {["home", "sponsor", "about", "works", "contact"].map((item) => (
                         <li key={item}>
                             <motion.div className="flex flex-col" whileHover="hover">
-                                <Link to={item} smooth={true} offset={0} duration={300}>
+                                <ScrollLink to={item} smooth={true} offset={0} duration={300}>
                                     {item.charAt(0).toUpperCase() + item.slice(1)}
-                                </Link>
+                                </ScrollLink>
                                 <motion.div
                                     className="border-t-4 border-gray-600 rounded-xl "
                                     initial={{ width: 0 }}
@@ -71,9 +73,9 @@ const Navbar = () => {
 
                     ))}
                     <li>    
-                        <a href="/login">
+                        <Link href="/login">
                             <button className="relative border-2 border-green-800 bg-transparent text-sm py-1 px-6 rounded-lg font-medium  text-green-800 transition-colors before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:origin-top-left before:scale-x-0 before:bg-green-800 before:transition-transform before:duration-300 before:content-[''] hover:text-white before:hover:scale-x-100">Login</button>
-                        </a>
+                        </Link>
                     </li>
                 </ul>
                 <div onClick={toggleNav} className="md:hidden z-60 text-gray-600">

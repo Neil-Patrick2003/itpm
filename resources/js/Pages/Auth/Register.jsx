@@ -18,6 +18,7 @@ export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
+        phone: '',
         password: '',
         password_confirmation: '',
     });
@@ -73,7 +74,7 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Phone" />
+                    <InputLabel htmlFor="phone" value="Phone" />
 
                     <TextInput
                         id="phone"
@@ -143,9 +144,9 @@ export default function Register() {
 
                     </Link>
 
-                    <Button className="border my-4 py-2 rounded-md bg-green-800 w-full text-white" >
+                    <button type='submit' className="border my-4 py-2 rounded-md bg-green-800 w-full text-white" >
                         Register
-                    </Button>
+                    </button>
                     <p className='text-center'>Already registered? <Link href="/login" className='text-green-600'>Sign in</Link></p>
                 </div>
             </form>
