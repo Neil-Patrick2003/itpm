@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\UserController;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,7 +20,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', fn() => Inertia::render('Dashboard', [
         'user' => auth()->user(),
     ]))->name('dashboard');
-    Route::get('/users', fn() => Inertia::render('Admin/User'))->name('users');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users');
+
+
+
+
     Route::get('/childrens', fn() => Inertia::render('Admin/Children'))->name('children'); // Fixed typo
     Route::get('/sponsorships', fn() => Inertia::render('Admin/Sponsorship'))->name('sponsors'); // Fixed typo
     Route::get('/reports', fn() => Inertia::render('Admin/Report'))->name('reports');
