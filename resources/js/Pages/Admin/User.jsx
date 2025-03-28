@@ -178,7 +178,7 @@ const AdminDashboard = ({ users }) => {
                                                                     <p className="pb-1">Delete</p>
                                                                 </button>
                                                                 <button 
-                                                                    className="border border-2x border-slate-600 rounded-lg px-4 pt-1 flex gap-2 text-slate-600 hover:text-slate-900"
+                                                                    className="border border-2x border-slate-600 rounded-lg px-4         pt-1 flex gap-2 text-slate-600 hover:text-slate-900"
                                                                     onClick={() => openViewUser(user)}
                                                                 >
                                                                     <GrFormView style={{ fontSize: '18px' }} />
