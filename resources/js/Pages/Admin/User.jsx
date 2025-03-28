@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
+import { Link } from '@inertiajs/react';
+
 
 const AdminDashboard = ({ users }) => {
     const [isAddUserOpen, setIsAddUserOpen] = useState(false);
@@ -141,7 +143,8 @@ const AdminDashboard = ({ users }) => {
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200">
-                                                    {users.map((user) => (
+                                                    
+                                                    {users.data.map(user => (
                                                         <tr key={user.id}>
                                                             <td className="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0">
                                                                 {user.name}
@@ -169,9 +172,37 @@ const AdminDashboard = ({ users }) => {
                                                             </td>
                                                         </tr>
                                                     ))}
+
+
+                                                    
                                                 </tbody>
                                             </table>
+ 
                                         </div>
+                                        <div className="flex gap-2">
+                                            {users.links.map(link => (
+                                                link.url ? (
+                                                <Link 
+                                                    key={link.label} 
+                                                    href={link.url} 
+                                                    className={`p-1 mx-1 ${link.active ? "text-blue-400 font-bold" : ''}`} // Fixed the typo in the class
+                                                    dangerouslySetInnerHTML={{ __html: link.label }} // Corrected this line
+                                                />
+                                            )
+                                                
+                                                :
+                                            (
+                                                <span
+                                                key={link.label} 
+                                                    className="p-1 mx-1 text-slate-400  hover:disabled"
+                                                    dangerouslySetInnerHTML={{ __html: link.label }} >
+                                                    
+                                                </span>
+                                            )
+                                                
+                                            ))}
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

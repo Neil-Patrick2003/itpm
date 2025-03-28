@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function index(){
-        $users = User::all();
+        $users = User::latest()->paginate(6);
+
         
         return Inertia::render('Admin/User', [
             'users' => $users
@@ -18,7 +19,7 @@ class UserController extends Controller
 
     public function update (Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id);  
 
         $validated = $request->validate([
             'name' => 'required|max:255',
