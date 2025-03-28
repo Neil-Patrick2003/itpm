@@ -30,7 +30,7 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect()->back()->with('success', 'User updated successfully!');
+        return redirect()->back()->with('message', 'User updated successfully!');
     }
 
     public function destroy($id)

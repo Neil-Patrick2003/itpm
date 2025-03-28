@@ -58,7 +58,7 @@ const Navbar = () => {
                     {["home", "sponsor", "about", "works", "contact"].map((item) => (
                         <li key={item}>
                             <motion.div className="flex flex-col" whileHover="hover">
-                                <ScrollLink to={item} smooth={true} offset={0} duration={300}>
+                                <ScrollLink to={item} smooth="true" offset={0} duration={300}>
                                     {item.charAt(0).toUpperCase() + item.slice(1)}
                                 </ScrollLink>
                                 <motion.div
@@ -90,9 +90,9 @@ const Navbar = () => {
                 >
                     <div>
                         <ul className="font-semibold text-4xl space-y-8 mt-24 text-center">
-                            <li><Link to="#skill" onClick={closeNav} smooth={true} offset={50} duration={500}>About</Link></li>
-                            <li><Link to="portfolio" onClick={closeNav} smooth={true} offset={50} duration={500}>Portfolio</Link></li>
-                            <li><Link to="contact" onClick={closeNav} smooth={true} offset={50} duration={500}>Contact</Link></li>
+                            <li><Link to="#skill" onClick={closeNav} smooth="true" offset={50} duration={500}>About</Link></li>
+                            <li><Link to="portfolio" onClick={closeNav} smooth="true" offset={50} duration={500}>Portfolio</Link></li>
+                            <li><Link to="contact" onClick={closeNav} smooth="true" offset={50} duration={500}>Contact</Link></li>
                         </ul>
                     </div>
                 </motion.div>

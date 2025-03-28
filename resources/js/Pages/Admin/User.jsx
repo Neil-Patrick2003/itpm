@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
 import { Link } from '@inertiajs/react';
@@ -7,15 +7,7 @@ import { IoPersonAddSharp } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { GrFormView } from "react-icons/gr";
-import { Dropdown as RoleDropdown } from 'primereact/dropdown';
-import 'primereact/resources/themes/lara-light-indigo/theme.css'; // Import a PrimeReact theme
-import 'primereact/resources/primereact.min.css'; // PrimeReact styles
-import 'primeicons/primeicons.css'; 
-
-
-
-
-
+import FlashMessage from '@/Components/FlashMessage';
 
 
 
@@ -27,10 +19,14 @@ const AdminDashboard = ({ users }) => {
     const [viewingUser, setViewingUser] = useState(null);
     const [editingUser, setEditingUser] = useState(null);
     const [deletingUser, setDeletingUser] = useState(null);
+    const { flash } = usePage().props;
+    
 
     const { data: userData, setData, post, put, errors, processing } = useForm({
         name: '',
-        email: ''
+        email: '',
+        phone: '',
+        role: "user"
     });
 
     const {delete: deleteUser} = useForm();
@@ -91,12 +87,12 @@ const AdminDashboard = ({ users }) => {
     const handleCreateUser = () => {
         post('/users', {
             onSuccess: () => {
-                closeAddUser(); // Close the modal after user is added
+                closeAddUser(); 
                 alert("User created successfully!");
-                setData({ name: '', email: '' }); // Reset data after creation
+                setData({ name: '', email: '' }); 
             },
             onError: (error) => {
-                console.error("Error creating user:", error); // Log the error
+                console.error("Error creating user:", error);
                 alert("Error creating the user.");
             }
         });
@@ -105,8 +101,7 @@ const AdminDashboard = ({ users }) => {
     const handleUpdateUser = () => {
         put(`/users/${editingUser.id}`, {
             onSuccess: () => {
-                closeEditUser();
-                alert("User updated successfully!");
+                closeEditUser();    
             },
             onError: () => {
                 alert("Error updating the user.");
@@ -117,7 +112,9 @@ const AdminDashboard = ({ users }) => {
     return (
         <AuthenticatedLayout>
             <Head title="Users" />
+
             <div>
+
                 <div className="flex border w-full h-screen sm:p-4 md:p-6">
                     <div className="overflow-hidden w-full bg-white border shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
@@ -125,6 +122,7 @@ const AdminDashboard = ({ users }) => {
                                 <div className="sm:flex sm:items-center">
                                     <div className="sm:flex-auto">
                                         <h1 className="text-base font-semibold text-gray-900">Users</h1>
+                                        {/* <FlashMessage/>                                             */}
                                         <p className="mt-2 text-sm text-gray-700">
                                             A list of all the users in your account including their name, title, email, and role.
                                         </p>
@@ -199,10 +197,7 @@ const AdminDashboard = ({ users }) => {
                                                                 </button>
                                                             </td>
                                                         </tr>
-                                                    ))}
-
-
-                                                    
+                                                    ))}      
                                                 </tbody>
                                             </table>
  
@@ -249,7 +244,7 @@ const AdminDashboard = ({ users }) => {
                                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         />
                                     </div>
-                                    <div className="mt-2">
+                                    <div className= "mt-2">
                                         <label className="block text-sm font-medium text-gray-700">Email</label>
                                         <input
                                             type="email"
@@ -276,52 +271,46 @@ const AdminDashboard = ({ users }) => {
                                 </div>
                             </Modal>
 
-                            {/* Modal for Editing User */}
                             <Modal show={isEditUserOpen} onClose={closeEditUser} maxWidth="2xl" closable={true}>
                                 <div className="p-6 bg-white rounded-lg shadow-lg">
                                     <h2 className="text-2xl font-semibold text-gray-900">Edit {userData.name}</h2>
-                                    
                                     <div className="mt-4 space-y-4">
-                                        {/* Name */}
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">Name</label>
                                             <input
                                                 type="text"
-                                                value={userData.name}
+                                                value={userData.name || ""}  // Controlled input
                                                 onChange={(e) => setData('name', e.target.value)}
                                                 className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                             />
                                         </div>
-                                        
-                                        {/* Email */}
+
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">Email</label>
                                             <input
                                                 type="email"
-                                                value={userData.email}
+                                                value={userData.email || ""}  // Controlled input
                                                 onChange={(e) => setData('email', e.target.value)}
                                                 className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                             />
                                         </div>
-                                        
-                                        {/* Phone Number */}
+
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">Phone Number</label>
                                             <input
                                                 type="text"
-                                                value={userData.phone}
+                                                value={userData.phone || ""}  // Controlled input
                                                 onChange={(e) => setData('phone', e.target.value)}
                                                 className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                             />
                                         </div>
-                                        
-                                        {/* Role Selection */}
+
                                         <div>
                                             <label htmlFor="role" className="block text-sm font-medium text-gray-700">Role</label>
                                             <select
                                                 name="role"
-                                                id="role"
-                                                value={userData.role}
+                                               
+                                                value={userData?.role  ?? "user"}  // Use userData.role directly
                                                 onChange={(e) => setData('role', e.target.value)}
                                                 className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm bg-white"
                                             >
@@ -330,20 +319,17 @@ const AdminDashboard = ({ users }) => {
                                                 <option value="sponsor" className="text-sm text-gray-700 hover:bg-green-100 hover:text-green-700 transition-colors">Sponsor</option>
                                             </select>
                                         </div>
-
                                     </div>
-                                    
+
                                     <div className="flex justify-end gap-4 mt-6">
-                                        {/* Save Button */}
                                         <button
                                             className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
-                                            onClick={handleUpdateUser} // Trigger the update function
-                                            disabled={processing} // Disable if processing
+                                            onClick={handleUpdateUser} 
+                                            disabled={processing} 
                                         >
                                             {processing ? 'Saving...' : 'Save Changes'}
                                         </button>
-                                        
-                                        {/* Cancel Button */}
+
                                         <button
                                             className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300"
                                             onClick={closeEditUser}
@@ -355,7 +341,7 @@ const AdminDashboard = ({ users }) => {
                             </Modal>
 
 
-                            {/* Modal for Deleting User */}
+
                             <Modal show={isDeleteUserOpen} onClose={closeDeleteUser} maxWidth="sm" closable={true}>
                                 <div className="p-4">
                                     <h2 className="text-xl font-semibold text-red-600">Are you sure?</h2>
