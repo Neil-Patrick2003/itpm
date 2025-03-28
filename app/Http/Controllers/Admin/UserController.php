@@ -18,11 +18,14 @@ class UserController extends Controller
 
     public function update (Request $request, $id)
     {
+
         $user = User::findOrFail($id);  
 
         $validated = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|max:255',
+            'phone' => 'required|min:10',
+            'role' => 'required'
         ]);
 
         $user->update($validated);

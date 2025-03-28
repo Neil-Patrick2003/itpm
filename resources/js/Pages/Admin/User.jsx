@@ -7,6 +7,11 @@ import { IoPersonAddSharp } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { GrFormView } from "react-icons/gr";
+import { Dropdown as RoleDropdown } from 'primereact/dropdown';
+import 'primereact/resources/themes/lara-light-indigo/theme.css'; // Import a PrimeReact theme
+import 'primereact/resources/primereact.min.css'; // PrimeReact styles
+import 'primeicons/primeicons.css'; 
+
 
 
 
@@ -39,7 +44,7 @@ const AdminDashboard = ({ users }) => {
     // Edit User Modal Functions
     const openEditUser = (user) => {
         setEditingUser(user); //set user 
-        setData({ name: user.name, email: user.email }) // set current user data to inputfeild
+        setData({ name: user.name, email: user.email, phone: user.phone, role: user.role }) 
         setIsEditUserOpen(true);
     };
     const closeEditUser = () => {
@@ -149,6 +154,12 @@ const AdminDashboard = ({ users }) => {
                                                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                                             Email
                                                         </th>
+                                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                                            Email
+                                                        </th>
+                                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                                            Phone Number
+                                                        </th>
                                                         <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-0">
                                                             Action
                                                         </th>
@@ -162,6 +173,8 @@ const AdminDashboard = ({ users }) => {
                                                                 {user.name}
                                                             </td>
                                                             <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{user.email}</td>
+                                                            <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{user.phone}</td>
+                                                            <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{user.role}</td>
                                                             <td className="flex gap-2 py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0">
                                                                 <button
                                                                     className=" flex gap-2 px-4 pt-1 text-white bg-green-500 hover:bg-green-400 rounded-lg"
@@ -265,36 +278,74 @@ const AdminDashboard = ({ users }) => {
 
                             {/* Modal for Editing User */}
                             <Modal show={isEditUserOpen} onClose={closeEditUser} maxWidth="2xl" closable={true}>
-                                <div className="p-4">
-                                    <h2 className="text-xl font-semibold">Edit {userData.name}</h2>
-                                    <div className="mt-2">
-                                        <label className="block text-sm font-medium text-gray-700">Name</label>
-                                        <input
-                                            type="text"
-                                            value={userData.name}
-                                            onChange={(e) => setData('name', e.target.value)} // Use setData to update the form field
-                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        />
+                                <div className="p-6 bg-white rounded-lg shadow-lg">
+                                    <h2 className="text-2xl font-semibold text-gray-900">Edit {userData.name}</h2>
+                                    
+                                    <div className="mt-4 space-y-4">
+                                        {/* Name */}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Name</label>
+                                            <input
+                                                type="text"
+                                                value={userData.name}
+                                                onChange={(e) => setData('name', e.target.value)}
+                                                className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                            />
+                                        </div>
+                                        
+                                        {/* Email */}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Email</label>
+                                            <input
+                                                type="email"
+                                                value={userData.email}
+                                                onChange={(e) => setData('email', e.target.value)}
+                                                className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                            />
+                                        </div>
+                                        
+                                        {/* Phone Number */}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+                                            <input
+                                                type="text"
+                                                value={userData.phone}
+                                                onChange={(e) => setData('phone', e.target.value)}
+                                                className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                            />
+                                        </div>
+                                        
+                                        {/* Role Selection */}
+                                        <div>
+                                            <label htmlFor="role" className="block text-sm font-medium text-gray-700">Role</label>
+                                            <select
+                                                name="role"
+                                                id="role"
+                                                value={userData.role}
+                                                onChange={(e) => setData('role', e.target.value)}
+                                                className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm bg-white"
+                                            >
+                                                <option value="user" className="text-sm text-gray-700 hover:bg-green-100 hover:text-green-700 transition-colors">User</option>
+                                                <option value="admin" className="text-sm text-gray-700 hover:bg-green-100 hover:text-green-700 transition-colors">Admin</option>
+                                                <option value="sponsor" className="text-sm text-gray-700 hover:bg-green-100 hover:text-green-700 transition-colors">Sponsor</option>
+                                            </select>
+                                        </div>
+
                                     </div>
-                                    <div className="mt-2">
-                                        <label className="block text-sm font-medium text-gray-700">Email</label>
-                                        <input
-                                            type="email"
-                                            value={userData.email}
-                                            onChange={(e) => setData('email', e.target.value)} // Use setData to update the form field
-                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        />
-                                    </div>
-                                    <div className="flex justify-end gap-2 mt-4">
+                                    
+                                    <div className="flex justify-end gap-4 mt-6">
+                                        {/* Save Button */}
                                         <button
-                                            className="px-6 py-2 border bg-green-400 text-white rounded-lg"
+                                            className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
                                             onClick={handleUpdateUser} // Trigger the update function
                                             disabled={processing} // Disable if processing
                                         >
                                             {processing ? 'Saving...' : 'Save Changes'}
                                         </button>
+                                        
+                                        {/* Cancel Button */}
                                         <button
-                                            className="px-6 py-2 border bg-gray-200 text-white rounded-lg"
+                                            className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300"
                                             onClick={closeEditUser}
                                         >
                                             Cancel
@@ -302,6 +353,7 @@ const AdminDashboard = ({ users }) => {
                                     </div>
                                 </div>
                             </Modal>
+
 
                             {/* Modal for Deleting User */}
                             <Modal show={isDeleteUserOpen} onClose={closeDeleteUser} maxWidth="sm" closable={true}>
