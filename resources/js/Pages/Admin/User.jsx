@@ -3,6 +3,15 @@ import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
 import { Link } from '@inertiajs/react';
+import { IoPersonAddSharp } from "react-icons/io5";
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
+import { GrFormView } from "react-icons/gr";
+
+
+
+
+
 
 
 const AdminDashboard = ({ users }) => {
@@ -118,10 +127,13 @@ const AdminDashboard = ({ users }) => {
                                     <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                                         <button
                                             type="button"
-                                            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                            className="flex gap-2 rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                             onClick={openAddUser}
                                         >
+                                            <IoPersonAddSharp />
                                             Add user
+                                            
+
                                         </button>
                                     </div>
                                 </div>
@@ -152,22 +164,25 @@ const AdminDashboard = ({ users }) => {
                                                             <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{user.email}</td>
                                                             <td className="flex gap-2 py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0">
                                                                 <button
-                                                                    className="text-indigo-600 hover:text-indigo-900"
+                                                                    className=" flex gap-2 px-4 pt-1 text-white bg-green-500 hover:bg-green-400 rounded-lg"
                                                                     onClick={() => openEditUser(user)}
                                                                 >
-                                                                    Edit<span className="sr-only">, {user.name}</span>
+                                                                    <FaEdit style={{ fontSize: '18px' }}/>
+                                                                    <p className="pb-2">Edit</p>
                                                                 </button>
                                                                 <button
-                                                                    className="text-red-600 hover:text-red-900"
+                                                                    className="flex gap-2 rounded-lg px-4 pt-1 bg-red-600 text-white hover:bg-red-400"
                                                                     onClick={() => openDeleteUser(user)}
                                                                 >
-                                                                    Delete
+                                                                    <MdDeleteForever style={{ fontSize: '18px' }}/>
+                                                                    <p className="pb-1">Delete</p>
                                                                 </button>
                                                                 <button 
-                                                                    className="text-green-600 hover:text-green=900"
+                                                                    className="border border-2x border-slate-600 rounded-lg px-4 pt-1 flex gap-2 text-slate-600 hover:text-slate-900"
                                                                     onClick={() => openViewUser(user)}
                                                                 >
-                                                                    View
+                                                                    <GrFormView style={{ fontSize: '18px' }} />
+                                                                    <p className="pb-1">View</p>
                                                                 </button>
                                                             </td>
                                                         </tr>
