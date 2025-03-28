@@ -10,11 +10,13 @@ import {
     HomeIcon,
     UsersIcon,
     XMarkIcon,
+    
 } from '@heroicons/react/24/outline'
 
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
     { name: 'Manage User', href: '/users', icon: UsersIcon, current: false },
+    { name: 'Manage Program', href: '/programs', icon: CalendarIcon, current: false },
     { name: 'Children Record', href: '/childrens', icon: FolderIcon, current: false },
     { name: 'Sponsorship', href: '/sponsorships', icon: CalendarIcon, current: false },
     { name: 'Analytics', href: '/reports', icon: DocumentDuplicateIcon, current: false },

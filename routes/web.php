@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UserController;
-
+use App\Http\Controllers\Admin\ProgramController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,6 +23,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users');
+    Route::get('/programs', [ProgramController::class, 'index'])->name('programs');
+
+    
+
 
 
 
