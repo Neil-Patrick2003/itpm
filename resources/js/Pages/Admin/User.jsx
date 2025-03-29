@@ -210,27 +210,26 @@ const AdminDashboard = ({ users }) => {
                                             </table>
  
                                         </div>
-                                        <div className="flex gap-2">
-                                            {users.links.map(link => (
+                                        <div className="flex gap-2 justify-end mt-2 items-center">
+                                            {users.links.map((link) => (
                                                 link.url ? (
-                                                <Link 
-                                                    key={link.label} 
-                                                    href={link.url} 
-                                                    className={`p-1 mx-1 ${link.active ? "text-blue-400 font-bold" : ''}`} // Fixed the typo in the class
-                                                    dangerouslySetInnerHTML={{ __html: link.label }} // Corrected this line
+                                                <Link
+                                                key={link.label}
+                                                href={link.url}
+                                                className={`p-2 px-4 text-sm font-medium rounded-md 
+                                                    ${link.active ? "bg-green-600 text-white font-bold hover:bg-green-500" 
+                                                    : "bg-white text-gray-700 hover:bg-green-50"} 
+                                                    border border-gray-300 shadow-md transition-all duration-200`}
+                                                dangerouslySetInnerHTML={{ __html: link.label }}
+                                                />
+                                            ) : (
+                                                <span
+                                                key={link.label}
+                                                className="p-2 px-4 text-sm font-medium text-slate-400 cursor-not-allowed 
+                                                    bg-white border border-gray-300 shadow-md rounded-md"
+                                                dangerouslySetInnerHTML={{ __html: link.label }}
                                                 />
                                             )
-                                                
-                                                :
-                                            (
-                                                <span
-                                                key={link.label} 
-                                                    className="p-1 mx-1 text-slate-400  hover:disabled"
-                                                    dangerouslySetInnerHTML={{ __html: link.label }} >
-                                                    
-                                                </span>
-                                            )
-                                                
                                             ))}
                                         </div>
 
@@ -383,7 +382,7 @@ const AdminDashboard = ({ users }) => {
                                     </button>
 
                                 </div>
-                            </Modal>    
+                            </Modal>     
 
                         </div>
                     </div>
