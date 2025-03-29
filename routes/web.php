@@ -24,6 +24,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users');
     Route::get('/programs', [ProgramController::class, 'index'])->name('programs');
+    Route::post('/programs', [ProgramController::class, 'store'])->name('programs');
+
 
     
 
