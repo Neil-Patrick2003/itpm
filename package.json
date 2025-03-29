@@ -26,6 +26,7 @@
         "@emotion/styled": "^11.14.0",
         "@heroicons/react": "^2.2.0",
         "framer-motion": "^12.5.0",
+        "headlessui": "^0.0.0",
         "heroicons": "^2.2.0",
         "primeicons": "^7.0.0",
         "primereact": "^10.9.3",

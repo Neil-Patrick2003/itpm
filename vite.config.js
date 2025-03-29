@@ -11,4 +11,8 @@ export default defineConfig({
         react(),
         
     ],
+    build: {
+        manifest: true,  // Ensure the manifest file is generated
+        outDir: 'public/build',  // Ensure it's written to the public directory
+      },
 });
