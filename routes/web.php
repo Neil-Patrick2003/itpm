@@ -25,13 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users');
     Route::get('/programs', [ProgramController::class, 'index'])->name('programs');
     Route::post('/programs', [ProgramController::class, 'store'])->name('programs');
-
-
-    
-
-
-
-
+    Route::get('/programs/{id}', [ProgramController::class, 'show'])->name('programs');
 
     Route::get('/childrens', fn() => Inertia::render('Admin/Children'))->name('children'); // Fixed typo
     Route::get('/sponsorships', fn() => Inertia::render('Admin/Sponsorship'))->name('sponsors'); // Fixed typo

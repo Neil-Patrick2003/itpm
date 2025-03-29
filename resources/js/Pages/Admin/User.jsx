@@ -115,31 +115,39 @@ const AdminDashboard = ({ users }) => {
 
             <div>
 
-                <div className="flex border w-full h-screen sm:p-4 md:p-6">
-                    <div className="overflow-hidden w-full bg-white border shadow-sm sm:rounded-lg dark:bg-gray-800">
+                <div className="flex flex-col border w-full h-screen sm:p-4 md:p-6">
+                    <div className="w-full mb-2 ">
+                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                            <div className="p-6 flex justify-between text-gray-900 dark:text-gray-100">
+                                <div className='flex flex-col'>
+                                    <h1 className='sm:text-md md:text-lg lg:text-xl font-bold'>
+                                        Add New Users
+                                    </h1>
+                                    <p className="mt-2 text-sm text-gray-700">
+                                                A list of all the users in your account including their name, title, email, and role.
+                                    </p>
+                                </div>
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="flex gap-2 rounded-full bg-green-600  p-4 text-center text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        onClick={openAddUser}
+                                    >
+                                        <IoPersonAddSharp />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="overflow-hidden w-full h-full bg-white  shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
-                            <div className="px-4 sm:px-6 lg:px-8">
-                                <div className="sm:flex sm:items-center">
-                                    <div className="sm:flex-auto">
-                                        <h1 className="text-base font-semibold text-gray-900">Users</h1>
+                        <h1 className="text-base font-semibold text-gray-900">Users</h1>
                                         <FlashMessage/>                                            
                                         <p className="mt-2 text-sm text-gray-700">
                                             A list of all the users in your account including their name, title, email, and role.
                                         </p>
-                                    </div>
-                                    <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                                        <button
-                                            type="button"
-                                            className="flex gap-2 rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                            onClick={openAddUser}
-                                        >
-                                            <IoPersonAddSharp />
-                                            Add user
-                                            
-
-                                        </button>
-                                    </div>
-                                </div>
+                            
+                            <div className="px-4 sm:px-6 lg:px-8">
                                 <div className="mt-8 flow-root">
                                     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                         <div className="inline-block border rounded-xl min-w-full py-2 align-middle sm:px-6 lg:px-8">

@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 class ProgramController extends Controller
 {
     public function index(){
-        $programs = Program::all();
-        return Inertia::render('Admin/Program', [
+        $programs = Program::latest()->paginate(6);
+        return Inertia::render('Admin/Program/Index', [
             'programs' => $programs
         ]);
     }
@@ -35,4 +35,17 @@ class ProgramController extends Controller
 
         return redirect()->back();
     }
+
+    public function show(Request $request, $id){
+        $program = Program::findOrFail($id);
+        return Inertia::render('Admin/Program/Edit', [
+            'program' => $program
+        ]);
+    }
+
+    // public function edit($id){
+
+    // }
+
+
 }
