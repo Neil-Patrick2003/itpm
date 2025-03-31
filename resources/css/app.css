@@ -7,6 +7,3 @@ html, body, #app {
     height: 100%;
 }
 
-title {
-    @apply text-lg md:text-sm font-bold; 
-}

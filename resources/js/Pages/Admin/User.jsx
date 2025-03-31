@@ -115,9 +115,9 @@ const AdminDashboard = ({ users }) => {
 
             <div>
 
-                <div className="flex flex-col border w-full h-screen sm:p-4 md:p-6">
+                <div className="flex flex-col  w-full h-screen sm:p-4 md:p-6">
                     <div className="w-full mb-2 ">
-                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                        <div className="overflow-hidden h-28 bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                             <div className="p-6 flex justify-between text-gray-900 dark:text-gray-100">
                                 <div className='flex flex-col'>
                                     <h1 className='sm:text-md md:text-lg lg:text-xl font-bold'>
@@ -150,7 +150,7 @@ const AdminDashboard = ({ users }) => {
                             <div className="px-4 sm:px-6 lg:px-8">
                                 <div className="mt-8 flow-root">
                                     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                        <div className="inline-block border rounded-xl min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                        <div className="inline-block  rounded-xl min-w-full py-2 align-middle sm:px-6 lg:px-8">
                                             <table className="min-w-full divide-y divide-gray-300">
                                                 <thead>
                                                     <tr>

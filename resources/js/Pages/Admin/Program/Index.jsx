@@ -40,12 +40,19 @@ const Program = ( { programs } ) => {
     return (
         <AuthenticatedLayout>
             <div>
-                <div className="flex border w-full h-screen sm:p-4 md:p-6">
-                    <div className="overflow-hidden w-full bg-white p-8  border shadow-sm sm:rounded-lg dark:bg-gray-800">
-                    <h1 className="text-base font-semibold text-gray-900">Programs</h1>
-                    <div className='flex justify-end'>
-                            <button onClick={openAddProgram}>Create Program</button>
+                
+                <div className="flex flex-col w-full h-screen sm:px-4 md:px-6 ">
+                    <div className="w-full mb-2 pt-6 ">
+                        <div className="overflow-hidden h-28 bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                            <div className="p-6 text-gray-900 dark:text-gray-100">
+                                All Programs
+                                <div className='flex justify-end'>
+                                    <button onClick={openAddProgram}>Create Program</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div className="overflow-hidden w-full bg-white p-8 shadow-sm sm:rounded-lg dark:bg-gray-800">                    
                         <Modal show={isAddProgramOpen} onClose={closeAddProgram} maxWidth="2xl" closable={true}>
                             <div className='flex flex-col w-full p-4'>
                                 <h1 className='text-center'>Add Program</h1>
@@ -119,7 +126,7 @@ const Program = ( { programs } ) => {
                                 <button onClick={closeAddProgram}>Cancel</button>
                             </div>
                         </Modal>
-                        <div className='p-8 border rounded-lg mt-2'>
+                        <div className='P-2 rounded-lg mt-2'>
 
                             <ul role="list" className="divide-y divide-gray-100">
                                 {programs.data.map(program => (
@@ -170,7 +177,7 @@ const Program = ( { programs } ) => {
                                             className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 ring-1 shadow-lg ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                                         >
                                             <MenuItem>
-                                                <Link href={`/programs/${program.id}`} className="text-indigo-600 hover:text-indigo-900">
+                                                <Link href={`/programs/${program.id}`} className="tblock px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden">
                                                     Edit<span className="sr-only">, {program.title}</span>
                                                 </Link>
                                             </MenuItem>
