@@ -264,7 +264,7 @@ const AdminDashboard = ({ users }) => {
                                         <button
                                             className="px-6 py-2 border bg-green-400 text-white rounded-lg"
                                             onClick={handleCreateUser}
-                                            disabled={processing} // Disable if processing
+                                            disabled={processing} 
                                         >
                                             {processing ? 'Creating...' : 'Create'}
                                         </button>
@@ -317,7 +317,7 @@ const AdminDashboard = ({ users }) => {
                                             <select
                                                 name="role"
                                                
-                                                value={userData?.role  ?? "user"}  // Use userData.role directly
+                                                value={userData?.role  ?? "user"} ssss
                                                 onChange={(e) => setData('role', e.target.value)}
                                                 className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm bg-white"
                                             >
