@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Donation extends Model
 {
-    //
+    protected $fillable = ['type', 'amount', 'sponsor_id'];
+
+    public function donation_items(): hasMany
+    {
+        return $this->hasMany(Donation_Item::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
