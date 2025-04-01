@@ -38,6 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/sponsorships', [SponsorController::class, 'index'])->name('sponsors'); 
     Route::get('/sponsorships/create', [SponsorController::class, 'create'])->name('sponsors'); 
+    Route::post('/sponsorships/create', [SponsorController::class, 'store'])->name('sponsors'); 
+
+
 
 
 

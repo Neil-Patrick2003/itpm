@@ -21,7 +21,7 @@ const Create = () => {
   function submitCreate(e) {
     console.log(data);
     e.preventDefault();
-    post('/sponsorhips/create');
+    post('/sponsorships/create');
   }
 
   const addItem = () => {
@@ -154,6 +154,7 @@ const Create = () => {
                     <label htmlFor="amount" className="font-semibold text-sm text-gray-700">Amount</label>
                     <input
                       type="number"
+                      step={0.01}
                       id="amount"
                       value={data.amount || ''}
                       onChange={(e) => setData('amount', e.target.value)}
