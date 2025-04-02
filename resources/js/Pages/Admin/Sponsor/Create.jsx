@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React, { useState } from 'react';
-import { Link, useForm } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
+import FlashMessage from '@/Components/FlashMessage';
 
 const Create = () => {
   const { data, setData, post, processing, errors } = useForm({
@@ -13,14 +14,28 @@ const Create = () => {
     qty: ''
   });
 
+  const { flash } = usePage().props; 
   const [items, setItems] = useState([]);
   const [description, setDescription] = useState('');
   const [qty, setQty] = useState('');
   const [editingItemId, setEditingItemId] = useState(null);
 
   function submitCreate(e) {
-    console.log(data);
     e.preventDefault();
+    
+    console.log(items);
+  
+    if (data.donation_type === 'goods' && items.length === 0) {
+      alert('Please add at least one item.');
+      return;
+    }
+
+    if (data.donation_type === 'goods' && items.length === 0) {
+      data.items = [];  // Ensure an empty array is passed to the backend
+    } else {
+      data.items = items; // Send items array to the backend
+    }
+
     post('/sponsorships/create');
   }
 
@@ -70,14 +85,16 @@ const Create = () => {
   return (
     <AuthenticatedLayout>
       <div className="flex flex-col w-full h-screen gap-2 sm:p-6 lg:p-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <div className="flex text-sm mb-4">
+        
+        <div className="bg-white p-6 h-full rounded-lg shadow-md">
+          <div className="flex text-sm  mb-4">
             <Link href="/sponsorships" className="text-green-500 hover:text-green-700">Sponsor</Link> /
             <Link href="/sponsorships/create" className="text-green-500 hover:text-green-700">Create</Link>
           </div>
+          
 
           <h1 className="text-center text-2xl font-semibold text-gray-800 mb-6">Add Sponsorship</h1>
-
+          <FlashMessage/>    
           <form onSubmit={submitCreate} className="space-y-6">
             <div className="bg-gray-100 p-4 rounded-md shadow-sm">
               <p className="text-xl font-semibold text-gray-700 mb-4">Personal Information</p>
@@ -148,6 +165,8 @@ const Create = () => {
                   />
                   Goods
                 </label>
+                {errors.donation_type && <div className="text-red-500 text-xs mt-1">{errors.donation_type}</div>}
+
 
                 {data.donation_type === 'cash' && (
                   <div className="flex items-center gap-4">
@@ -160,6 +179,10 @@ const Create = () => {
                       onChange={(e) => setData('amount', e.target.value)}
                       className="mt-1 block w-full sm:w-auto px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none sm:text-sm"
                     />
+                    {/* Error Message */}
+                    {errors.amount && (
+                      <div className="text-red-500 text-xs mt-1">{errors.amount}</div>
+                    )}
                   </div>
                 )}
               </div>
@@ -191,6 +214,9 @@ const Create = () => {
                       placeholder="ex. Bearbrand sulit pack"
                       className="p-2 w-full border border-gray-300 rounded-md w-1/2"
                     />
+                    {errors.description && (
+                      <div className="text-red-500 text-xs mt-1">{errors.description}</div>
+                    )}
                   </div>
                   <div>
                     <input
@@ -198,48 +224,34 @@ const Create = () => {
                       value={qty}
                       onChange={(e) => setQty(e.target.value)}
                       placeholder="Quantity"
-                      className="p-2 w-full border border-gray-300 rounded-md w-1/4"
+                      className="p-2 w-full border border-gray-300 rounded-md w-1/2"
                     />
-                  </div>
-                  <div>
-                    {editingItemId === null ? (
-                      <button
-                        type="button"
-                        onClick={addItem}
-                        className="bg-green-500 text-white py-2 px-8 rounded-md hover:bg-green-600"
-                      >
-                        Add
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          type="button"
-                          onClick={confirmEdit}
-                          className="bg-green-500 text-white p-2 rounded-md"
-                        >
-                          Confirm
-                        </button>
-                        <button
-                          type="button"
-                          onClick={cancelEdit}
-                          className="bg-red-500 text-white p-2 rounded-md"
-                        >
-                          Cancel
-                        </button>
-                      </>
+                    {errors.qty && (
+                      <div className="text-red-500 text-xs mt-1">{errors.qty}</div>
                     )}
                   </div>
+                </div>
+
+                <div className="flex justify-end mt-4">
+                  {editingItemId ? (
+                    <>
+                      <button type="button" onClick={cancelEdit} className="text-gray-600 mr-2">Cancel</button>
+                      <button type="button" onClick={confirmEdit} className="bg-blue-500 text-white px-4 py-2 rounded-md">Confirm Edit</button>
+                    </>
+                  ) : (
+                    <button type="button" onClick={addItem} className="bg-green-500 text-white px-4 py-2 rounded-md">Add Item</button>
+                  )}
                 </div>
               </div>
             )}
 
-            <div className="flex justify-center mt-8">
+            <div className="text-center mt-6">
               <button
                 type="submit"
+                className="bg-green-500 text-white px-4 py-2 rounded-md"
                 disabled={processing}
-                className="bg-green-500 text-white py-2 px-6 rounded-md hover:bg-green-600 disabled:bg-gray-400 transition"
               >
-                {processing ? 'Submitting...' : 'Submit'}
+                {processing ? 'Processing...' : 'Submit'}
               </button>
             </div>
           </form>
