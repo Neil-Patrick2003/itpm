@@ -40,14 +40,14 @@ const Program = ( { programs } ) => {
     return (
         <AuthenticatedLayout>
             <div>
-                
+
                 <div className="flex flex-col w-full h-screen sm:px-4 md:px-6 ">
                     <div className="w-full mb-2 pt-6 ">
                         <div className="overflow-hidden h-28 bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                             <div className="p-6 text-gray-900 dark:text-gray-100">
                                 All Programs
-                                <div className='flex justify-end'>
-                                    <button onClick={openAddProgram}>Create Program</button>
+                                <div className='flex justify-end '>
+                                    <button onClick={openAddProgram} className='bg-green-900 text-white px-4 py-2 rounded-full'>Create Program</button>
                                 </div>
                             </div>
                         </div>

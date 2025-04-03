@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
+import FlashMessage from '@/Components/FlashMessage';
+
 
 
 
@@ -9,6 +11,8 @@ const AdminDashboard = ({ sponsors }) => {
     const [isAddSponsorOpen, setIsSponsorOpen] = useState(false);
     const openAddSponsor = () => setIsSponsorOpen(true);
     const closeAddSponsor = () => setIsSponsorOpen(false);
+    const { flash } = usePage().props; 
+    
 
     
     return (
@@ -25,6 +29,7 @@ const AdminDashboard = ({ sponsors }) => {
                 </div>
                 <div className='overflow-x-auto sm:p-4 md:p-6 lg:p8 bg-white h-full'>
                     All sponsor
+                    <FlashMessage/>  
                     <ul>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                             {sponsors.data.map(sponsor => (

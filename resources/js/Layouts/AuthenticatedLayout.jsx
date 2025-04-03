@@ -48,7 +48,7 @@ export default function AuthenticatedLayout({ header, children }) {
         <body class="h-full">
         ```d
       */}
-            <div className='min-h-full bg-green-100'>
+            <div className='min-h-full bg-gray-100'>
                 <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
                     <DialogBackdrop
                         transition
@@ -136,9 +136,9 @@ export default function AuthenticatedLayout({ header, children }) {
                 </Dialog>
 
                 {/* Static sidebar for desktop */}
-                <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col p-6">
+                <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
                     {/* Sidebar component, swap this element with another sidebar if you like */}
-                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 rounded-lg">
+                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-green-900 px-6 ">
                         <div className="flex h-16 shrink-0 items-center">
                             <img
                                 alt="Your Company"
@@ -236,7 +236,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     
                 </div>
 
-                <main className="lg:pl-[264px]">
+                <main className="lg:pl-[282px]">
                     <div className="">{children}</div>
                 </main>
             </div>

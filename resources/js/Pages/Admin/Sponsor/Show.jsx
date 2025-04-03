@@ -8,10 +8,8 @@ const Show = ({ sponsor }) => {
             <div className='bg-white h-screen'>
                 <h1>Edit Sponsorship by {sponsor.name}</h1>
             </div>
-
         </div>
     </AuthenticatedLayout>
   )
 }
-
 export default Show

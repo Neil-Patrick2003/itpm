@@ -1,7 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React, { useState } from 'react';
 import { Link, useForm, usePage } from '@inertiajs/react';
-import FlashMessage from '@/Components/FlashMessage';
 
 const Create = () => {
   const { data, setData, post, processing, errors } = useForm({
@@ -14,7 +13,6 @@ const Create = () => {
     qty: ''
   });
 
-  const { flash } = usePage().props; 
   const [items, setItems] = useState([]);
   const [description, setDescription] = useState('');
   const [qty, setQty] = useState('');
@@ -94,7 +92,7 @@ const Create = () => {
           
 
           <h1 className="text-center text-2xl font-semibold text-gray-800 mb-6">Add Sponsorship</h1>
-          <FlashMessage/>    
+            
           <form onSubmit={submitCreate} className="space-y-6">
             <div className="bg-gray-100 p-4 rounded-md shadow-sm">
               <p className="text-xl font-semibold text-gray-700 mb-4">Personal Information</p>
