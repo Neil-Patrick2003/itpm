@@ -2,12 +2,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React, { useState } from 'react';
 import { Link, useForm, usePage } from '@inertiajs/react';
 
-const Create = () => {
+
+const Create = ( {sponsor} ) => {
   const { data, setData, post, processing, errors } = useForm({
-    name: '',
-    email: '',
-    phone_number: '',
-    photo_url: '',
     donation_type: '',
     amount: '',
     description: '',
@@ -18,14 +15,15 @@ const Create = () => {
   const [description, setDescription] = useState('');
   const [qty, setQty] = useState('');
   const [editingItemId, setEditingItemId] = useState(null);
+  
+  
 
   function submitCreate(e) {
     e.preventDefault();
-    
-    console.log(data);
   
+    console.log(data);
     if (data.donation_type === 'goods' && items.length === 0) {
-      alert('Please add at least one item.');
+      alert('Please add at least one item.'); 
       return;
     }
 
@@ -35,7 +33,9 @@ const Create = () => {
       data.items = items; 
     }
 
-    post('/sponsorships/create');
+    console.log(`/sponsorships/${sponsor.id}/donation`)
+
+    post(`/sponsorships/${sponsor.id}/donation`);
   }
 
   const addItem = () => {
@@ -86,64 +86,18 @@ const Create = () => {
       <div className="flex flex-col w-full h-screen gap-2 sm:p-6 lg:p-8">
         
         <div className="bg-white p-6 h-full rounded-lg shadow-md">
-          <div className="flex text-sm  mb-4">
-            <Link href="/sponsorships" className="text-green-500 hover:text-green-700">Sponsor</Link> /
-            <Link href="/sponsorships/create" className="text-green-500 hover:text-green-700">Create</Link>
-          </div>
+          
           
 
-          <h1 className="text-center text-2xl font-semibold text-gray-800 mb-6">Add Sponsorship</h1>
+          <h1 className="text-center text-2xl font-semibold text-gray-800 mb-6">Add Donation</h1>
             
           <form onSubmit={submitCreate} className="space-y-6">
             <div className="bg-gray-100 p-4 rounded-md shadow-sm">
               <p className="text-xl font-semibold text-gray-700 mb-4">Personal Information</p>
-              <div className="flex flex-col">
-                <label htmlFor="photo_url" className="text-sm font-semibold text-gray-700">Photo</label>
-                <input
-                  type="file"
-                  id="photo_url"
-                  onChange={(e) => setData('photo_url', e.target.files[0])}
-                  className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none sm:text-sm"
-                />
-                {errors.photo_url && <div className="text-red-500 text-xs mt-1">{errors.photo_url}</div>}
-              </div>
+              
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="flex flex-col">
-                  <label htmlFor="name" className="text-sm font-semibold text-gray-700">Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    value={data.name}
-                    onChange={(e) => setData('name', e.target.value)}
-                    className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none sm:text-sm"
-                  />
-                  {errors.name && <div className="text-red-500 text-xs mt-1">{errors.name}</div>}
-                </div>
-
-                <div className="flex flex-col">
-                  <label htmlFor="email" className="text-sm font-semibold text-gray-700">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    value={data.email}
-                    onChange={(e) => setData('email', e.target.value)}
-                    className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none sm:text-sm"
-                  />
-                  {errors.email && <div className="text-red-500 text-xs mt-1">{errors.email}</div>}
-                </div>
-
-                <div className="flex flex-col">
-                  <label htmlFor="phone_number" className="text-sm font-semibold text-gray-700">Phone Number</label>
-                  <input
-                    type="tel"
-                    id="phone_number"
-                    value={data.phone_number}
-                    onChange={(e) => setData('phone_number', e.target.value)}
-                    className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none sm:text-sm"
-                  />
-                  {errors.phone_number && <div className="text-red-500 text-xs mt-1">{errors.phone_number}</div>}
-                </div>
+                
               </div>
             </div>
 
@@ -195,6 +149,7 @@ const Create = () => {
                   </div>
                 )}
               </div>
+              
             </div>
 
             {data.donation_type === 'goods' && (

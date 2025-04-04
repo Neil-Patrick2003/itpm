@@ -4,7 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
 import { Link } from '@inertiajs/react';
 import { IoPersonAddSharp } from "react-icons/io5";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";        
 import { MdDeleteForever } from "react-icons/md";
 import { GrFormView } from "react-icons/gr";
 import FlashMessage from '@/Components/FlashMessage';

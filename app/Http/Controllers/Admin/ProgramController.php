@@ -6,7 +6,7 @@ use Inertia\Inertia;
 use App\Models\Program;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-
+    
 class ProgramController extends Controller
 {
     public function index(){

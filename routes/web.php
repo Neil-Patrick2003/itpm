@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SponsorController;
+use App\Http\Controllers\Admin\DonationController   ;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProgramController;
@@ -37,9 +38,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     Route::get('/sponsorships', [SponsorController::class, 'index'])->name('sponsors'); 
-    Route::get('/sponsorships/create', [SponsorController::class, 'create'])->name('sponsors'); 
     Route::post('/sponsorships/create', [SponsorController::class, 'store'])->name('sponsors'); 
-    Route::get('/sponsorships/{id}', [SponsorController::class, 'show'])->name('sponsors'); 
+    Route::get('/sponsorships/{sponsor}', [SponsorController::class, 'show'])->name('sponsors'); 
+
+    Route::get('/sponsorships/{sponsor}/donation', [DonationController::class, 'create'])->name('donations'); 
+    Route::post('/sponsorships/{sponsor}/donation', [DonationController::class, 'store'])->name('donations'); 
+
+
 
 
 
