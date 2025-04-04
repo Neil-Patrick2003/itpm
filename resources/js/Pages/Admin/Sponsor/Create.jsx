@@ -7,6 +7,7 @@ const Create = () => {
     name: '',
     email: '',
     phone_number: '',
+    photo_url: '',
     donation_type: '',
     amount: '',
     description: '',
@@ -21,7 +22,7 @@ const Create = () => {
   function submitCreate(e) {
     e.preventDefault();
     
-    console.log(items);
+    console.log(data);
   
     if (data.donation_type === 'goods' && items.length === 0) {
       alert('Please add at least one item.');
@@ -29,9 +30,9 @@ const Create = () => {
     }
 
     if (data.donation_type === 'goods' && items.length === 0) {
-      data.items = [];  // Ensure an empty array is passed to the backend
+      data.items = [];  
     } else {
-      data.items = items; // Send items array to the backend
+      data.items = items; 
     }
 
     post('/sponsorships/create');
@@ -96,6 +97,16 @@ const Create = () => {
           <form onSubmit={submitCreate} className="space-y-6">
             <div className="bg-gray-100 p-4 rounded-md shadow-sm">
               <p className="text-xl font-semibold text-gray-700 mb-4">Personal Information</p>
+              <div className="flex flex-col">
+                <label htmlFor="photo_url" className="text-sm font-semibold text-gray-700">Photo</label>
+                <input
+                  type="file"
+                  id="photo_url"
+                  onChange={(e) => setData('photo_url', e.target.files[0])}
+                  className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none sm:text-sm"
+                />
+                {errors.photo_url && <div className="text-red-500 text-xs mt-1">{errors.photo_url}</div>}
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="flex flex-col">

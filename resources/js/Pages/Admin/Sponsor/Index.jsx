@@ -3,6 +3,7 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
 import FlashMessage from '@/Components/FlashMessage';
+import Avatar from '@mui/material/Avatar';
 
 
 
@@ -12,6 +13,20 @@ const AdminDashboard = ({ sponsors }) => {
     const openAddSponsor = () => setIsSponsorOpen(true);
     const closeAddSponsor = () => setIsSponsorOpen(false);
     const { flash } = usePage().props; 
+    const imageUrl = '/storage/images/';
+
+    function stringAvatar(name) {
+        const nameSplit = name.split(' ');
+        const initials = nameSplit.length > 1 ? `${nameSplit[0][0]}${nameSplit[1][0]}` : `${nameSplit[0][0]}`;
+        
+        return {
+          sx: {
+            bgcolor: '#4CAF50', // Green background (your primary theme)
+          },
+          children: initials.toUpperCase(), // Initials in uppercase
+        };
+      }
+
     
 
     
@@ -35,13 +50,22 @@ const AdminDashboard = ({ sponsors }) => {
                             {sponsors.data.map(sponsor => (
                                 <li key={sponsor.id}>
                                     <div className='flex border h-24 p-2 gap-2 rounded-md'>
-                                        <div className='border rounded-full size-12'>Logo</div>
+                                        <div className='border rounded-full size-12'>
+                                            <div>
+                                                {sponsor.photo_url ? (
+                                                    <img src={imageUrl + sponsor.photo_url} alt="Uploaded Image"  className='rounded-full' style={{ width: '48px', height: '48px' }}/>
+                                                ) : (
+                                                    <Avatar {...stringAvatar(sponsor.name)} sx={{ width: 48, height: 48 }}  />
+
+                                                )}
+                                            </div>
+                                        </div>
                                         <Link href={`/sponsorships/${sponsor.id}`}>
                                             <div className='flex flex-col'>
                                                 <p className='font-bold text-lg'>{sponsor.name}</p>
                                                 <span className='text-xs text-gray-600'>
                                                     {new Date(sponsor.created_at).toLocaleDateString('en-GB')}
-                                                </span>                                        
+                                                </span>                                         
                                             </div>  
                                         </Link>
                                         

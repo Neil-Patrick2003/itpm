@@ -42,11 +42,23 @@ class SponsorController extends Controller{
             'items.*.qty' => 'required|integer|min:1',
         ]);
 
+        if($request->hasFile('photo_url'))
+        {
+            $destination_path = 'images';
+            $photo_url = $request->file('photo_url');
+            $photo_name = $photo_url->getClientOriginalName();
+            $path = $request->file('photo_url')->storeAs($destination_path, $photo_name, 'public');
+            
+            
+        }
+
+
         // Create the sponsor
         $sponsor = Sponsor::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
+            'photo_url' => $photo_name
         ]);
 
         // Create the donation

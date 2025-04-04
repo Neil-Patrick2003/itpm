@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('program_sponsors', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('program_id');
+            $table->unsignedBigInteger('sponsor_id');
             $table->timestamps();
+            $table->foreign('program_id')
+                ->references('id')
+                ->on('programs')
+                ->cascadeOnDelete();
+            $table->foreign('sponsor_id')
+                ->references('id')
+                ->on('sponsors')   
+                ->cascadeOnDelete();
         });
     }
 
