@@ -1,16 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\SponsorController;
-use App\Http\Controllers\Admin\DonationController   ;
-
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\ProgramController;
-use App\Models\Program;
+use App\Http\Controllers\Admin\SponsorController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -22,24 +19,20 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', fn() => Inertia::render('Dashboard', [
+    Route::get('/dashboard', fn () => Inertia::render('Dashboard', [
         'user' => auth()->user(),
     ]))->name('dashboard');
-
 
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users');
-
 
     Route::get('/programs', [ProgramController::class, 'index'])->name('programs');
     Route::get('/programs/create', [ProgramController::class, 'create'])->name('programs');
     Route::post('/programs/create', [ProgramController::class, 'store'])->name('programs');
 
     Route::get('/programs/{id}', [ProgramController::class, 'show'])->name('programs');
-    Route::get('/childrens', fn() => Inertia::render('Admin/Children'))->name('children');
-
-
+    Route::get('/childrens', fn () => Inertia::render('Admin/Children'))->name('children');
 
     Route::get('/sponsorships', [SponsorController::class, 'index'])->name('sponsors');
     Route::post('/sponsorships/create', [SponsorController::class, 'store'])->name('sponsors');
@@ -48,15 +41,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/sponsorships/{sponsor}/donation', [DonationController::class, 'create'])->name('donations');
     Route::post('/sponsorships/{sponsor}/donation', [DonationController::class, 'store'])->name('donations');
 
-
-
-
-
-
-
-
-    Route::get('/reports', fn() => Inertia::render('Admin/Report'))->name('reports');
-    Route::get('/funds', fn() => Inertia::render('Admin/Funds'))->name('funds');
+    Route::get('/reports', fn () => Inertia::render('Admin/Report'))->name('reports');
+    Route::get('/funds', fn () => Inertia::render('Admin/Funds'))->name('funds');
 });
 
 Route::middleware('auth')->group(function () {
@@ -65,6 +51,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

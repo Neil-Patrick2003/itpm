@@ -1,31 +1,33 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Models\User;
-use App\Http\Controllers\Controller; // Importing the base Controller class
-use Inertia\Inertia;
+
+use App\Http\Controllers\Controller;
+use App\Models\User; // Importing the base Controller class
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $users = User::latest()->paginate(6);
-        
+
         return Inertia::render('Admin/User', [
-            'users' => $users
+            'users' => $users,
         ]);
     }
 
-    public function update (Request $request, $id)
+    public function update(Request $request, $id)
     {
 
-        $user = User::findOrFail($id);  
+        $user = User::findOrFail($id);
 
         $validated = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|min:10',
-            'role' => 'required'
+            'role' => 'required',
         ]);
 
         $user->update($validated);
@@ -44,6 +46,6 @@ class UserController extends Controller
             return redirect()->back()->with('success', 'User deleted successfully!');
         }
 
-        return redirect()->back()>with('error', 'User not found.');
+        return redirect()->back() > with('error', 'User not found.');
     }
 }

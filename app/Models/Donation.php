@@ -4,9 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
-
 
 class Donation extends Model
 {
@@ -17,9 +14,8 @@ class Donation extends Model
         return $this->hasMany(Donation_Item::class);
     }
 
-    
-
-    public function sponsor(){
+    public function sponsor()
+    {
         return $this->belongsTo(Sponsor::class);
     }
 }

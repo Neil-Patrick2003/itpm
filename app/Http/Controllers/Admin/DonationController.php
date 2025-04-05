@@ -1,38 +1,35 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Log;
-use App\Models\Sponsor;
 use App\Models\Donation;
 use App\Models\Donation_Item;
-
-
+use App\Models\Sponsor;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DonationController extends Controller
 {
-    public function create(Sponsor $sponsor){
+    public function create(Sponsor $sponsor)
+    {
 
         $donations = Donation::where('sponsor_id', '=', $sponsor->id)
-        ->with('donation_items')    
-        ->get();
+            ->with('donation_items')
+            ->get();
 
-            // foreach($donations as $donation){
-            //     dump($donation->toArray());
-            // }
+        // foreach($donations as $donation){
+        //     dump($donation->toArray());
+        // }
 
         return Inertia::render('Admin/Donation/Create', [
-            'sponsor' => $sponsor
+            'sponsor' => $sponsor,
         ]);
     }
 
+    public function store(Request $request, Sponsor $sponsor)
+    {
 
-    public function store(Request $request, Sponsor $sponsor){
-         
-
-        
         $validated = $request->validate([
             'donation_type' => 'required',
             'amount' => 'nullable|numeric|min:0|max:99999999.99',
@@ -43,7 +40,6 @@ class DonationController extends Controller
             'items.*.qty' => 'required|integer|min:1',
         ]);
 
-        
         $donation = Donation::create([
             'type' => $request->donation_type,
             'amount' => $request->amount,
@@ -66,6 +62,6 @@ class DonationController extends Controller
             }
         }
 
-        return redirect('/sponsorships/' . $sponsor->id)->with('message', 'Donation added successfully.');
+        return redirect('/sponsorships/'.$sponsor->id)->with('message', 'Donation added successfully.');
     }
 }

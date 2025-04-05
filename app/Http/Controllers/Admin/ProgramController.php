@@ -1,26 +1,27 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Program;
 use App\Models\User;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use App\Models\Sponsor;
-
+use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class ProgramController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $programs = Program::latest()->paginate(6);
 
         return Inertia::render('Admin/Program/Index', [
-            'programs' => $programs
+            'programs' => $programs,
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -41,30 +42,30 @@ class ProgramController extends Controller
             'total_beneficiaries' => $request->total_beneficiaries,
         ]);
 
-
-        if ($request->has('sponsor_ids') && is_array($request->sponsor_ids) && !empty($request->sponsor_ids)) {
+        if ($request->has('sponsor_ids') && is_array($request->sponsor_ids) && ! empty($request->sponsor_ids)) {
             $program->sponsors()->attach($request->sponsor_ids);
         } else {
-           Log::debug("No selected items or the selected items are invalid.");
+            Log::debug('No selected items or the selected items are invalid.');
         }
+
         return redirect('/programs')->with('message', 'Program created sucessfully!.');
     }
 
-    public function show(Request $request, $id){
+    public function show(Request $request, $id)
+    {
         $program = Program::findOrFail($id);
+
         return Inertia::render('Admin/Program/Edit', [
-            'program' => $program
+            'program' => $program,
         ]);
     }
 
-    public function create(){
+    public function create()
+    {
         $sponsors = User::where('role', 'sponsor')->get();
 
-        return  Inertia::render('Admin/Program/Create', [
-            'sponsors' => $sponsors
+        return Inertia::render('Admin/Program/Create', [
+            'sponsors' => $sponsors,
         ]);
     }
-
-
-
 }

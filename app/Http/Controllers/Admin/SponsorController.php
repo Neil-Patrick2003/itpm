@@ -1,30 +1,27 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
+use App\Models\Sponsor;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
-use App\Models\Sponsor;
-use App\Models\Donation;
-use App\Models\Donation_Item;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
 
-class SponsorController extends Controller{
-
-    public function index(){
+class SponsorController extends Controller
+{
+    public function index()
+    {
         $sponsors = User::where('role', 'sponsor')->paginate(20);
 
         return Inertia::render('Admin/Sponsor/Index', [
-            'sponsors' => $sponsors
+            'sponsors' => $sponsors,
         ]);
     }
 
-
-
-
-    public  function create(){
+    public function create()
+    {
         return inertia('Admin/Donation/Create');
     }
 
@@ -42,8 +39,7 @@ class SponsorController extends Controller{
 
         $profile_photo_url = null;
 
-        if($request->hasFile('photo_url'))
-        {
+        if ($request->hasFile('photo_url')) {
             $destination_path = 'images';
             $photo_url = $request->file('photo_url');
             $photo_name = $photo_url->getClientOriginalName();
@@ -63,14 +59,12 @@ class SponsorController extends Controller{
         return redirect('/sponsorships')->with('message', 'Sponsor created successfully.');
     }
 
-    public function show(Request $request, Sponsor $sponsor){
+    public function show(Request $request, Sponsor $sponsor)
+    {
 
         return Inertia::render('Admin/Sponsor/Show', [
-            'sponsor' => $sponsor
+            'sponsor' => $sponsor,
         ]);
 
     }
-
-
-
 }
