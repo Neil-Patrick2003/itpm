@@ -1,6 +1,6 @@
-        import { useState } from 'react'
-import {  Link, usePage } from '@inertiajs/react';
-import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react'
+import { useState } from 'react';
+import { Link, usePage } from '@inertiajs/react';
+import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
 import {
     Bars3Icon,
     CalendarIcon,
@@ -10,33 +10,25 @@ import {
     HomeIcon,
     UsersIcon,
     XMarkIcon,
-
-} from '@heroicons/react/24/outline'
+} from '@heroicons/react/24/outline';
 
 const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
-    { name: 'Manage User', href: '/users', icon: UsersIcon, current: false },
-    { name: 'Manage Program', href: '/programs', icon: CalendarIcon, current: false },
-    { name: 'Children Record', href: '/childrens', icon: FolderIcon, current: false },
-    { name: 'Sponsorship', href: '/sponsorships', icon: CalendarIcon, current: false },
-    { name: 'Analytics', href: '/reports', icon: DocumentDuplicateIcon, current: false },
-    { name: 'Funds & Budget', href: '/funds', icon: ChartPieIcon, current: false },
-]
-const teams = [
-    { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-    { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-    { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-]
+    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+    { name: 'Manage User', href: '/users', icon: UsersIcon },
+    { name: 'Manage Program', href: '/programs', icon: CalendarIcon },
+    { name: 'Children Record', href: '/childrens', icon: FolderIcon },
+    { name: 'Sponsorship', href: '/sponsorships', icon: CalendarIcon },
+    { name: 'Analytics', href: '/reports', icon: DocumentDuplicateIcon },
+    { name: 'Funds & Budget', href: '/funds', icon: ChartPieIcon },
+];
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
 }
 
-
 export default function AuthenticatedLayout({ header, children }) {
-    const user = usePage().props.auth.user;
-
-    const [sidebarOpen, setSidebarOpen] = useState(false)
+    const { url } = usePage(); // Get the current URL from Inertia's `usePage` hook
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
         <>
@@ -46,7 +38,6 @@ export default function AuthenticatedLayout({ header, children }) {
                         transition
                         className="fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear data-closed:opacity-0"
                     />
-
                     <div className="fixed inset-0 flex">
                         <DialogPanel
                             transition
@@ -60,7 +51,6 @@ export default function AuthenticatedLayout({ header, children }) {
                                     </button>
                                 </div>
                             </TransitionChild>
-                            {/* Sidebar component, swap this element with another sidebar if you like */}
                             <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-2">
                                 <div className="flex h-16 shrink-0 items-center">
                                     <img
@@ -76,9 +66,9 @@ export default function AuthenticatedLayout({ header, children }) {
                                                 {navigation.map((item) => (
                                                     <li key={item.name}>
                                                         <Link
-                                                            to={item.href}
+                                                            href={item.href}
                                                             className={classNames(
-                                                                item.current
+                                                                url === item.href
                                                                     ? 'bg-indigo-700 text-white'
                                                                     : 'text-indigo-200 hover:bg-indigo-700 hover:text-white',
                                                                 'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
@@ -87,7 +77,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                                             <item.icon
                                                                 aria-hidden="true"
                                                                 className={classNames(
-                                                                    item.current ? 'text-white' : 'text-indigo-200 group-hover:text-white',
+                                                                    url === item.href ? 'text-white' : 'text-indigo-200 group-hover:text-white',
                                                                     'size-6 shrink-0',
                                                                 )}
                                                             />
@@ -97,7 +87,6 @@ export default function AuthenticatedLayout({ header, children }) {
                                                 ))}
                                             </ul>
                                         </li>
-
                                     </ul>
                                 </nav>
                             </div>
@@ -105,9 +94,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </Dialog>
 
-                {/* Static sidebar for desktop */}
                 <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-                    {/* Sidebar component, swap this element with another sidebar if you like */}
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-green-900 px-6 ">
                         <div className="flex h-16 shrink-0 items-center">
                             <img
@@ -125,7 +112,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                                 <Link
                                                     href={item.href}
                                                     className={classNames(
-                                                        item.current
+                                                        url === item.href
                                                             ? 'bg-green-700 text-white'
                                                             : 'text-gray-400 hover:bg-green-700 hover:text-white',
                                                         'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
@@ -134,7 +121,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                                     <item.icon
                                                         aria-hidden="true"
                                                         className={classNames(
-                                                            item.current ? 'text-white' : 'text-gray-400 group-hover:text-white',
+                                                            url === item.href ? 'text-white' : 'text-gray-400 group-hover:text-white',
                                                             'size-6 shrink-0',
                                                         )}
                                                     />
@@ -144,10 +131,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                         ))}
                                     </ul>
                                 </li>
-
                                 <li className="-mx-6 mt-auto">
-
-
                                     <a
                                         href="#"
                                         className="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white hover:bg-indigo-700"
@@ -179,16 +163,13 @@ export default function AuthenticatedLayout({ header, children }) {
                             src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                             className="size-8 rounded-full bg-indigo-700"
                         />
-
                     </a>
-
                 </div>
 
                 <main className="lg:pl-[282px]">
                     <div className="">{children}</div>
                 </main>
             </div>
-
         </>
     );
 }
