@@ -12,14 +12,13 @@ import { FaPhone } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
 
-
-
 const AdminDashboard = ({ sponsors }) => {
+    console.log(sponsors);
     const [isAddSponsorOpen, setIsSponsorOpen] = useState(false);
     const openAddSponsor = () => setIsSponsorOpen(true);
     const closeAddSponsor = () => setIsSponsorOpen(false);
-    const { flash } = usePage().props; 
-    const imageUrl = '/storage/images/';
+    const { flash } = usePage().props;
+    const imageUrl = '/storage/';
 
     const { data, setData, post, processing, errors } = useForm({
         name: '',
@@ -28,12 +27,12 @@ const AdminDashboard = ({ sponsors }) => {
         photo_url: '',
     });
 
-    
+
     function submitCreateUser(e) {
         e.preventDefault();
         post('/sponsorships/create');
         setIsSponsorOpen(false)
-        setData({ name: '', email: '', phone_number: '', photo_url: ''}); 
+        setData({ name: '', email: '', phone_number: '', photo_url: ''});
     }
 
     const [avatar, setAvatar] = useState('');
@@ -53,28 +52,28 @@ const AdminDashboard = ({ sponsors }) => {
     function stringAvatar(name) {
         const nameSplit = name.split(' ');
         const initials = nameSplit.length > 1 ? `${nameSplit[0][0]}${nameSplit[1][0]}` : `${nameSplit[0][0]}`;
-        
+
         return {
           sx: {
             bgcolor: '#4CAF50', // Green background (your primary theme)
           },
-          children: initials.toUpperCase(),     
+          children: initials.toUpperCase(),
         };
       }
-    
-    
-    
 
-    
+
+
+
+
     return (
         <AuthenticatedLayout>
             <Head title="Sponsors" />
 
             <Modal show={isAddSponsorOpen} onClose={closeAddSponsor} closable={true}>
-                    
+
                     <div className='sm:p-2 md:p-4 lg:p-6'>
                         <h1 className='text-center'>Add Sponsor</h1>
-                        <div> 
+                        <div>
                             <form action="" onSubmit={submitCreateUser} className='mb-4'>
                                 <div className="flex justify-center items-center">
                                     <label htmlFor="avatar" className="cursor-pointer">
@@ -92,7 +91,7 @@ const AdminDashboard = ({ sponsors }) => {
                                             onChange={handleImageChange}
                                         />
                                         <div className="absolute bottom-0 right-0 bg-gray-500 text-white rounded-full p-2">
-                                            
+
                                             <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="w-6 h-6"
@@ -118,11 +117,11 @@ const AdminDashboard = ({ sponsors }) => {
                                         </div>
                                     </label>
                                 </div>
-                                
+
 
                                 <div className='mb-4'>
                                     <InputLabel htmlFor="name" value="Name" />
-                                    
+
                                     <TextInput
                                         id="name"
                                         name="name"
@@ -132,14 +131,14 @@ const AdminDashboard = ({ sponsors }) => {
                                         isFocused={true}
                                         onChange={(e) => setData('name', e.target.value)}
                                         required
-                                        icon={FaUser}   
+                                        icon={FaUser}
                                     />
-                
+
                                     <InputError message={errors.name} className="mt-2" />
                                 </div>
                                 <div className='mb-4'>
                                     <InputLabel htmlFor="email" value="Email" />
-                                    
+
                                     <TextInput
                                         id="email"
                                         name="email"
@@ -149,14 +148,14 @@ const AdminDashboard = ({ sponsors }) => {
                                         isFocused={true}
                                         onChange={(e) => setData('email', e.target.value)}
                                         required
-                                        icon={MdEmail}   
+                                        icon={MdEmail}
                                     />
-                
+
                                     <InputError message={errors.email} className="mt-2" />
                                 </div>
-                                <div className='mb-4'> 
+                                <div className='mb-4'>
                                     <InputLabel htmlFor="phone_number" value="Phone Number" />
-                                    
+
                                     <TextInput
                                         id="phone_number"
                                         name="phone_number"
@@ -165,17 +164,17 @@ const AdminDashboard = ({ sponsors }) => {
                                         isFocused={true}
                                         onChange={(e) => setData('phone_number', e.target.value)}
                                         required
-                                        icon={FaPhone}   
+                                        icon={FaPhone}
                                     />
-                
+
                                     <InputError message={errors.phone_number} className="mt-2" />
                                 </div>
 
                                 <div className='flex flex-row justify-end items-center gap-2 mt-8'>
                                     <button  onClick={closeAddSponsor} className='w-1/4 border rounded-lg py-2'>Cancel</button>
                                     <button type='submit' className='border w-1/4 py-2 bg-green-700 rounded-lg text-white'>Create</button>
-                                </div>                                                  
-                                            
+                                </div>
+
                             </form>
                         </div>
                     </div>
@@ -192,7 +191,7 @@ const AdminDashboard = ({ sponsors }) => {
                 </div>
                 <div className='overflow-x-auto sm:p-4 md:p-6 lg:p8 bg-white h-full'>
                     All sponsor
-                    <FlashMessage/>  
+                    <FlashMessage/>
                     <ul>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                             {sponsors.data.map(sponsor => (
@@ -200,8 +199,8 @@ const AdminDashboard = ({ sponsors }) => {
                                     <div className='flex border h-24 p-2 gap-2 rounded-md'>
                                         <div className='border rounded-full size-12'>
                                             <div>
-                                                {sponsor.photo_url ? (
-                                                    <img src={imageUrl + sponsor.photo_url} alt="Uploaded Image"  className='rounded-full' style={{ width: '48px', height: '48px' }}/>
+                                                {sponsor.profile_photo_url ? (
+                                                    <img src={imageUrl + sponsor.profile_photo_url} alt="Uploaded Image"  className='rounded-full' style={{ width: '48px', height: '48px' }}/>
                                                 ) : (
                                                     <Avatar {...stringAvatar(sponsor.name)} sx={{ width: 48, height: 48 }}  />
 
@@ -213,22 +212,22 @@ const AdminDashboard = ({ sponsors }) => {
                                                 <p className='font-bold text-lg'>{sponsor.name}</p>
                                                 <span className='text-xs text-gray-600'>
                                                     {new Date(sponsor.created_at).toLocaleDateString('en-GB')}
-                                                </span>                                         
-                                            </div>  
+                                                </span>
+                                            </div>
                                         </Link>
 
-                                        
+
                                     </div>
                                 </li>
                             ))}
                         </div>
-                        
+
                     </ul>
                 </div>
                 <button onClick={openAddSponsor} onClose={closeAddSponsor}>Add Sponsor</button>
-                
+
             </div>
-            
+
         </AuthenticatedLayout>
     )
 }

@@ -8,41 +8,34 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 
 const Create = ({ sponsors }) => {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, reset, errors } = useForm({
         title: '',
         description: '',
         start_date: '',
         duration: '',
         total_beneficiaries: '',
+        sponsor_ids: []
     });
-
-    const [selectedItems, setSelectedItems] = useState([]);
 
     const onChangeItem = (e) => {
         const { id, checked } = e.target;
         if (checked) {
-            setSelectedItems((prevItems) => [...prevItems, id]);
+            setData('sponsor_ids', [...data.sponsor_ids, id])
         } else {
-            setSelectedItems((prevItems) => prevItems.filter(item => item !== id));
+            setData('sponsor_ids', data.sponsor_ids.filter(item => item!== id));
         }
     }
 
     function submitProgram(e){
         e.preventDefault();
-        console.log(selectedItems)
+
         console.log(data)
-        data.selectedItems = selectedItems; 
-        post('/programs/create',);
-        setData( { title: '',
-            description: '',
-            start_date: '',
-            duration: '',
-            total_beneficiaries: '', 
-            selectedItems: []
+
+        post('/programs/create', {
+            onFinish: () => reset()
         });
-    
     }
-    
+
     return (
         <AuthenticatedLayout>
             <div className='p-4 h-screen bg-blue-50'>
@@ -97,7 +90,7 @@ const Create = ({ sponsors }) => {
                                         name="title"
                                         value={data.title}
                                         className="mt-1 block w-full"
-                                        
+
                                         onChange={(e) => setData('title', e.target.value)}
                                         required
                                     />
@@ -111,7 +104,7 @@ const Create = ({ sponsors }) => {
                                         name="description"
                                         value={data.description}
                                         className="mt-1 block w-full rounded-lg"
-                                        
+
                                         onChange={(e) => setData('description', e.target.value)}
                                         required
                                     ></textarea>

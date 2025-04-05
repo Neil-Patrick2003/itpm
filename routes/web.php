@@ -6,9 +6,11 @@ use App\Http\Controllers\Admin\DonationController   ;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProgramController;
+use App\Models\Program;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -35,16 +37,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/programs/create', [ProgramController::class, 'store'])->name('programs');
 
     Route::get('/programs/{id}', [ProgramController::class, 'show'])->name('programs');
-    Route::get('/childrens', fn() => Inertia::render('Admin/Children'))->name('children'); 
+    Route::get('/childrens', fn() => Inertia::render('Admin/Children'))->name('children');
 
 
 
-    Route::get('/sponsorships', [SponsorController::class, 'index'])->name('sponsors'); 
-    Route::post('/sponsorships/create', [SponsorController::class, 'store'])->name('sponsors'); 
-    Route::get('/sponsorships/{sponsor}', [SponsorController::class, 'show'])->name('sponsors'); 
+    Route::get('/sponsorships', [SponsorController::class, 'index'])->name('sponsors');
+    Route::post('/sponsorships/create', [SponsorController::class, 'store'])->name('sponsors');
+    Route::get('/sponsorships/{sponsor}', [SponsorController::class, 'show'])->name('sponsors');
 
-    Route::get('/sponsorships/{sponsor}/donation', [DonationController::class, 'create'])->name('donations'); 
-    Route::post('/sponsorships/{sponsor}/donation', [DonationController::class, 'store'])->name('donations'); 
+    Route::get('/sponsorships/{sponsor}/donation', [DonationController::class, 'create'])->name('donations');
+    Route::post('/sponsorships/{sponsor}/donation', [DonationController::class, 'store'])->name('donations');
 
 
 

@@ -2,35 +2,37 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-use Inertia\Inertia;
 use App\Models\Program;
+use App\Models\User;
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Sponsor;
 
-    
+
 class ProgramController extends Controller
 {
     public function index(){
         $programs = Program::latest()->paginate(6);
+
         return Inertia::render('Admin/Program/Index', [
             'programs' => $programs
         ]);
     }
 
     public function store(Request $request) {
-       
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',        
-            'description' => 'required|string|max:1000',   
-            'start_date' => 'required|date',               
-            'duration' => 'required|integer|min:1',        
-            'total_beneficiaries' => 'required|integer|min:1', 
-            'selected_items' => 'array|nullable', // Make sure selected_items is an array (optional)
 
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'start_date' => 'required|date',
+            'duration' => 'required|integer|min:1',
+            'total_beneficiaries' => 'required|integer|min:1',
+            'sponsor_ids' => 'array|nullable', // Make sure selected_items is an array (optional)
         ]);
 
-        
+        Log::error(json_encode($validated));
+
         $program = Program::create([
             'title' => $request->title,
             'description' => $request->description,
@@ -40,11 +42,10 @@ class ProgramController extends Controller
         ]);
 
 
-       
-        if ($request->has('selectedItems') && is_array($request->selectedItems) && !empty($request->selectedItems)) {
-            $program->sponsors()->attach($request->selectedItems);
+        if ($request->has('sponsor_ids') && is_array($request->sponsor_ids) && !empty($request->sponsor_ids)) {
+            $program->sponsors()->attach($request->sponsor_ids);
         } else {
-            \Log::debug("No selected items or the selected items are invalid.");
+           Log::debug("No selected items or the selected items are invalid.");
         }
         return redirect('/programs')->with('message', 'Program created sucessfully!.');
     }
@@ -57,12 +58,13 @@ class ProgramController extends Controller
     }
 
     public function create(){
-        $sponsors = Sponsor::all();
+        $sponsors = User::where('role', 'sponsor')->get();
+
         return  Inertia::render('Admin/Program/Create', [
             'sponsors' => $sponsors
         ]);
     }
 
-   
+
 
 }
