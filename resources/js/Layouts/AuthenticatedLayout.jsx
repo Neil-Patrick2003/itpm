@@ -40,14 +40,6 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```d
-      */}
             <div className='min-h-full bg-gray-100'>
                 <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
                     <DialogBackdrop

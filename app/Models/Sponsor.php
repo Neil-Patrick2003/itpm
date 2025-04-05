@@ -20,5 +20,10 @@ class Sponsor extends Model
         return $this->hasMany(ProgramSponsor::class);
     }
 
+
+    public function programs()
+    {
+        return $this->belongsToMany(Program::class, 'program_sponsors');
+    }
     
 }

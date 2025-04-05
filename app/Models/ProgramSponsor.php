@@ -12,7 +12,7 @@ class ProgramSponsor extends Model
         'sponsor_id',
     ];
 
-    public function program(): HasMany
+    public function program()
     {
         return $this->belongTo(Program::class);
     }

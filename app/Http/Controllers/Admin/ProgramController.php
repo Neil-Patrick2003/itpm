@@ -6,6 +6,8 @@ use Inertia\Inertia;
 use App\Models\Program;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use App\Models\Sponsor;
+
     
 class ProgramController extends Controller
 {
@@ -17,15 +19,19 @@ class ProgramController extends Controller
     }
 
     public function store(Request $request) {
+       
         $validated = $request->validate([
             'title' => 'required|string|max:255',        
             'description' => 'required|string|max:1000',   
             'start_date' => 'required|date',               
             'duration' => 'required|integer|min:1',        
-            'total_beneficiaries' => 'required|integer|min:1',  
+            'total_beneficiaries' => 'required|integer|min:1', 
+            'selected_items' => 'array|nullable', // Make sure selected_items is an array (optional)
+
         ]);
-    
-        Program::create([
+
+        
+        $program = Program::create([
             'title' => $request->title,
             'description' => $request->description,
             'start_date' => $request->start_date,
@@ -33,7 +39,14 @@ class ProgramController extends Controller
             'total_beneficiaries' => $request->total_beneficiaries,
         ]);
 
-        return redirect()->back();
+
+       
+        if ($request->has('selectedItems') && is_array($request->selectedItems) && !empty($request->selectedItems)) {
+            $program->sponsors()->attach($request->selectedItems);
+        } else {
+            \Log::debug("No selected items or the selected items are invalid.");
+        }
+        return redirect('/programs')->with('message', 'Program created sucessfully!.');
     }
 
     public function show(Request $request, $id){
@@ -43,9 +56,13 @@ class ProgramController extends Controller
         ]);
     }
 
-    // public function edit($id){
+    public function create(){
+        $sponsors = Sponsor::all();
+        return  Inertia::render('Admin/Program/Create', [
+            'sponsors' => $sponsors
+        ]);
+    }
 
-    // }
-
+   
 
 }
