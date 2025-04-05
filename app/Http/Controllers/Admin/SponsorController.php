@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Donation;
 use App\Models\Sponsor;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class SponsorController extends Controller
 {
     public function index()
     {
-        $sponsors = User::where('role', 'sponsor')->paginate(20);
+        $sponsors = User::where('role', 'sponsor')->paginate(10);
 
         return Inertia::render('Admin/Sponsor/Index', [
             'sponsors' => $sponsors,
@@ -61,7 +62,9 @@ class SponsorController extends Controller
 
     public function show(Request $request, Sponsor $sponsor)
     {
+        $sponsor = $sponsor->load(['donations.donation_items']);
 
+//    dd($sponsor->toArray());
         return Inertia::render('Admin/Sponsor/Show', [
             'sponsor' => $sponsor,
         ]);

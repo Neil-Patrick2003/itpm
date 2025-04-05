@@ -61,6 +61,9 @@ class ProgramController extends Controller
     {
         $program = Program::findOrFail($id);
 
+
+
+
         return Inertia::render('Admin/Program/Edit', [
             'program' => $program,
         ]);
@@ -69,6 +72,8 @@ class ProgramController extends Controller
     public function create()
     {
         $sponsors = User::where('role', 'sponsor')->get();
+
+
 
         return Inertia::render('Admin/Program/Create', [
             'sponsors' => $sponsors,
