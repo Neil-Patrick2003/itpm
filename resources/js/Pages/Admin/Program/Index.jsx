@@ -1,29 +1,38 @@
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import React, { useState } from 'react'
-import { Link } from '@inertiajs/react';
-
-import { useForm } from '@inertiajs/react'
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import TextInput from '@/Components/TextInput';
+import React, {useEffect, useState} from 'react'
+import {Link, router} from '@inertiajs/react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
+import {debounce} from "@mui/material";
 
 
-const Program = ( { programs } ) => {
-    
+const Program = ( { programs , search = '' , page = 1} ) => {
 
-    const { data, setData, post, processing, errors } = useForm({
-        title: '',
-        description: '',
-        start_date: '',
-        duration: '',
-        total_beneficiaries: '',
-    });
-    
+    const [searchTerm, setSearchTerm] = useState('');
 
-    
+    useEffect(() => {
+       if (search) {
+           setSearchTerm(search);
+       }
+    }, []);
+
+    const handleSearchTermChange = (value) => {
+        setSearchTerm(value)
+
+        const debouncedSearchTerm = debounce(() => {
+            const query = { page, search: value };
+
+            router.get('/programs', query, {
+                preserveState: true,
+                replace: true
+            })
+        }, 500);
+
+        debouncedSearchTerm();
+
+        return () => debouncedSearchTerm.cancel()
+    }
 
     return (
         <AuthenticatedLayout>
@@ -41,9 +50,10 @@ const Program = ( { programs } ) => {
                             </div>
                         </div>
                     </div>
-                    <div className="overflow-hidden w-full bg-white p-8 shadow-sm sm:rounded-lg dark:bg-gray-800">                    
-                        
+                    <div className="overflow-hidden w-full bg-white p-8 shadow-sm sm:rounded-lg dark:bg-gray-800">
+
                         <div className='P-2 rounded-lg mt-2'>
+                            <input value={searchTerm} type="text" name="Search" id="" className='border' onChange={(e) => handleSearchTermChange(e.target.value)} />
 
                             <ul role="list" className="divide-y divide-gray-100">
                                 {programs.data.map(program => (
@@ -127,30 +137,30 @@ const Program = ( { programs } ) => {
                                 <Link
                                 key={link.label}
                                 href={link.url}
-                                className={`p-2 px-4 text-sm font-medium rounded-md 
-                                    ${link.active ? "bg-green-600 text-white font-bold hover:bg-green-500" 
-                                    : "bg-white text-gray-700 hover:bg-green-50"} 
+                                className={`p-2 px-4 text-sm font-medium rounded-md
+                                    ${link.active ? "bg-green-600 text-white font-bold hover:bg-green-500"
+                                    : "bg-white text-gray-700 hover:bg-green-50"}
                                     border border-gray-300 shadow-md transition-all duration-200`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                                 />
                             ) : (
                                 <span
                                 key={link.label}
-                                className="p-2 px-4 text-sm font-medium text-slate-400 cursor-not-allowed 
+                                className="p-2 px-4 text-sm font-medium text-slate-400 cursor-not-allowed
                                     bg-white border border-gray-300 shadow-md rounded-md"
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                                 />
                             )
                             ))}
                         </div>
-                        
+
                     </div>
                 </div>
-                
+
             </div>
 
-            
-{/*             
+
+{/*
 
             <div className='flex w-full gap-2 h-screen sm:p-4 md:p-6'>
                 <div className="overflow-hidden w-3/4 bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
@@ -161,8 +171,8 @@ const Program = ( { programs } ) => {
                                 <h3>{program.title}</h3>
                             </li>
                         ))}
-                            
-                        
+
+
                     </div>
                 </div>
                 <div className="overflow-hidden w-1/4 bg-white border shadow-sm sm:rounded-lg dark:bg-gray-800">

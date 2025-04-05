@@ -13,7 +13,6 @@ import { MdEmail } from "react-icons/md";
 
 
 const AdminDashboard = ({ sponsors }) => {
-    console.log(sponsors);
     const [isAddSponsorOpen, setIsSponsorOpen] = useState(false);
     const openAddSponsor = () => setIsSponsorOpen(true);
     const closeAddSponsor = () => setIsSponsorOpen(false);
@@ -60,9 +59,6 @@ const AdminDashboard = ({ sponsors }) => {
           children: initials.toUpperCase(),
         };
       }
-
-
-
 
 
     return (

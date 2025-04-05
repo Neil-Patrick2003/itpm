@@ -11,12 +11,18 @@ use Inertia\Inertia;
 
 class ProgramController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $programs = Program::latest()->paginate(6);
+        $programs = Program::when($request->search, function ($q) use ($request) {
+            return $q->where('title', 'like', '%' . $request->search . '%');
+        })
+            ->latest()
+            ->paginate(6, ['*'], 'page', $request->input('page', 1));
 
         return Inertia::render('Admin/Program/Index', [
             'programs' => $programs,
+            'search' => $request->query('search'),
+            'page' => $request->input('page', 1)
         ]);
     }
 
