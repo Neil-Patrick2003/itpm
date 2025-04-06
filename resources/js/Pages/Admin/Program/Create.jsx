@@ -4,6 +4,7 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import {HomeIcon} from "@heroicons/react/20/solid/index.js";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
+import {useState} from "react";
 
 
 const Create = ({ sponsors }) => {
@@ -13,8 +14,24 @@ const Create = ({ sponsors }) => {
         start_date: '',
         duration: '',
         total_beneficiaries: '',
-        sponsor_ids: []
+        sponsor_ids: [],
+        cover_photo: null
     });
+
+
+    const handleFileChange = (e) => {
+        // Set the selected file into the form data
+        setData('cover_photo', e.target.files[0]);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            // Set the selected file into the form data
+            setData('cover_photo', file);
+        }
+    };
 
     const onChangeItem = (e) => {
         const { id, checked } = e.target;
@@ -95,6 +112,8 @@ const Create = ({ sponsors }) => {
                             <div className="flex flex-col md:flex-row gap-4 h-full">
                                 <div className="w-2/3 h-full">
                                     <p>Program Details</p>
+
+
                                     <div className='border bg-slate-200 p-4 rounded-xl mt-4'>
                                         <div className='flex flex-col mb-2'>
                                             <InputLabel htmlFor="title" value="Title" />
@@ -164,6 +183,55 @@ const Create = ({ sponsors }) => {
                                                 {errors.total_beneficiaries && <div>{errors.total_beneficiaries}</div>}
                                             </div>
                                         </div>
+                                        <p className="text-gray-600 mt-8 text-sm">Please Select Photo for background upload</p>
+                                        <div className="w-full ">
+
+                                            <div
+                                                className="flex items-center justify-center w-full mt-4"
+                                                onDrop={handleDrop}
+                                                onDragOver={(e) => e.preventDefault()}
+                                            >
+                                                <label
+                                                    htmlFor="dropzone-file"
+                                                    className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                                >
+                                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                        <svg
+                                                            className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                            aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 20 16"
+                                                        >
+                                                            <path
+                                                                stroke="currentColor"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
+                                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                            />
+                                                        </svg>
+                                                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                            <span className="font-semibold">Click to upload</span> or drag and drop
+                                                        </p>
+                                                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                            SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                                        </p>
+                                                    </div>
+                                                    <input
+                                                        id="dropzone-file"
+                                                        type="file"
+                                                        accept="image/*"
+                                                        onChange={handleFileChange}
+                                                        className="hidden"
+                                                    />
+                                                </label>
+                                            </div>
+
+                                            {errors.total_beneficiaries && <div>{errors.total_beneficiaries}</div>}
+
+
+                                        </div>
 
                                     </div>
                                 </div>
@@ -210,11 +278,11 @@ const Create = ({ sponsors }) => {
 
 
 
-                            {/*<div className='flex justify-end mt-4'>*/}
-                            {/*    <button type='submit' disabled={processing} className='border text-white bg-green-600 rounded-full px-12 py-2'>*/}
-                            {/*        Create*/}
-                            {/*    </button>*/}
-                            {/*</div>*/}
+                            <div className='flex justify-end mt-4'>
+                                <button type='submit' disabled={processing} className='border text-white bg-green-600 rounded-full px-12 py-2'>
+                                    Create
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

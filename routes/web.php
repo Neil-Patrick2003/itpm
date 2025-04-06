@@ -48,6 +48,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/reports', fn () => Inertia::render('Admin/Report'))->name('reports');
     Route::get('/funds', fn () => Inertia::render('Admin/Funds'))->name('funds');
+
+//    health worker
+    Route::get('/health_workers/dashboard',  fn () => Inertia::render('Worker/Dashboard', [
+        'user' => auth()->user(),
+    ]) )->name('donations');
+
+
+
+
 });
 
 Route::middleware('auth')->group(function () {
