@@ -13,11 +13,13 @@ class ProgramController extends Controller
 {
     public function index(Request $request)
     {
-        $programs = Program::when($request->search, function ($q) use ($request) {
+        $programs = Program::with('sponsors')
+        ->when($request->search, function ($q) use ($request) {
             return $q->where('title', 'like', '%' . $request->search . '%');
         })
             ->latest()
             ->paginate(20, ['*'], 'page', $request->input('page', 1));
+
 
         return Inertia::render('Admin/Program/Index', [
             'programs' => $programs,

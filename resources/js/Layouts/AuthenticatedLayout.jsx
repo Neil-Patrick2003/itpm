@@ -35,7 +35,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <>
-            <div className='min-h-full bg-green-200'>
+            <div className='min-h-full bg-gray-100'>
                 <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
                     <DialogBackdrop
                         transition

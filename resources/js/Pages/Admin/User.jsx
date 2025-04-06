@@ -116,7 +116,7 @@ const AdminDashboard = ({ users }) => {
 
             <div>
 
-                <div className="flex flex-col  w-full h-screen p-2  md:py-4 md:pr-4">
+                <div className="flex flex-col  w-full h-screen p-2   md:py-4 md:pr-4">
                     <div className="w-full mb-2">
                         <div className="overflow-hidden h-28 bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                             <div className="p-6 flex justify-between text-gray-900 dark:text-gray-100">
@@ -140,7 +140,7 @@ const AdminDashboard = ({ users }) => {
                         </div>
                     </div>
 
-                    <div className="overflow-hidden w-full h-full bg-white  shadow-sm sm:rounded-lg border-4 border-green-300">
+                    <div className="overflow-hidden w-full h-full bg-white  shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             <h1 className="text-base font-semibold text-gray-900">Users</h1>
                             <FlashMessage/>
@@ -150,7 +150,7 @@ const AdminDashboard = ({ users }) => {
 
                             <div className="overflow-hidden ring-1 shadow-sm ring-black/20 sm:rounded-lg">
                                 <table className="min-w-full divide-y divide-gray-300">
-                                    <thead className="text-gray-500">
+                                    <thead className="text-wite bg-[#01DAA2]">
                                     <tr>
                                         <th scope="col" className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold  sm:pl-6">
                                             Name
