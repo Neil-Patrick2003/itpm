@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
+import Logo from '../../assets/image/new-logo.png';
+import Text from '../../assets/image/Text.png';
+
 import {
     Bars3Icon,
     CalendarIcon,
@@ -95,27 +98,35 @@ export default function AuthenticatedLayout({ header, children }) {
                 </Dialog>
 
                 <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-green-900 px-6 ">
+                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 ">
                         <div className="flex h-16 shrink-0 items-center">
                             <img
                                 alt="Your Company"
-                                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=white"
+                                src={Logo}
                                 className="h-8 w-auto"
+                                style={{ width: '40px', height: '40px' }}
                             />
+                            <img
+                                alt="Your Company"
+                                src={Text}
+                                className="h-8 w-auto"
+                                style={{ width: '140px', height: '60px' }}
+                            />
+
                         </div>
                         <nav className="flex flex-1 flex-col">
                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
                                 <li>
-                                    <ul role="list" className="-mx-2 space-y-1">
+                                    <ul role="list" className="-mx-2 space-y-2">
                                         {navigation.map((item) => (
                                             <li key={item.name}>
                                                 <Link
                                                     href={item.href}
                                                     className={classNames(
                                                         url === item.href
-                                                            ? 'bg-green-700 text-white'
-                                                            : 'text-gray-400 hover:bg-green-700 hover:text-white',
-                                                        'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
+                                                            ? 'bg-[#01DA9F] text-white'
+                                                            : 'text-gray-800 hover:bg-[#01DA9F] hover:text-white',
+                                                        'group flex gap-x-3 rounded-full py-2 px-6 text-sm/6 font-semibold',
                                                     )}
                                                 >
                                                     <item.icon
@@ -167,7 +178,7 @@ export default function AuthenticatedLayout({ header, children }) {
                 </div>
 
                 <main className="lg:pl-[282px]">
-                    <div className="">{children}</div>
+                    <div className="bg-[#F0F6FB]">{children}</div>
                 </main>
             </div>
         </>

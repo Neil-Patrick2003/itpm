@@ -11,6 +11,7 @@ use Inertia\Inertia;
 class ChildrenRecordController extends Controller
 {
     public function create(Request $request){
+
         return Inertia::render('Admin/Children/CreateChildren');
     }
 

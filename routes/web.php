@@ -33,7 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/programs/{id}', [ProgramController::class, 'show'])->name('programs');
 
 
-    Route::get('/childrens', fn () => Inertia::render('Admin/Children'))->name('children');
+    Route::get('/childrens', [\App\Http\Controllers\ChildrenController::class, 'index'])->name('children');
     Route::get('/childrens/create', [\App\Http\Controllers\ChildrenRecordController::class, 'create'])->name('children');
     Route::post('/childrens/create', [\App\Http\Controllers\ChildrenRecordController::class, 'store'])->name('children');
 
