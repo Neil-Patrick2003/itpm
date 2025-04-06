@@ -1,8 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { useState } from 'react';
 import Modal from '@/Components/Modal';
 import {HomeIcon} from "@heroicons/react/20/solid/index.js";
+
 
 export default function Dashboard({user}) {
     const pages = [
@@ -10,6 +11,12 @@ export default function Dashboard({user}) {
         { name: 'Create', href: '/programs/create', current: false },
 
     ]
+
+    // function logout(e){
+    //     e.preventDefault();
+    //
+    //     post('/logout');
+    // }
 
     return (
         <AuthenticatedLayout
@@ -67,7 +74,10 @@ export default function Dashboard({user}) {
 
                     </nav>
                 </div>
+
             </div>
+            <Link href="/logout" method="post" as="button">Logout</Link>
+
         </AuthenticatedLayout>
     );
 }

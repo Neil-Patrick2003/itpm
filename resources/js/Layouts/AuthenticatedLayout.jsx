@@ -3,17 +3,9 @@ import { Link, usePage } from '@inertiajs/react';
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
 import Logo from '../../assets/image/new-logo.png';
 import Text from '../../assets/image/Text.png';
+import { Bars3Icon, CalendarIcon, ChartPieIcon, DocumentDuplicateIcon, FolderIcon, HomeIcon, UsersIcon, XMarkIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
-import {
-    Bars3Icon,
-    CalendarIcon,
-    ChartPieIcon,
-    DocumentDuplicateIcon,
-    FolderIcon,
-    HomeIcon,
-    UsersIcon,
-    XMarkIcon,
-} from '@heroicons/react/24/outline';
+
 
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
@@ -30,12 +22,26 @@ function classNames(...classes) {
 }
 
 export default function AuthenticatedLayout({ header, children }) {
-    const { url } = usePage(); // Get the current URL from Inertia's `usePage` hook
+    const { user } = usePage().props;
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const { url } = usePage();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    function logout(e) {
+        e.preventDefault();
+        post('/logout');
+    }
 
     return (
         <>
             <div className='min-h-full bg-gray-100'>
+                {/* Sidebar Modal (for small screens) */}
                 <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
                     <DialogBackdrop
                         transition
@@ -97,8 +103,9 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </Dialog>
 
+                {/* Desktop Sidebar */}
                 <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col p-4">
-                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6  rounded-xl">
+                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 rounded-xl">
                         <div className="flex h-16 shrink-0 items-center">
                             <img
                                 alt="Your Company"
@@ -106,14 +113,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                 className="h-8 w-auto"
                                 style={{ width: '40px', height: '40px' }}
                             />
-                            hi
                             <img
                                 alt="Your Company"
                                 src={Text}
                                 className="h-8 w-auto"
                                 style={{ width: '140px', height: '60px' }}
                             />
-
                         </div>
                         <nav className="flex flex-1 flex-col">
                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -143,50 +148,46 @@ export default function AuthenticatedLayout({ header, children }) {
                                         ))}
                                     </ul>
                                 </li>
-                                <li className="-mx-6 mt-auto">
-                                    <a
-                                        href="#"
-                                        className="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white hover:bg-indigo-700"
-                                    >
-                                        <img
-                                            alt=""
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                            className="size-8 rounded-full bg-indigo-700"
-                                        />
-                                        <span className="sr-only">Your profile</span>
-                                        <span aria-hidden="true">Tom Cook</span>
-                                    </a>
-                                </li>
                             </ul>
                         </nav>
                     </div>
+                    <div className="relative inline-block w-full">
+                        <button
+                            onClick={toggleMenu}
+                            className="flex items-center gap-x-2 w-full px-6 py-2 bg-green-700 text-white rounded-b-lg shadow-md focus:outline-none"
+                        >
+                            {/* Image inside the button */}
+                            <img src="/path/to/your/image.png" alt="Icon" className="h-5 w-5" />
+                            {/* Toggle Arrow Icon */}
+                            {isOpen ? (
+                                <ChevronUpIcon className="h-5 w-5" />
+                            ) : (
+                                <ChevronDownIcon className="h-5 w-5" />
+                            )}
+                            <span>{user.name}</span>
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        {isOpen && (
+                            <ul className="absolute bottom-full left-0 mb-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+                                <li className="px-6 py-2 cursor-pointer hover:bg-gray-100">
+                                    <Link href="/logout" method="post" as="button">Logout</Link>
+                                </li>
+                                <li className="px-6 py-2 cursor-pointer hover:bg-gray-100">
+
+                                </li>
+                                <li className="px-6 py-2 cursor-pointer hover:bg-gray-100">Option 3</li>
+                            </ul>
+                        )}
+                    </div>
                 </div>
 
-                <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-indigo-600 px-4 py-4 shadow-xs sm:px-6 lg:hidden">
-                    <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-indigo-200 lg:hidden">
-                        <span className="sr-only">Open sidebar</span>
-                        <Bars3Icon aria-hidden="true" className="size-6" />
-                    </button>
-                    <div className="flex-1 text-sm/6 font-semibold text-white">Dashboard</div>
-                    <a href="#">
-                        <span className="sr-only">Your profile</span>
-                        <img
-                            alt=""
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            className="size-8 rounded-full bg-indigo-700"
-                        />
-                    </a>
-                </div>
-
+                {/* Main Content */}
                 <main className="lg:pl-[282px]">
-                    {/*<div className="bg-[#F0F6FB]">{children}</div>*/}
                     <div className="bg">{children}</div>
-
-
                 </main>
-
-
             </div>
         </>
     );
 }
+
