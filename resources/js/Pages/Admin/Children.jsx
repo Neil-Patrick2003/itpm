@@ -1,21 +1,29 @@
 import React from 'react'
-import { Head } from '@inertiajs/react';
+import {Head, Link} from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 const AdminDashboard = () => {
     return (
         <AuthenticatedLayout
-            
+
         >
             <Head title="Users" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">
-                            Children Management
-                        </div>
+            <div className="p-4 h-screen p-4">
+                <div className="flex flex-col h-full gap-4">
+                    <div className="bg-white h-28 rounded-lg p-4">
+                        <h1>Childrens Record</h1>
+                    </div>
+                    <div className="flex justify-between p-4">
+                        back
+                        <Link href="/childrens/create">Add new Record</Link>
+                    </div>
+                    <div className="bg-white h-full rounded-lg p-4">
+
+                        <div></div>
                     </div>
                 </div>
+
+
             </div>
         </AuthenticatedLayout>
     )

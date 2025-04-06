@@ -30,9 +30,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/programs', [ProgramController::class, 'index'])->name('programs');
     Route::get('/programs/create', [ProgramController::class, 'create'])->name('programs');
     Route::post('/programs/create', [ProgramController::class, 'store'])->name('programs');
-
     Route::get('/programs/{id}', [ProgramController::class, 'show'])->name('programs');
+
+
     Route::get('/childrens', fn () => Inertia::render('Admin/Children'))->name('children');
+    Route::get('/childrens/create', [\App\Http\Controllers\ChildrenRecordController::class, 'create'])->name('children');
+
 
     Route::get('/sponsorships', [SponsorController::class, 'index'])->name('sponsors');
     Route::post('/sponsorships/create', [SponsorController::class, 'store'])->name('sponsors');
