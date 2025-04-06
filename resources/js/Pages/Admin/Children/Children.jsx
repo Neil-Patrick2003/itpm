@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from 'react'
-import {Head, Link, router} from '@inertiajs/react';
+import React, { useEffect, useState } from 'react';
+import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
-import {debounce} from "@mui/material";
-import { FaSearch } from 'react-icons/fa';  // Importing the search icon
+import { debounce } from "@mui/material";
+import { FaSearch } from 'react-icons/fa';
+import Modal from '@/Components/Modal';
 
-
-const AdminDashboard = ({ childrens , search = '' , page = 1}) => {
-    // Function to calculate age based on the birth date
+const AdminDashboard = ({ childrens, search = '', page = 1 }) => {
     const calculateAge = (birthday) => {
         const birthDate = new Date(birthday);
         const today = new Date();
@@ -14,36 +13,52 @@ const AdminDashboard = ({ childrens , search = '' , page = 1}) => {
     };
 
     const [searchTerm, setSearchTerm] = useState('');
+    const [viewingProfile, setViewingProfile] = useState(null); // To hold the selected child's profile data
+    const [isProfileOpen, setIsProfileOpen] = useState(false); // To manage modal visibility
 
     useEffect(() => {
         if (search) {
             setSearchTerm(search);
         }
-    }, []);
+    }, [search]);
 
     const handleSearchTermChange = (value) => {
-        setSearchTerm(value)
+        setSearchTerm(value);
 
         const debouncedSearchTerm = debounce(() => {
             const query = { page, search: value };
-
             router.get('/childrens', query, {
                 preserveState: true,
                 replace: true
-            })
+            });
         }, 500);
 
         debouncedSearchTerm();
 
-        return () => debouncedSearchTerm.cancel()
-    }
+        return () => debouncedSearchTerm.cancel();
+    };
 
+    const openProfile = (children) => {
+        setViewingProfile(children); // Set the selected child's data
+        setIsProfileOpen(true); // Open the modal
+    };
 
+    const closeProfile = () => setIsProfileOpen(false);
 
     return (
-
         <AuthenticatedLayout>
             <Head title="Users" />
+
+            <Modal show={isProfileOpen} onClose={closeProfile}>
+                {viewingProfile && (
+                    <div>
+                        <p>Name: {viewingProfile.name}</p>
+                        <p>Birth Date: {viewingProfile.birth_date}</p>
+                        <p>Gender: {viewingProfile.gender}</p>
+                        <p>BMI: {viewingProfile.bmi}</p>
+                    </div>
+                )}
+            </Modal>
 
             <div className="p-4 h-screen p-4">
                 <div className="flex flex-col h-full gap-4">
@@ -59,7 +74,7 @@ const AdminDashboard = ({ childrens , search = '' , page = 1}) => {
                             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                                     <div className="flex gap-4 items-center mb-2">
-                                        <div className="relative w-full max-w-xl"> {/* max-w-xl for a larger width */}
+                                        <div className="relative w-full max-w-xl">
                                             <input
                                                 value={searchTerm}
                                                 type="text"
@@ -100,7 +115,6 @@ const AdminDashboard = ({ childrens , search = '' , page = 1}) => {
                                                     <td className="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-6">
                                                         {children.name}
                                                     </td>
-                                                    {/* Display calculated age */}
                                                     <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                                                         {calculateAge(children.birth_date)} years
                                                     </td>
@@ -108,13 +122,10 @@ const AdminDashboard = ({ childrens , search = '' , page = 1}) => {
                                                         {children.gender}
                                                     </td>
                                                     <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
-                                                        {/* Optional status can be added here */}
-                                                        N/A
+                                                        healthy
                                                     </td>
                                                     <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
-                                                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                                            View<span className="sr-only">, {children.name}</span>
-                                                        </a>
+                                                        <button onClick={() => openProfile(children)}>view</button>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -124,6 +135,7 @@ const AdminDashboard = ({ childrens , search = '' , page = 1}) => {
                                 </div>
                             </div>
                         </div>
+
                         <div className="flex gap-2 justify-end mt-2 items-center">
                             {childrens.links.map((link) => (
                                 link.url ? (
@@ -131,16 +143,16 @@ const AdminDashboard = ({ childrens , search = '' , page = 1}) => {
                                         key={link.label}
                                         href={link.url}
                                         className={`p-2 px-4 text-sm font-medium rounded-md
-                                    ${link.active ? "bg-green-600 text-white font-bold hover:bg-green-500"
+                                        ${link.active ? "bg-green-600 text-white font-bold hover:bg-green-500"
                                             : "bg-white text-gray-700 hover:bg-green-50"}
-                                    border border-gray-300 shadow-md transition-all duration-200`}
+                                        border border-gray-300 shadow-md transition-all duration-200`}
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                     />
                                 ) : (
                                     <span
                                         key={link.label}
                                         className="p-2 px-4 text-sm font-medium text-slate-400 cursor-not-allowed
-                                    bg-white border border-gray-300 shadow-md rounded-md"
+                                        bg-white border border-gray-300 shadow-md rounded-md"
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                     />
                                 )
@@ -151,6 +163,6 @@ const AdminDashboard = ({ childrens , search = '' , page = 1}) => {
             </div>
         </AuthenticatedLayout>
     );
-}
+};
 
 export default AdminDashboard;

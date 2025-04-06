@@ -17,25 +17,17 @@ class ChildrenRecordController extends Controller
 
     public function store(Request $request){
 
-        try {
-            $validated = $request->validate([
-                'name' => ['required', 'string'],
-                'birth_date' => ['required', 'date'],
-                'gender' => ['required', 'string'],
-                'weight' => ['required', 'numeric'],
-                'height' => ['required', 'numeric'],
-                'parent_name' => ['required', 'string'],
-                'parent_age' => ['required', 'integer'],
-                'email' => ['required', 'email', 'max:255'],
-                'phone_number' => ['required', 'string'], // Or use the phone package
-            ]);
-
-            // Continue with your logic
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Output the errors for debugging
-            dd($e->errors()); // This will dump and die the validation error messages
-        }
-
+        $validated = $request->validate([
+            'name' => ['required', 'string'],
+            'birth_date' => ['required', 'date'],
+            'gender' => ['required', 'string'],
+            'weight' => ['required', 'numeric'],
+            'height' => ['required', 'numeric'],
+            'parent_name' => ['required', 'string'],
+            'parent_age' => ['required', 'integer'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone_number' => ['required', 'string'], // Or use the phone package
+        ]);
 
         $parent = User::create([
             'name' => $request->parent_name,
@@ -53,7 +45,6 @@ class ChildrenRecordController extends Controller
             'gender' => $request->gender,
             'parent_id' => $parent->id,
         ]);
-
 
         $heightInMeters = $request->height / 100;
 

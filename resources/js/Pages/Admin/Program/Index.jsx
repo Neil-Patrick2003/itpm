@@ -5,6 +5,7 @@ import {Link, router} from '@inertiajs/react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 import {debounce} from "@mui/material";
+import {FaSearch} from "react-icons/fa";
 
 
 const Program = ( { programs , search = '' , page = 1} ) => {
@@ -53,7 +54,20 @@ const Program = ( { programs , search = '' , page = 1} ) => {
                     <div className="overflow-hidden w-full bg-white p-8 shadow-sm sm:rounded-lg dark:bg-gray-800">
 
                         <div className='P-2 rounded-lg mt-2'>
-                            <input value={searchTerm} type="text" name="Search" id="" className='border' onChange={(e) => handleSearchTermChange(e.target.value)} />
+                            <div className="flex gap-4 items-center mb-2">
+                                <div className="relative w-full max-w-xl">
+                                    <input
+                                        value={searchTerm}
+                                        type="text" name="Search"
+                                        id=""
+                                        onChange={(e) => handleSearchTermChange(e.target.value)}
+                                        className="border-2 border-green-500 rounded-full h-10 px-4 pl-10 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300 w-full"
+                                        placeholder="Search..."
+                                    />
+                                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" />
+                                </div>
+                            </div>
+
 
                             <ul role="list" className="divide-y divide-gray-100">
                                 {programs.data.map(program => (
