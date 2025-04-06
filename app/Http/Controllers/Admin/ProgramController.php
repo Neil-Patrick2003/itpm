@@ -38,9 +38,19 @@ class ProgramController extends Controller
             'duration' => 'required|integer|min:1',
             'total_beneficiaries' => 'required|integer|min:1',
             'sponsor_ids' => 'array|nullable', // Make sure selected_items is an array (optional)
+            'cover_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        Log::error(json_encode($validated));
+
+        if ($request->hasFile('cover_photo')) {
+            $destination_path = 'images';
+            $cover_photo = $request->file('cover_photo');
+            $photo_name = $cover_photo->getClientOriginalName();
+            $program_background_url = $request->file('cover_photo')->storeAs($destination_path, $photo_name, 'public');
+        }
+
+
+
 
         $program = Program::create([
             'title' => $request->title,
@@ -48,7 +58,10 @@ class ProgramController extends Controller
             'start_date' => $request->start_date,
             'duration' => $request->duration,
             'total_beneficiaries' => $request->total_beneficiaries,
+            'program_background_url' => $program_background_url,
         ]);
+
+
 
         if ($request->has('sponsor_ids') && is_array($request->sponsor_ids) && ! empty($request->sponsor_ids)) {
             $program->sponsors()->attach($request->sponsor_ids);
