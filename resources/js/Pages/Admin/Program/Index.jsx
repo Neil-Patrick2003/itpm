@@ -6,6 +6,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 import {debounce} from "@mui/material";
 import {FaSearch} from "react-icons/fa";
+import {IoPersonAddSharp} from "react-icons/io5";
 
 
 const Program = ( { programs , search = '' , page = 1} ) => {
@@ -39,34 +40,52 @@ const Program = ( { programs , search = '' , page = 1} ) => {
         <AuthenticatedLayout>
             <div>
 
-                <div className="flex flex-col w-full h-screen sm:px-4 md:px-6 ">
-                    <div className="w-full mb-2 pt-6 ">
+                <div className="flex flex-col w-full h-screen py-4 pl-2 pr-4">
+                    <div className="w-full mb-2">
                         <div className="overflow-hidden h-28 bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                            <div className="p-6 text-gray-900 dark:text-gray-100">
-                                All Programs
-                                <div className='flex justify-end '>
-
+                            <div className="p-6 flex justify-between text-gray-900 dark:text-gray-100">
+                                <div className='flex flex-col'>
+                                    <h1 className='sm:text-md md:text-lg lg:text-xl font-bold'>
+                                        Programs
+                                    </h1>
+                                    <p className="mt-2 text-sm text-gray-700">
+                                        A list of all the users in your account including their name, title, email, and role.
+                                    </p>
                                 </div>
-                                <a href="/programs/create">Add program</a>
+                                <div>
+                                    <Link
+                                        href="/programs/create"
+                                        className="flex items-center justify-center bg-green-600 text-white rounded-full w-16 h-16 shadow-lg hover:bg-green-500 focus:outline-none transition-colors duration-300"
+                                    >
+                                        <IoPersonAddSharp className="text-white text-2xl" />
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className="overflow-hidden w-full bg-white p-8 shadow-sm sm:rounded-lg dark:bg-gray-800">
 
-                        <div className='P-2 rounded-lg mt-2'>
-                            <div className="flex gap-4 items-center mb-2">
-                                <div className="relative w-full max-w-xl">
-                                    <input
-                                        value={searchTerm}
-                                        type="text" name="Search"
-                                        id=""
-                                        onChange={(e) => handleSearchTermChange(e.target.value)}
-                                        className="border-2 border-green-500 rounded-full h-10 px-4 pl-10 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300 w-full"
-                                        placeholder="Search..."
-                                    />
-                                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" />
-                                </div>
-                            </div>
+                    <div>
+
+                    </div>
+
+                    <div className="flex gap-4 items-center mb-2">
+                        <div className="relative w-full max-w-xl">
+                            <input
+                                value={searchTerm}
+                                type="text" name="Search"
+                                id=""
+                                onChange={(e) => handleSearchTermChange(e.target.value)}
+                                className="border-2 border-green-500 rounded-full h-10 px-4 pl-10 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300 w-full"
+                                placeholder="Search..."
+                            />
+                            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" />
+                        </div>
+                    </div>
+
+
+                    <div className="overflow-y-auto w-full h-full bg-white p-8 shadow-sm sm:rounded-lg dark:bg-gray-800">
+
+                        <div className='rounded-lg mt-2'>
 
 
                             <ul role="list" className="divide-y divide-gray-100">
@@ -102,44 +121,9 @@ const Program = ( { programs , search = '' , page = 1} ) => {
                                         </div>
                                     </div>
                                     <div className="flex flex-none items-center gap-x-4">
-                                        {/* <a
-                                        href={project.href}
-                                        className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 sm:block"
-                                        >
-                                        View project<span className="sr-only">, {program.title}</span>
-                                        </a> */}
-                                        <Menu as="div" className="relative flex-none">
-                                        <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                                            <span className="sr-only">Open options</span>
-                                            <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
-                                        </MenuButton>
-                                        <MenuItems
-                                            transition
-                                            className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 ring-1 shadow-lg ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                                        >
-                                            <MenuItem>
-                                                <Link href={`/programs/${program.id}`} className="tblock px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden">
-                                                    Edit<span className="sr-only">, {program.title}</span>
-                                                </Link>
-                                            </MenuItem>
-                                            <MenuItem>
-                                            <a
-                                                href="#"
-                                                className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
-                                            >
-                                                Move<span className="sr-only">, {program.title}</span>
-                                            </a>
-                                            </MenuItem>
-                                            <MenuItem>
-                                            <a
-                                                href="#"
-                                                className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
-                                            >
-                                                Delete<span className="sr-only">, {program.title}</span>
-                                            </a>
-                                            </MenuItem>
-                                        </MenuItems>
-                                        </Menu>
+                                        <Link href={`/programs/${program.id}`}>View</Link>
+
+                                        
                                     </div>
                                     </li>
                                 ))}

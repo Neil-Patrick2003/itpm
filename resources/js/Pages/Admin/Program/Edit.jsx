@@ -23,9 +23,9 @@ const Edit = ( {program} ) => {
                       <h1 className='font-bold text-lg'>Benificiaries</h1>
                       <button>Add Children</button>
                     </div>
-                    
 
-                    
+
+
 
 
                   </div>
@@ -33,7 +33,7 @@ const Edit = ( {program} ) => {
           </div>
         </div>
       </div>
-      
+
     </AuthenticatedLayout>
   )
 }

@@ -17,7 +17,7 @@ class ProgramController extends Controller
             return $q->where('title', 'like', '%' . $request->search . '%');
         })
             ->latest()
-            ->paginate(6, ['*'], 'page', $request->input('page', 1));
+            ->paginate(20, ['*'], 'page', $request->input('page', 1));
 
         return Inertia::render('Admin/Program/Index', [
             'programs' => $programs,

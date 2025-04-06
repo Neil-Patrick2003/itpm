@@ -35,7 +35,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <>
-            <div className='min-h-full bg-gray-100'>
+            <div className='min-h-full bg-green-200'>
                 <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
                     <DialogBackdrop
                         transition
@@ -97,8 +97,8 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </Dialog>
 
-                <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 ">
+                <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col p-4">
+                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6  rounded-xl">
                         <div className="flex h-16 shrink-0 items-center">
                             <img
                                 alt="Your Company"
@@ -106,6 +106,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                 className="h-8 w-auto"
                                 style={{ width: '40px', height: '40px' }}
                             />
+                            hi
                             <img
                                 alt="Your Company"
                                 src={Text}
@@ -178,8 +179,13 @@ export default function AuthenticatedLayout({ header, children }) {
                 </div>
 
                 <main className="lg:pl-[282px]">
-                    <div className="bg-[#F0F6FB]">{children}</div>
+                    {/*<div className="bg-[#F0F6FB]">{children}</div>*/}
+                    <div className="bg">{children}</div>
+
+
                 </main>
+
+
             </div>
         </>
     );

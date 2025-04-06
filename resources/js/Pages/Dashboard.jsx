@@ -21,15 +21,7 @@ export default function Dashboard({user}) {
         >
             <Head title="Dashboard" />
 
-            <div className="">
-                <div className="w-full sm:p-4 md:p-6">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">
-                            You're logged in  {user.name}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div className="h-screen"></div>
         </AuthenticatedLayout>
     );
 }

@@ -4,10 +4,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
 import { Link } from '@inertiajs/react';
 import { IoPersonAddSharp } from "react-icons/io5";
-import { FaEdit } from "react-icons/fa";        
+import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { GrFormView } from "react-icons/gr";
 import FlashMessage from '@/Components/FlashMessage';
+import {motion} from "framer-motion";
 
 
 
@@ -20,7 +21,7 @@ const AdminDashboard = ({ users }) => {
     const [editingUser, setEditingUser] = useState(null);
     const [deletingUser, setDeletingUser] = useState(null);
     const { flash } = usePage().props;
-    
+
 
     const { data: userData, setData, post, put, errors, processing } = useForm({
         name: '',
@@ -31,7 +32,7 @@ const AdminDashboard = ({ users }) => {
 
     const {delete: deleteUser} = useForm();
 
-    
+
 
     // Add User Modal Functions
     const openAddUser = () => setIsAddUserOpen(true);
@@ -39,37 +40,37 @@ const AdminDashboard = ({ users }) => {
 
     // Edit User Modal Functions
     const openEditUser = (user) => {
-        setEditingUser(user); //set user 
-        setData({ name: user.name, email: user.email, phone: user.phone, role: user.role }) 
+        setEditingUser(user); //set user
+        setData({ name: user.name, email: user.email, phone: user.phone, role: user.role })
         setIsEditUserOpen(true);
     };
     const closeEditUser = () => {
         setIsEditUserOpen(false);
         setEditingUser(null);
-        setData({ name: '', email: '' });  
+        setData({ name: '', email: '' });
     };
 
-    
+
     const openDeleteUser = (user) => {
-        setDeletingUser(user); 
-        setIsDeleteUserOpen(true); 
+        setDeletingUser(user);
+        setIsDeleteUserOpen(true);
     };
-    
+
     const closeDeleteUser = () => {
-        setIsDeleteUserOpen(false); 
-        setDeletingUser(null); 
+        setIsDeleteUserOpen(false);
+        setDeletingUser(null);
     };
 
 
     const openViewUser = (user) => {
-        setViewingUser(user); 
+        setViewingUser(user);
         setIsViewUserOpen(true);
     };
     const closeViewUser = () => {
         setIsViewUserOpen(false);
         setViewingUser(null);
     };
-    
+
     const handleDeleteUser = () => {
         console.log("here")
         deleteUser(`/users/${deletingUser.id}`, {
@@ -78,18 +79,18 @@ const AdminDashboard = ({ users }) => {
                 alert("User deleted successfully!");
             },
             onError: (error) => {
-                console.error("Error deleting user:", error); 
+                console.error("Error deleting user:", error);
                 alert("Error deleting the user.");
             }
         });
     };
-  
+
     const handleCreateUser = () => {
         post('/users', {
             onSuccess: () => {
-                closeAddUser(); 
+                closeAddUser();
                 alert("User created successfully!");
-                setData({ name: '', email: '' }); 
+                setData({ name: '', email: '' });
             },
             onError: (error) => {
                 console.error("Error creating user:", error);
@@ -101,7 +102,7 @@ const AdminDashboard = ({ users }) => {
     const handleUpdateUser = () => {
         put(`/users/${editingUser.id}`, {
             onSuccess: () => {
-                closeEditUser();    
+                closeEditUser();
             },
             onError: () => {
                 alert("Error updating the user.");
@@ -115,8 +116,8 @@ const AdminDashboard = ({ users }) => {
 
             <div>
 
-                <div className="flex flex-col  w-full h-screen sm:p-4 md:p-6">
-                    <div className="w-full mb-2 ">
+                <div className="flex flex-col  w-full h-screen p-2  md:py-4 md:pr-4">
+                    <div className="w-full mb-2">
                         <div className="overflow-hidden h-28 bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                             <div className="p-6 flex justify-between text-gray-900 dark:text-gray-100">
                                 <div className='flex flex-col'>
@@ -124,108 +125,120 @@ const AdminDashboard = ({ users }) => {
                                         Add New Users
                                     </h1>
                                     <p className="mt-2 text-sm text-gray-700">
-                                                A list of all the users in your account including their name, title, email, and role.
+                                        A list of all the users in your account including their name, title, email, and role.
                                     </p>
                                 </div>
                                 <div>
                                     <button
                                         type="button"
-                                        className="flex gap-2 rounded-full bg-green-600  p-4 text-center text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                        onClick={openAddUser}
+                                        className="flex items-center justify-center bg-green-600 text-white rounded-full w-16 h-16 shadow-lg hover:bg-green-500 focus:outline-none transition-colors duration-300"
                                     >
-                                        <IoPersonAddSharp />
+                                        <IoPersonAddSharp className="text-white text-2xl" />
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="overflow-hidden w-full h-full bg-white  shadow-sm sm:rounded-lg dark:bg-gray-800">
+
+                    <div className="overflow-hidden w-full h-full bg-white  shadow-sm sm:rounded-lg border-4 border-green-300">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
-                        <h1 className="text-base font-semibold text-gray-900">Users</h1>
-                                        <FlashMessage/>                                            
-                                        <p className="mt-2 text-sm text-gray-700">
-                                            A list of all the users in your account including their name, title, email, and role.
-                                        </p>
-                            
+                            <h1 className="text-base font-semibold text-gray-900">Users</h1>
+                            <FlashMessage/>
+                            <p className="mt-2 text-sm text-gray-700">
+                                A list of all the users in your account including their name, title, email, and role.
+                            </p>
+
+                            <div className="overflow-hidden ring-1 shadow-sm ring-black/20 sm:rounded-lg">
+                                <table className="min-w-full divide-y divide-gray-300">
+                                    <thead className="text-gray-500">
+                                    <tr>
+                                        <th scope="col" className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold  sm:pl-6">
+                                            Name
+                                        </th>
+                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold ">
+                                            Email
+                                        </th>
+                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold ">
+                                            Gender
+                                        </th>
+                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold ">
+                                            Contact Number
+                                        </th>
+                                        <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-6">
+                                            <span className="sr-only">Edit</span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-200 bg-white">
+                                    {users.data.map((user) => (
+                                        <tr key={user.id}>
+                                            <td className="py-2 pl-4 text-xs font-medium whitespace-nowrap text-gray-900 sm:pl-6">
+                                                {user.name}
+                                            </td>
+                                            <td className="py-2 px-3 text-xs font-medium whitespace-nowrap text-gray-900 sm:px-6">
+                                                {user.email}
+                                            </td>
+                                            <td className="px-3 py-2 text-xs whitespace-nowrap text-gray-500">
+                                                {user.role}
+                                            </td>
+                                            <td className="py-2 pr-3 pl-4 text-xs font-medium whitespace-nowrap text-gray-900 sm:px-6">
+                                                {user.phone}
+                                            </td>
+                                            <td className="flex gap-2 py-3 pr-4 pl-3 text-right text-xs font-medium whitespace-nowrap sm:pr-0">
+                                                {/* Edit Button */}
+                                                <button
+                                                    onClick={() => openEditUser(user)}
+                                                    className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-blue-400 rounded-md hover:bg-blue-500 focus:outline-none transition-colors duration-300"
+                                                >
+                                                    <FaEdit style={{ fontSize: '16px' }} />
+                                                    <span className="hidden sm:inline">Edit</span>
+                                                </button>
+
+                                                {/* Delete Button */}
+                                                <button
+                                                    onClick={() => openDeleteUser(user)}
+                                                    className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-red-400 rounded-md hover:bg-red-500 focus:outline-none transition-colors duration-300"
+                                                >
+                                                    <MdDeleteForever style={{ fontSize: '16px' }} />
+                                                    <span className="hidden sm:inline">Delete</span>
+                                                </button>
+
+                                                {/* View Button */}
+                                                <button
+                                                    onClick={() => openViewUser(user)}
+                                                    className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-green-400 rounded-md hover:bg-green-500 focus:outline-none transition-colors duration-300"
+                                                >
+                                                    <GrFormView style={{ fontSize: '16px' }} />
+                                                    <span className="hidden sm:inline">View</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+
+                                </table>
+                            </div>
+
                             <div className="px-4 sm:px-6 lg:px-8">
                                 <div className="mt-8 flow-root">
                                     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                        <div className="inline-block  rounded-xl min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                                            <table className="min-w-full divide-y divide-gray-300">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-                                                            Name
-                                                        </th>
-                                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                            Email
-                                                        </th>
-                                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                            Email
-                                                        </th>
-                                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                            Phone Number
-                                                        </th>
-                                                        <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-0">
-                                                            Action
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody className="divide-y divide-gray-200">
-                                                    
-                                                    {users.data.map(user => (
-                                                        <tr key={user.id}>
-                                                            <td className="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0">
-                                                                {user.name}
-                                                            </td>
-                                                            <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{user.email}</td>
-                                                            <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{user.phone}</td>
-                                                            <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{user.role}</td>
-                                                            <td className="flex gap-2 py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0">
-                                                                <button
-                                                                    className=" flex gap-2 px-4 pt-1 text-white bg-green-500 hover:bg-green-400 rounded-lg"
-                                                                    onClick={() => openEditUser(user)}
-                                                                >
-                                                                    <FaEdit style={{ fontSize: '18px' }}/>
-                                                                    <p className="pb-2">Edit</p>
-                                                                </button>
-                                                                <button
-                                                                    className="flex gap-2 rounded-lg px-4 pt-1 bg-red-600 text-white hover:bg-red-400"
-                                                                    onClick={() => openDeleteUser(user)}
-                                                                >
-                                                                    <MdDeleteForever style={{ fontSize: '18px' }}/>
-                                                                    <p className="pb-1">Delete</p>
-                                                                </button>
-                                                                <button 
-                                                                    className="border border-2x border-slate-600 rounded-lg px-4         pt-1 flex gap-2 text-slate-600 hover:text-slate-900"
-                                                                    onClick={() => openViewUser(user)}
-                                                                >
-                                                                    <GrFormView style={{ fontSize: '18px' }} />
-                                                                    <p className="pb-1">View</p>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))}      
-                                                </tbody>
-                                            </table>
- 
-                                        </div>
+
                                         <div className="flex gap-2 justify-end mt-2 items-center">
                                             {users.links.map((link) => (
                                                 link.url ? (
                                                 <Link
                                                 key={link.label}
                                                 href={link.url}
-                                                className={`p-2 px-4 text-sm font-medium rounded-md 
-                                                    ${link.active ? "bg-green-600 text-white font-bold hover:bg-green-500" 
-                                                    : "bg-white text-gray-700 hover:bg-green-50"} 
+                                                className={`p-2 px-4 text-sm font-medium rounded-md
+                                                    ${link.active ? "bg-green-600 text-white font-bold hover:bg-green-500"
+                                                    : "bg-white text-gray-700 hover:bg-green-50"}
                                                     border border-gray-300 shadow-md transition-all duration-200`}
                                                 dangerouslySetInnerHTML={{ __html: link.label }}
                                                 />
                                             ) : (
                                                 <span
                                                 key={link.label}
-                                                className="p-2 px-4 text-sm font-medium text-slate-400 cursor-not-allowed 
+                                                className="p-2 px-4 text-sm font-medium text-slate-400 cursor-not-allowed
                                                     bg-white border border-gray-300 shadow-md rounded-md"
                                                 dangerouslySetInnerHTML={{ __html: link.label }}
                                                 />
@@ -264,7 +277,7 @@ const AdminDashboard = ({ users }) => {
                                         <button
                                             className="px-6 py-2 border bg-green-400 text-white rounded-lg"
                                             onClick={handleCreateUser}
-                                            disabled={processing} 
+                                            disabled={processing}
                                         >
                                             {processing ? 'Creating...' : 'Create'}
                                         </button>
@@ -316,7 +329,7 @@ const AdminDashboard = ({ users }) => {
                                             <label htmlFor="role" className="block text-sm font-medium text-gray-700">Role</label>
                                             <select
                                                 name="role"
-                                               
+
                                                 value={userData?.role  ?? "user"} ssss
                                                 onChange={(e) => setData('role', e.target.value)}
                                                 className="mt-1 block w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm bg-white"
@@ -331,8 +344,8 @@ const AdminDashboard = ({ users }) => {
                                     <div className="flex justify-end gap-4 mt-6">
                                         <button
                                             className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
-                                            onClick={handleUpdateUser} 
-                                            disabled={processing} 
+                                            onClick={handleUpdateUser}
+                                            disabled={processing}
                                         >
                                             {processing ? 'Saving...' : 'Save Changes'}
                                         </button>
@@ -382,7 +395,7 @@ const AdminDashboard = ({ users }) => {
                                     </button>
 
                                 </div>
-                            </Modal>     
+                            </Modal>
 
                         </div>
                     </div>
