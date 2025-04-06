@@ -91,11 +91,15 @@ export default function Register() {
                     <InputError message={errors.phone} className="mt-2" />
                 </div>
                 <div className='mt-4'>
-                    <select id='role' name="role" className='w-full rounded-lg' onChange={(e) => setData('role', e.target.value)}>
-                        <option value="sponsor">Sponsor</option>
-                        <option value="parent">Parent</option>
+                    <select id='role' value={data.role} name="role" className='w-full rounded-lg' onChange={(e) => setData('role', e.target.value)}>
+                        
+                        <option value=""></option>
                         <option value="health_worker">Health Worker</option>
+                        <option value="parent">Parent</option>
+                        <option value="sponsor">Sponsor</option>
+
                     </select>
+                    <InputError message={errors.role} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
