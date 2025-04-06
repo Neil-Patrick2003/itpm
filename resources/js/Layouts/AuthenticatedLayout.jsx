@@ -22,7 +22,9 @@ function classNames(...classes) {
 }
 
 export default function AuthenticatedLayout({ header, children }) {
-    const { user } = usePage().props;
+    const { auth } = usePage().props;
+    const userName = auth?.user?.name;
+    console.log(userName);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -157,14 +159,14 @@ export default function AuthenticatedLayout({ header, children }) {
                             className="flex items-center gap-x-2 w-full px-6 py-2 bg-green-700 text-white rounded-b-lg shadow-md focus:outline-none"
                         >
                             {/* Image inside the button */}
-                            <img src="/path/to/your/image.png" alt="Icon" className="h-5 w-5" />
+                            <img alt="Icon" className="h-5 w-5" />
                             {/* Toggle Arrow Icon */}
                             {isOpen ? (
                                 <ChevronUpIcon className="h-5 w-5" />
                             ) : (
                                 <ChevronDownIcon className="h-5 w-5" />
                             )}
-                            <span>{user.name}</span>
+                            <span>{userName}</span>
                         </button>
 
                         {/* Dropdown Menu */}
@@ -174,7 +176,6 @@ export default function AuthenticatedLayout({ header, children }) {
                                     <Link href="/logout" method="post" as="button">Logout</Link>
                                 </li>
                                 <li className="px-6 py-2 cursor-pointer hover:bg-gray-100">
-
                                 </li>
                                 <li className="px-6 py-2 cursor-pointer hover:bg-gray-100">Option 3</li>
                             </ul>
