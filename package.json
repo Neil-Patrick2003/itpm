@@ -33,6 +33,7 @@
         "mui": "^0.0.1",
         "primeicons": "^7.0.0",
         "primereact": "^10.9.3",
+        "react-auto-image-slider": "^1.0.0",
         "react-icon": "^1.0.0",
         "react-icons": "^5.5.0",
         "react-scroll": "^1.9.3",

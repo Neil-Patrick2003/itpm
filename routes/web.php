@@ -50,9 +50,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/funds', fn () => Inertia::render('Admin/Funds'))->name('funds');
 
 //    health worker
-    Route::get('/health_workers/dashboard',  fn () => Inertia::render('Worker/Dashboard', [
-        'user' => auth()->user(),
-    ]) )->name('donations');
+    Route::get('/health_workers/dashboard',  [\App\Http\Controllers\HealthWorkerController::class, 'index'])->name('health-workers.dashboard');
+    Route::get('/health_workers/records',  [\App\Http\Controllers\HealthWorkerController::class, 'index'])->name('health-workers.dashboard');
+
 
 
 
