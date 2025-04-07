@@ -1,7 +1,6 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link, usePage } from '@inertiajs/react';
-import FlashMessage from '@/Components/FlashMessage';
 
 const Show = ({ sponsor, donations }) => {
 

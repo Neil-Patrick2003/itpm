@@ -37,7 +37,7 @@ const CreateRecord = () => {
             <Link href="/health_workers/records">
                 <FaArrowLeft/>
             </Link>
-            
+
 
             <h2 className="text-center">New Record</h2>
             <form onSubmit={submit}>

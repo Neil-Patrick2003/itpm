@@ -6,6 +6,7 @@ import {ToastContainer, toast} from "react-toastify";
 
 const RecordIndex = ({ records, search = '', page = 1}) => {
 
+
     function calculateAge(birth_date) {
         const birthDateObj = new Date(birth_date); // Convert the birthDate string to a Date object
         const today = new Date(); // Get the current date
@@ -162,9 +163,9 @@ const RecordIndex = ({ records, search = '', page = 1}) => {
                                             <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{record.phone_number}</td>
 
                                             <td className="relative  py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
-                                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                                                <Link href={`/health_workers/records/${record.id}`} className="text-indigo-600 hover:text-indigo-900">
                                                     Edit<span className="sr-only">, {record.name}</span>
-                                                </a>
+                                                </Link>
                                             </td>
                                         </tr>
                                     ))}

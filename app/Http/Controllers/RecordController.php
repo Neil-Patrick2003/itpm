@@ -61,4 +61,40 @@ class RecordController extends Controller
 
         return redirect()->back()->with('message', 'Record added successfully');
     }
+
+
+
+    public function edit(Record $record){
+        return Inertia::render('Worker/Record/EditRecord', [
+            'record' => $record
+        ]);
+    }
+
+    public function update(Request $request, Record $record){
+
+        $validated = $request->validate([
+            'children_name' => 'required|max:255|string',
+            'birth_date' => 'required|max:255|date',
+            'parent_name' => 'required|max:255|string',
+            'address' => 'required|max:255|string',
+            'phone_number' => 'required|max:255|string',
+            'email' => 'required|max:255|email',
+            'weight' => 'required|max:255|numeric',
+            'height' => 'required|max:255|numeric',
+            'gender' => 'required|max:255|string|in:male,female',
+        ]);
+
+        $record->update($validated);
+
+        return redirect('/health_workers/records/' . $record->id)->with([
+            'message' => 'Record updated successfully',
+            'record' => $record
+        ]);
+
+    }
+
+    public function destroy(Record $record){
+        $record->delete();
+        return redirect('/health_workers/records')->with('message', 'Record deleted successfully');
+    }
 }
