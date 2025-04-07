@@ -23,34 +23,34 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/dashboard', fn () => Inertia::render('Dashboard', [
         'user' => auth()->user(),
     ]))->name('dashboard');
-    Route::get('/users', [UserController::class, 'index'])->name('users');
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('users');
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users');
-    Route::get('/programs', [ProgramController::class, 'index'])->name('programs');
-    Route::get('/programs/create', [ProgramController::class, 'create'])->name('programs');
-    Route::post('/programs/create', [ProgramController::class, 'store'])->name('programs');
-    Route::get('/programs/{id}', [ProgramController::class, 'show'])->name('programs');
-    Route::get('/childrens', [\App\Http\Controllers\ChildrenController::class, 'index'])->name('children');
-    Route::get('/childrens/create', [\App\Http\Controllers\ChildrenRecordController::class, 'create'])->name('children');
-    Route::post('/childrens/create', [\App\Http\Controllers\ChildrenRecordController::class, 'store'])->name('children');
-    Route::get('/sponsorships', [SponsorController::class, 'index'])->name('sponsors');
-    Route::post('/sponsorships/create', [SponsorController::class, 'store'])->name('sponsors');
-    Route::get('/sponsorships/{sponsor}', [SponsorController::class, 'show'])->name('sponsors');
-    Route::get('/sponsorships/{sponsor}/donation', [DonationController::class, 'create'])->name('donations');
-    Route::post('/sponsorships/{sponsor}/donation', [DonationController::class, 'store'])->name('donations');
-    Route::get('/reports', fn () => Inertia::render('Admin/Report'))->name('reports');
-    Route::get('/funds', fn () => Inertia::render('Admin/Funds'))->name('funds');
+    Route::get('/users', [UserController::class, 'index']);
+    Route::put('/users/{id}', [UserController::class, 'update']);
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
+    Route::get('/programs', [ProgramController::class, 'index']);
+    Route::get('/programs/create', [ProgramController::class, 'create']);
+    Route::post('/programs/create', [ProgramController::class, 'store']);
+    Route::get('/programs/{id}', [ProgramController::class, 'show']);
+    Route::get('/childrens', [\App\Http\Controllers\ChildrenController::class, 'index']);
+    Route::get('/childrens/create', [\App\Http\Controllers\ChildrenRecordController::class, 'create']);
+    Route::post('/childrens/create', [\App\Http\Controllers\ChildrenRecordController::class, 'store']);
+    Route::get('/sponsorships', [SponsorController::class, 'index']);
+    Route::post('/sponsorships/create', [SponsorController::class, 'store']);
+    Route::get('/sponsorships/{sponsor}', [SponsorController::class, 'show']);
+    Route::get('/sponsorships/{sponsor}/donation', [DonationController::class, 'create']);
+    Route::post('/sponsorships/{sponsor}/donation', [DonationController::class, 'store']);
+    Route::get('/reports', fn () => Inertia::render('Admin/Report'));
+    Route::get('/funds', fn () => Inertia::render('Admin/Funds'));
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
 //    health worker
     Route::get('/health_workers/dashboard',  [\App\Http\Controllers\HealthWorkerController::class, 'index'])->name('health-workers.dashboard');
     Route::get('/health_workers/records',  [\App\Http\Controllers\RecordController::class, 'index'])->name('records');
-    Route::get('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'create'])->name('health-workers.records.create');
-    Route::post('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'store'])->name('health-workers.records.create');
-    Route::get('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'edit'])->name('health-workers.records.create');
-    Route::post('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'update'])->name('health-workers.records.create');
-    Route::delete('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'destroy'])->name('health-workers.records.create');
+    Route::get('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'create']);
+    Route::post('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'store']);
+    Route::get('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'edit']);
+    Route::post('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'update']);
+    Route::delete('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'destroy']);
 
 });
 
