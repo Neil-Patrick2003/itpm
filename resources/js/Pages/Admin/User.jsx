@@ -374,6 +374,8 @@ const AdminDashboard = ({ users }) => {
                                         <option value="user" className="text-sm text-gray-700 hover:bg-green-100 hover:text-green-700 transition-colors">User</option>
                                         <option value="admin" className="text-sm text-gray-700 hover:bg-green-100 hover:text-green-700 transition-colors">Admin</option>
                                         <option value="sponsor" className="text-sm text-gray-700 hover:bg-green-100 hover:text-green-700 transition-colors">Sponsor</option>
+                                        <option value="health_worker" className="text-sm text-gray-700 hover:bg-green-100 hover:text-green-700 transition-colors">Health Worker</option>
+
                                     </select>
                                 </div>
                             </div>
