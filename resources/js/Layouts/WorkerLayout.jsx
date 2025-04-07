@@ -9,11 +9,10 @@ const user = {
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Record', href: '#', current: false },
-    { name: 'Programs', href: '#', current: false },
-    { name: 'Announcement', href: '#', current: false },
-    { name: 'Reports', href: '#', current: false },
+    { name: 'Dashboard', href: '/health_workers/dashboard', current: true },
+    { name: 'Record', href: '/health_workers/records', current: false },
+    { name: 'Programs', href: '/health_workers/programs', current: false },
+    { name: 'Reports', href: '/health_workers/reports', current: false },
 ]
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
