@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import WorkerLayout from "@/Layouts/WorkerLayout.jsx";
 import {Head, Link, router, useForm} from "@inertiajs/react";
 import {debounce} from "@mui/material";
+import {ToastContainer, toast} from "react-toastify";
 
 const RecordIndex = ({ records, search = '', page = 1}) => {
 
@@ -50,12 +51,31 @@ const RecordIndex = ({ records, search = '', page = 1}) => {
         { name: 'Records', href: '/health_workers/records', current: false },
 
     ]
+    const [deletingUser, setDeletingUser] = useState(null);
+    const {delete: deleteUser} = useForm();
+    const handleDeleteUser = () => {
+
+        deleteUser(`/users/${deletingUser.id}`, {
+            onSuccess: () => {
+                'message', 'success';
+            },
+            onError: (error) => {
+                alert("Error deleting the user.");
+            }
+        });
+    };
+
+    const notify = () => toast("Wow so easy!");
+
 
 
     return (
         <WorkerLayout>
             <Head title="Records" />
-
+            <div>
+                <button onClick={notify}>Notify!</button>
+                <ToastContainer />
+            </div>
                 <div className="sm:flex  sm:items-center ">
                     <div className="sm:flex-auto">
                         <h1 className="text-base font-semibold text-gray-900">Records</h1>

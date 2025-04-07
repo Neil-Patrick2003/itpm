@@ -80,7 +80,7 @@ const AdminDashboard = ({ users }) => {
     };
 
     const handleDeleteUser = () => {
-        console.log("here")
+
         deleteUser(`/users/${deletingUser.id}`, {
             onSuccess: () => {
                 closeDeleteUser();

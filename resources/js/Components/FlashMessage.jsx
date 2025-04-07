@@ -1,59 +1,32 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { usePage } from '@inertiajs/react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FlashMessage = () => {
-  const { flash } = usePage().props;
-  const [messages, setMessages] = useState([]); 
-  const timerRef = useRef(null);
+    const { flash } = usePage().props;
 
-  useEffect(() => {
-    if (flash && flash.message) {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
+    useEffect(() => {
+        if (flash.message) {
+            toast.success(flash.message); // Display success message from flash data
+        }
+        if (flash.error) {
+            toast.error(flash.error); // Display error message from flash data (if any)
+        }
+    }, [flash]); // Re-run the effect when flash message changes
 
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { id: Date.now(), message: flash.message },
-      ]);
-    }
-  }, [flash]);
-
-  useEffect(() => {
-    if (messages.length > 0) {
-      timerRef.current = setTimeout(() => {
-        setMessages((prevMessages) => prevMessages.slice(1));
-      }, 5000); 
-
-      return () => clearTimeout(timerRef.current);
-    }
-  }, [messages]); // Re-run when messages change
-
-  // Function to remove message manually
-  const handleClose = (id) => {
-    setMessages((prevMessages) => prevMessages.filter(msg => msg.id !== id));
-  };
-
-  if (messages.length === 0) return null;
-
-  return (
-    <div className="fixed top-4 right-4 space-y-2">
-      {messages.map((msg) => (
-        <div
-          key={msg.id}
-          className="p-4 bg-green-500 text-white rounded-lg shadow-lg relative"
-        >
-          {msg.message}
-          <button
-            onClick={() => handleClose(msg.id)}  // Trigger manual close
-            className="absolute top-1 right-1 text-xl text-white bg-transparent border-0 cursor-pointer"
-          >
-            &times; {/* Cross icon for closing */}
-          </button>
-        </div>
-      ))}
-    </div>
-  );
+    return (
+        <ToastContainer
+            position="bottom-right" // Change position to top-right
+            autoClose={5000} // Auto close after 5 seconds
+            hideProgressBar={false} // Show the progress bar
+            newestOnTop={true} // Newest toast will appear at the top
+            closeOnClick={true} // Close toast on click
+            rtl={false} // Set to true for right-to-left languages
+            pauseOnFocusLoss={false} // Pause when the window is not focused
+            draggable
+        />
+    );
 };
 
 export default FlashMessage;

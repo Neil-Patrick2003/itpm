@@ -1,6 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import children from "@/Pages/Admin/Children/Children.jsx";
+import FlashMessage from "@/Components/FlashMessage.jsx";
 
 const user = {
     name: 'Tom Cook',
@@ -179,6 +180,7 @@ export default function WorkerLayout({ children }) {
 
                 <main className="-mt-32">
                     <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+                        <FlashMessage />
                         <div className="rounded-lg bg-white px-5 py-6 shadow-sm sm:px-6">{children}</div>
                     </div>
                 </main>
