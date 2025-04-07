@@ -10,11 +10,19 @@ use Inertia\Inertia;
 
 class RecordController extends Controller
 {
-    public function index(){
-        $records = Record::latest()->paginate(20);
+    public function index(Request $request){
+        $records = Record::when($request->search, function ($q) use ($request)
+            {
+                return $q->where('children_name', 'like', '%' . $request->search . '%');
+            })
+            ->latest()
+            ->paginate(20, ['*'], 'page', $request->input('page', 1));
+
 
         return Inertia::render('Worker/Record/RecordIndex', [
-            'records' => $records
+            'records' => $records,
+            'search' => $request->query('search'),
+            'page' => $request->input('page', 1)
         ]);
     }
 

@@ -51,7 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 //    health worker
     Route::get('/health_workers/dashboard',  [\App\Http\Controllers\HealthWorkerController::class, 'index'])->name('health-workers.dashboard');
-    Route::get('/health_workers/records',  [\App\Http\Controllers\RecordController::class, 'index'])->name('health-workers.records.index');
+    Route::get('/health_workers/records',  [\App\Http\Controllers\RecordController::class, 'index'])->name('records');
     Route::get('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'create'])->name('health-workers.records.create');
     Route::post('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'store'])->name('health-workers.records.create');
 
