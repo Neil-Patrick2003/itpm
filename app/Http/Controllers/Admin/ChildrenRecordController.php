@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Children;
 use App\Models\ChildrenRecord;
+use App\Models\Program;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +16,9 @@ class ChildrenRecordController extends Controller
         return Inertia::render('Admin/Children/CreateChildren');
     }
 
-    public function store(Request $request){
+    public function store(Request $request, Program $program){
+
+        dd($program->toArray());
 
         $validated = $request->validate([
             'name' => ['required', 'string'],
