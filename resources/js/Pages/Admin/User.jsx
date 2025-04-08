@@ -44,7 +44,7 @@ const AdminDashboard = ({ users }) => {
     const openAddUser = () => setIsAddUserOpen(true);
     const closeAddUser = () => setIsAddUserOpen(false);
 
-    // Edit User Modal Functions
+    // Show User Modal Functions
     const openEditUser = (user) => {
         setEditingUser(user); //set user
         setData({ name: user.name, email: user.email, phone: user.phone, role: user.role })
@@ -205,7 +205,7 @@ const AdminDashboard = ({ users }) => {
                                     Contact Number
                                 </th>
                                 <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-6">
-                                    <span className="sr-only">Edit</span>
+                                    <span className="sr-only">Show</span>
                                 </th>
                             </tr>
                             </thead>
@@ -225,8 +225,8 @@ const AdminDashboard = ({ users }) => {
                                         {user.phone}
                                     </td>
                                     <td className="flex gap-2 py-3 pr-4 pl-3 text-right text-xs font-medium whitespace-nowrap sm:pr-0">
-                                        {/* Edit Button with Tooltip */}
-                                        <Tooltip title="Edit User" arrow>
+                                        {/* Show Button with Tooltip */}
+                                        <Tooltip title="Show User" arrow>
                                             <button
                                                 onClick={() => openEditUser(user)}
                                                 className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-blue-400 rounded-sm hover:bg-blue-500 focus:outline-none transition-colors duration-300"
@@ -330,7 +330,7 @@ const AdminDashboard = ({ users }) => {
 
                     <Modal show={isEditUserOpen} onClose={closeEditUser} maxWidth="2xl" closable={true}>
                         <div className="p-6 bg-white rounded-lg shadow-lg">
-                            <h2 className="text-2xl font-semibold text-gray-900">Edit {userData.name}</h2>
+                            <h2 className="text-2xl font-semibold text-gray-900">Show {userData.name}</h2>
                             <div className="mt-4 space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">Name</label>

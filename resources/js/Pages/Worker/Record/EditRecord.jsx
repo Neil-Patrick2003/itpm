@@ -88,7 +88,7 @@ const EditRecord = () => {
 
     return (
         <WorkerLayout>
-            <Head title="Edit Record" />
+            <Head title="Show Record" />
             <div className="flex justify-between">
                 <Tooltip title="Back" arrow>
                     <Link href="/health_workers/records">
@@ -103,7 +103,7 @@ const EditRecord = () => {
                     </button>
                 </Tooltip>
             </div>
-            <h2 className="text-center">Edit Record</h2>
+            <h2 className="text-center">Show Record</h2>
             <form onSubmit={submit}>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                     {/* Children Name */}

@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,9 +29,13 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/programs/create', [ProgramController::class, 'create']);
     Route::post('/programs/create', [ProgramController::class, 'store']);
     Route::get('/programs/{id}', [ProgramController::class, 'show']);
+    Route::post('/programs/{program}',  [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'store']);
+
+
+
     Route::get('/childrens', [\App\Http\Controllers\ChildrenController::class, 'index']);
-    Route::get('/childrens/create', [\App\Http\Controllers\ChildrenRecordController::class, 'create']);
-    Route::post('/childrens/create', [\App\Http\Controllers\ChildrenRecordController::class, 'store']);
+    Route::get('/childrens/create', [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'create']);
+    Route::post('/childrens/create', [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'new']);
     Route::get('/sponsorships', [SponsorController::class, 'index']);
     Route::post('/sponsorships/create', [SponsorController::class, 'store']);
     Route::get('/sponsorships/{sponsor}', [SponsorController::class, 'show']);

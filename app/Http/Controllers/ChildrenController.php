@@ -11,7 +11,6 @@ class ChildrenController extends Controller
 {
     public function index(Request $request){
 
-
         $childrens = Children::with('record')
         ->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');

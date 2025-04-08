@@ -1,49 +1,260 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import React from 'react'
-import {IoPersonAddSharp} from "react-icons/io5";
+import React, { useState } from 'react'
+import { IoPersonAddSharp } from "react-icons/io5";
+import { Head, useForm } from "@inertiajs/react";
+import { HomeIcon } from "@heroicons/react/20/solid/index.js";
 
-const Edit = ( {program} ) => {
-  return (
-    <AuthenticatedLayout>
-      <div className='h-screen py-4'>
+const Show = ({ program, records }) => {
 
-          <div className="w-full">
-              <div className="overflow-hidden h-28 bg-white shadow-sm dark:bg-gray-800">
-                  <div className="p-6 text-gray-900 dark:text-gray-100">
+    const { data, setData, post, processing, reset, errors } = useForm({
+        record_ids: [],
+    });
 
-                      <div className='flex justify-between'>
-                          <h1>All Programs</h1>
+    // Track checkbox changes
+    const onChangeItem = (e) => {
+        const { id, checked } = e.target;
+        if (checked) {
+            setData('record_ids', [...data.record_ids, id]);
+        } else {
+            setData('record_ids', data.record_ids.filter(item => item !== id));
+        }
+    };
 
-                          <a href="/programs/create" className="text-green-600 hover:underline">
-                              <button
-                                  type="button"
-                                  className="flex items-center justify-center bg-[#01DAA2] text-white rounded-full w-16 h-16 shadow-lg hover:bg-green-500 focus:outline-none transition-colors duration-300"
-                              >
-                                  <IoPersonAddSharp className="text-white text-2xl" />
-                              </button>
-                          </a>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div className="w-full h-full sm:px-4 md:px-6">
-              <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                  <div className="p-6 text-gray-600">
-                    <h1 className='font-bold text-green-600 text-xl'>Program: {program.title}.</h1>
-                    <p className='mt-2 text-gray-600'>Description: {program.description}</p>
-                    <hr/>
-                    <div className='flex justify-between'>
-                      <h1 className='font-bold text-lg'>Benificiaries</h1>
-                      <button>Add Children</button>
+    const pages = [
+        { name: 'Programs', href: '/programs', current: false },
+        { name: program.title, href: `/programs/${program.id}`, current: false },
+    ];
+
+    const predefinedAddresses = [
+        'Eos quis sint nihil',
+        'Address 2',
+        'Address 3',
+        'Address 4',
+        'Address 5',
+    ];
+
+    const [selectedAddress, setSelectedAddress] = useState('');
+    const [filteredRecords, setFilteredRecords] = useState(records);
+    const [categoryCounts, setCategoryCounts] = useState({});
+
+    const handleAddressChange = (address) => {
+        setSelectedAddress(address);
+
+        if (address === '') {
+            setFilteredRecords(records);
+        } else {
+            const filtered = records.filter((record) => record.address === address);
+            setFilteredRecords(filtered);
+        }
+
+        updateCategoryCounts(address);
+    };
+
+    const updateCategoryCounts = (address) => {
+        const counts = {};
+        records.forEach((record) => {
+            if (!counts[record.address]) {
+                counts[record.address] = 0;
+            }
+            counts[record.address]++;
+        });
+        setCategoryCounts(counts);
+    };
+
+
+    function submit(e){
+        e.preventDefault();
+
+        console.log(data)
+
+        post(`/programs/${program.id}`, {
+            onFinish: () => reset()
+        });
+    }
+
+    const roundToTwoDecimals = (num) => {
+        if (num) {
+            return num.toFixed(2);
+        }
+        return 'N/A';
+    };
+
+    // Filter out the selected records
+    const selectedRecords = records.filter(record => data.record_ids.includes(record.id.toString()));
+
+    return (
+        <AuthenticatedLayout>
+            <Head>
+                <title>Programs</title>
+            </Head>
+
+            <div className="flex flex-col gap-y-4 bg-blue-200 h-screen py-4 pr-4 pl-2 overflow-hidden">
+                <nav aria-label="Breadcrumb" className="flex border-b mb-4 border-gray-200 bg-[#01DAA2] mb-2">
+                    <ol role="list" className="mx-auto flex w-full space-x-4 px-4 sm:px-6 lg:px-8">
+                        <li className="flex">
+                            <div className="flex items-center">
+                                <a href="#" className="text-gray-400 hover:text-gray-500">
+                                    <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
+                                    <span className="sr-only">Home</span>
+                                </a>
+                            </div>
+                        </li>
+                        {pages.map((page) => (
+                            <li key={page.name} className="flex">
+                                <div className="flex items-center">
+                                    <svg
+                                        fill="currentColor"
+                                        viewBox="0 0 24 44"
+                                        preserveAspectRatio="none"
+                                        aria-hidden="true"
+                                        className="h-full w-6 shrink-0 text-white"
+                                    >
+                                        <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                                    </svg>
+                                    <a
+                                        href={page.href}
+                                        aria-current={page.current ? 'page' : undefined}
+                                        className="ml-4 text-sm font-medium text-white hover:text-green-600"
+                                    >
+                                        {page.name}
+                                    </a>
+                                </div>
+                            </li>
+                        ))}
+                    </ol>
+                </nav>
+
+                <div className="w-full mb-2">
+                    <div className="overflow-hidden h-28 bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                        <div className="p-6 flex justify-between text-gray-900 dark:text-gray-100">
+                            <div className='flex flex-col'>
+                                <h1 className='sm:text-md md:text-lg lg:text-xl font-bold'>
+                                    {program.title}
+                                </h1>
+                                <p className="mt-2 text-sm text-gray-700">
+                                    A list of all the users in your account including their name, title, email, and role.
+                                </p>
+                            </div>
+                            <div>
+                                <button
+                                    type="button"
+                                    className="flex items-center justify-center bg-[#01DAA2] text-white rounded-full w-16 h-16 shadow-lg hover:bg-green-500 focus:outline-none transition-colors duration-300"
+                                >
+                                    <IoPersonAddSharp className="text-white text-2xl" />
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-              </div>
-          </div>
+                </div>
 
-      </div>
+                {/* Main Content Section */}
+                <div className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-x-2 w-full overflow-y-auto">
+                    {/* Left Section: Selected Records */}
+                    <div className="col-span-2 bg-white overflow-y-auto max-h-[calc(100vh-150px)]">
+                        <div className="w-full mt-4">
+                            <h2 className="text-lg font-bold">Selected Records</h2>
+                            <ul className="mt-4">
+                                {selectedRecords.map((record) => (
+                                    <li key={record.id} className="border p-2 mb-2">
+                                        <span><strong>{record.children_name}</strong></span>
+                                        <div>
+                                            <p>BMI: {roundToTwoDecimals(record.bmi)}</p>
+                                            <p>Address: {record.address}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
 
-    </AuthenticatedLayout>
-  )
-}
+                    {/* Right Section: All Records */}
+                    <div className="bg-white p-4 overflow-y-auto max-h-[calc(100vh-150px)]">
+                        <h1>All Children Record</h1>
+                        Benificiareis: {data.record_ids.length} / {program.total_beneficiaries}
 
-export default Edit
+                        <div className="p-4">
+                            {/* Button-like Dropdown for selecting an address */}
+                            <div className="mb-4">
+                                <button
+                                    type="button"
+                                    className="bg-blue-500 text-white py-2 px-4 rounded"
+                                    onClick={() => {
+                                        const menu = document.getElementById('dropdownMenu');
+                                        menu.classList.toggle('hidden');
+                                    }}
+                                >
+                                    Select Address
+                                </button>
+                                <div
+                                    id="dropdownMenu"
+                                    className="absolute hidden right-0 w-48 mt-2 bg-white border border-gray-200 shadow-lg rounded-md"
+                                >
+                                    <ul className="py-1">
+                                        <li
+                                            onClick={() => handleAddressChange('')}
+                                            className="px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-100"
+                                        >
+                                            All Addresses
+                                        </li>
+                                        {predefinedAddresses.map((address, index) => (
+                                            <li
+                                                key={index}
+                                                onClick={() => handleAddressChange(address)}
+                                                className="px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-100"
+                                            >
+                                                {address}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            {/* Category Count */}
+                            <div className="mb-4">
+                                {selectedAddress && (
+                                    <p>
+                                        <strong>Category Count for {selectedAddress}:</strong> {categoryCounts[selectedAddress] || 0}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* List of filtered records */}
+                            <form onSubmit={submit}>
+                                <ul>
+                                    {filteredRecords.map((record) => (
+                                        <li key={record.id} className="border p-2 mb-2">
+                                            <div className="flex items-center">
+                                                {/* Checkbox for each record */}
+                                                <input
+                                                    type="checkbox"
+                                                    id={record.id}
+                                                    name={`record-${record.id}`}
+                                                    value={record.id}
+                                                    className="mr-2"
+                                                    onChange={onChangeItem}
+                                                />
+                                                <span>
+                                                <strong>{record.children_name}</strong>
+                                            </span>
+                                            </div>
+                                            <div>
+                                                <p>BMI: {roundToTwoDecimals(record.bmi)}</p>
+                                                <p>Address: {record.address}</p>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <button type="submit">Submit</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AuthenticatedLayout>
+    );
+};
+
+export default Show;
+

@@ -23,4 +23,12 @@ class Record extends Model
     {
         return $this->belongsTo(User::class, 'recorded_by');
     }
+
+    public function getBmiAttribute(){
+        if($this->height && $this->weight){
+            $heightInMeters = $this->height / 100;         // Ensure that height is in meters (if stored in cm, divide by 100)
+            return $this->weight / ($heightInMeters ** 2);
+        }
+        return null;
+    }
 }

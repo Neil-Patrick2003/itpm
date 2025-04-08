@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Program;
+use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -30,6 +31,7 @@ class ProgramController extends Controller
 
     public function store(Request $request)
     {
+
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -76,11 +78,12 @@ class ProgramController extends Controller
     {
         $program = Program::findOrFail($id);
 
+        // Retrieve all records and calculate BMI for each
+        $records = Record::all();
 
-
-
-        return Inertia::render('Admin/Program/Edit', [
+        return Inertia::render('Admin/Program/Show', [
             'program' => $program,
+            'records' => $records,
         ]);
     }
 
