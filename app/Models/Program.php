@@ -12,4 +12,8 @@ class Program extends Model
     {
         return $this->belongsToMany(User::class, 'program_sponsors', 'program_id', 'sponsor_id');
     }
+
+    public function children(): \Illuminate\Database\Eloquent\Relations\BelongsToMany{
+        return $this->belongsToMany(Children::class, 'program_beneficiaries', 'program_id', 'children_id');
+    }
 }

@@ -77,22 +77,16 @@ class ProgramController extends Controller
     public function show(Request $request, $id)
     {
         $program = Program::findOrFail($id);
-
-        // Retrieve all records and calculate BMI for each
-        $records = Record::all();
-
         return Inertia::render('Admin/Program/Show', [
             'program' => $program,
-            'records' => $records,
+
         ]);
     }
+
 
     public function create()
     {
         $sponsors = User::where('role', 'sponsor')->get();
-
-
-
         return Inertia::render('Admin/Program/Create', [
             'sponsors' => $sponsors,
         ]);
