@@ -4,29 +4,60 @@ import { Head, Link } from "@inertiajs/react";
 import { HomeIcon } from "@heroicons/react/20/solid/index.js";
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
+import Swal from 'sweetalert2';
+
 
 const Show = ({ program, beneficiaries }) => {
     // Function to calculate age from the birthdate
-    function calculateAge(birthdate) {
+    const calculateAge = (birthdate) => {
         const birthDate = new Date(birthdate);
         const today = new Date();
-
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDifference = today.getMonth() - birthDate.getMonth();
 
+        // Adjust age if the birthday hasn't occurred yet this year
         if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }
-        return age; // return the calculated age
-    }
+        return age;
+    };
 
-    // Breadcrumbs
+    // Breadcrumb navigation bar for the top of the page
     const pages = [
         { name: 'Programs', href: '/programs', current: false },
         { name: program.title, href: `/programs/${program.id}`, current: false },
     ];
 
-    // Define columns for the DataGrid
+    // Handle edit action (currently just logs the row, can be expanded)
+    const handleEdit = (row) => {
+        console.log('Edit clicked for: ', row);
+        // Handle the edit functionality, such as opening a modal or redirecting
+    };
+
+    // Handle delete action with SweetAlert confirmation
+    const handleDelete = (row) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Proceed with the deletion logic here, such as calling an API
+                console.log('Delete clicked for: ', row);
+                Swal.fire(
+                    'Deleted!',
+                    'The beneficiary has been deleted.',
+                    'success'
+                );
+            }
+        });
+    };
+
+    // Define the columns for the DataGrid
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'fullName', headerName: 'Full Name', width: 400 },
@@ -34,31 +65,73 @@ const Show = ({ program, beneficiaries }) => {
         { field: 'gender', headerName: 'Gender', width: 180 },
         { field: 'address', headerName: 'Address', width: 440 },
         { field: 'status', headerName: 'Status', width: 140 },
-        { field: 'action', headerName: 'Action', width: 200 },
+
+        // Action column with Edit and Delete buttons
+        {
+            field: 'action',
+            headerName: 'Action',
+            width: 200,
+            renderCell: (params) => (
+                <div className="flex items-center gap-x-2 pt-4">
+                    {/* Edit Button */}
+                    <button
+                        onClick={() => handleEdit(params.row)}
+                        style={{ marginRight: '10px' }}
+                    >
+                        <svg
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            style={{ width: '24px', height: '24px' }}  // Explicitly set the width and height
+                        >
+                            <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z"></path>
+                            <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z"></path>
+                        </svg>
+                    </button>
+
+                    {/* Delete Button */}
+                    <button
+                        onClick={() => handleDelete(params.row)}
+                        style={{ display: 'flex', alignItems: 'center' }}
+                    >
+                        {/* Delete SVG Icon */}
+                        <svg
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            style={{ width: '24px', height: '24px' }} // Correct placement of style
+                        >
+                            <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z"></path>
+                            <path clipRule="evenodd" fillRule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.133 2.845a.75.75 0 0 1 1.06 0l1.72 1.72 1.72-1.72a.75.75 0 1 1 1.06 1.06l-1.72 1.72 1.72 1.72a.75.75 0 1 1-1.06 1.06L12 15.685l-1.72 1.72a.75.75 0 1 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Z"></path>
+                        </svg>
+                    </button>
+                </div>
+            ),
+        }
     ];
 
-    console.log(beneficiaries);
-    // Mapping beneficiaries to rows with proper ID and calculated age
+    // Mapping beneficiaries to rows with their data (including calculated age)
     const rows = beneficiaries.map((beneficiary) => ({
-        id: beneficiary.children.parent.id,  // Make sure this is the unique identifier
+        id: beneficiary.children.parent.id,  // Unique identifier for the beneficiary
         fullName: beneficiary.children.name,
-        age: calculateAge(beneficiary.children.birth_date),  // Use the correct birthdate field
+        age: calculateAge(beneficiary.children.birth_date),  // Calculate age based on birthdate
         gender: beneficiary.children.gender,
         address: beneficiary.children.parent.address,
-
-
+        status: beneficiary.status,  // Assuming status is part of the beneficiary data
     }));
 
-    // State for pagination
+    // State for pagination control
     const [paginationModel, setPaginationModel] = useState({
         page: 0,
         pageSize: 5,
     });
 
-    // Total row count (this could be passed as a prop or fetched via API)
-    const totalRowCount = beneficiaries.length; // Example, replace with actual total count
+    // Total row count (in this case, it's the length of beneficiaries)
+    const totalRowCount = beneficiaries.length;
 
-    // Handle page change
+    // Handle page change in DataGrid
     const handlePageChange = (newPage) => {
         setPaginationModel((prev) => ({
             ...prev,
@@ -66,7 +139,7 @@ const Show = ({ program, beneficiaries }) => {
         }));
     };
 
-    // Handle page size change
+    // Handle page size change in DataGrid
     const handlePageSizeChange = (newPageSize) => {
         setPaginationModel((prev) => ({
             ...prev,
@@ -77,7 +150,7 @@ const Show = ({ program, beneficiaries }) => {
     return (
         <AuthenticatedLayout>
             <div className="flex flex-col h-screen py-4 pr-4 pl-2">
-                {/* Breadcrumb */}
+                {/* Breadcrumb navigation */}
                 <nav aria-label="Breadcrumb" className="flex border-b mb-4 border-gray-200 bg-[#01DAA2] mb-2">
                     <ol role="list" className="mx-auto flex w-full space-x-4 px-4 sm:px-6 lg:px-8">
                         <li className="flex">
@@ -131,7 +204,7 @@ const Show = ({ program, beneficiaries }) => {
                 </div>
 
                 {/* DataGrid Table */}
-                <div className="bg-white mt-2 h-full">
+                <div className=" mt-2 h-full">
                     <Paper sx={{ height: 400, width: '100%' }}>
                         <DataGrid
                             rows={rows}
@@ -140,11 +213,11 @@ const Show = ({ program, beneficiaries }) => {
                             paginationMode="server"
                             pageSize={paginationModel.pageSize}
                             page={paginationModel.page}
-                            rowCount={totalRowCount} // Ensure total row count is passed for server pagination
-                            pageSizeOptions={[5, 10, 25, 50, 100]}  // Add 100 here
+                            rowCount={totalRowCount}  // Total number of rows for pagination
+                            pageSizeOptions={[5, 10, 25, 50, 100]}  // Pagination options
                             checkboxSelection
-                            onPageChange={handlePageChange}
-                            onPageSizeChange={handlePageSizeChange}
+                            onPageChange={handlePageChange}  // Handle page change
+                            onPageSizeChange={handlePageSizeChange}  // Handle page size change
                             sx={{ border: 0 }}
                         />
                     </Paper>
