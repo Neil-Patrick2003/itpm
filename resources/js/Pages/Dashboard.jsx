@@ -76,7 +76,6 @@ export default function Dashboard({user}) {
                 </div>
 
             </div>
-            <Link href="/logout" method="post" as="button">Logout</Link>
 
         </AuthenticatedLayout>
     );
