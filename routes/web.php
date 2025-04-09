@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProgramBeneficiariesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,8 +30,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/programs/create', [ProgramController::class, 'create']);
     Route::post('/programs/create', [ProgramController::class, 'store']);
     Route::get('/programs/{id}', [ProgramController::class, 'show']);
-    Route::get('/programs/{program}/add_beneficiaries',  [\App\Http\Controllers\ProgramBeneficiariesController::class, 'create']);
-    Route::post('/programs/{program}/add_beneficiaries',  [\App\Http\Controllers\ProgramBeneficiariesController::class, 'store']);
+    Route::get('/programs/{program}/add_beneficiaries',  [ProgramBeneficiariesController::class, 'create']);
+    Route::post('/programs/{program}/add_beneficiaries',  [ProgramBeneficiariesController::class, 'store']);
 
 
 

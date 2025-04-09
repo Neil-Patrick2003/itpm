@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Program;
+use App\Models\ProgramBeneficiaries;
 use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -77,9 +78,15 @@ class ProgramController extends Controller
     public function show(Request $request, $id)
     {
         $program = Program::findOrFail($id);
+        $beneficiaries = ProgramBeneficiaries::
+        with('children')
+            ->where('program_id', $id)
+            ->get();
+
+
         return Inertia::render('Admin/Program/Show', [
             'program' => $program,
-
+            'beneficiaries' => $beneficiaries,
         ]);
     }
 

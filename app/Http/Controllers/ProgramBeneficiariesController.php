@@ -8,22 +8,21 @@ use App\Models\Program;
 use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ProgramBeneficiariesController extends Controller
 {
-    public function create(Request $request, $id){
+    public function create(Request $request, $id)
+    {
 
         $program = Program::find($id);
         $records =  Record::all();
-
 
         return Inertia::render('Admin/Program/AddBeneficiaries', [
             'program' => $program,
             'records' => $records,
         ]);
-
-
     }
 
     public function store(Request $request, Program $program)
@@ -78,10 +77,17 @@ class ProgramBeneficiariesController extends Controller
                 'bmi' => $bmi,
                 'children_id' => $children->id,
             ]);
+
+
+            if ($request->has('record_ids') && is_array($request->record_ids) && ! empty($request->record_ids)) {
+                $program->children()->attach($request->record_ids);
+            } else {
+                Log::debug('No selected items or the selected items are invalid.');
+            }
         }
 
         // Redirect with a success message
-        return redirect()->back()->with('message', 'Record created or updated.');
+        return Inertia::render('Admin/Program/AddBeneficiaries')->with('message', 'Add Beneficiaries Successfully');
     }
 
 

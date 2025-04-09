@@ -11,7 +11,7 @@ class ProgramBeneficiaries extends Model
         return $this->belongsTo('App\Models\Program');
     }
 
-    public function children():belongsTo{
+        public function children():belongsTo{
         return $this->belongsTo('App\Models\ChildrenRecord');
     }
 }

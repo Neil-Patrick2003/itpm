@@ -64,7 +64,7 @@ class SponsorController extends Controller
     {
         $sponsor = $sponsor->load(['donations.donation_items']);
 
-//    dd($sponsor->toArray());
+
         return Inertia::render('Admin/Sponsor/Show', [
             'sponsor' => $sponsor,
         ]);

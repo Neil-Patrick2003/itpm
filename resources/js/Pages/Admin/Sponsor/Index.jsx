@@ -237,14 +237,14 @@ const AdminDashboard = ({ sponsors }) => {
                                     A list of all the users in your account including their name, title, email, and role.
                                 </p>
                             </div>
-                            <div>
+                            <Link href="">
                                 <button
                                     type="button"
                                     className="flex items-center justify-center bg-[#01DAA2] text-white rounded-full w-16 h-16 shadow-lg hover:bg-green-500 focus:outline-none transition-colors duration-300"
                                 >
                                     <IoPersonAddSharp className="text-white text-2xl" />
                                 </button>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                 </div>
