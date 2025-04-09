@@ -205,7 +205,7 @@ const Show = ({ program, beneficiaries }) => {
 
                 {/* DataGrid Table */}
                 <div className=" mt-2 h-full">
-                    <Paper sx={{ height: 400, width: '100%' }}>
+                    <Paper sx={{ height: 800, width: '100%' }}>
                         <DataGrid
                             rows={rows}
                             columns={columns}
