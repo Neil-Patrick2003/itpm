@@ -75,13 +75,13 @@ class ProgramController extends Controller
         return redirect('/programs')->with('message', 'Program created sucessfully!.');
     }
 
-    public function show(Request $request, $id)
+    public function show(Request $request, Program $program)
     {
-        $program = Program::findOrFail($id);
         $beneficiaries = ProgramBeneficiaries::
-        with('children')
-            ->where('program_id', $id)
+        with('children.parent')
+            ->where('program_id', $program->id)
             ->get();
+        dd($beneficiaries->toArray());
 
 
         return Inertia::render('Admin/Program/Show', [

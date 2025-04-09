@@ -29,7 +29,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/programs', [ProgramController::class, 'index']);
     Route::get('/programs/create', [ProgramController::class, 'create']);
     Route::post('/programs/create', [ProgramController::class, 'store']);
-    Route::get('/programs/{id}', [ProgramController::class, 'show']);
+    Route::get('/programs/{program}', [ProgramController::class, 'show']);
     Route::get('/programs/{program}/add_beneficiaries',  [ProgramBeneficiariesController::class, 'create']);
     Route::post('/programs/{program}/add_beneficiaries',  [ProgramBeneficiariesController::class, 'store']);
 

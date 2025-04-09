@@ -19,6 +19,8 @@ class ProgramBeneficiariesController extends Controller
         $program = Program::find($id);
         $records =  Record::all();
 
+
+
         return Inertia::render('Admin/Program/AddBeneficiaries', [
             'program' => $program,
             'records' => $records,

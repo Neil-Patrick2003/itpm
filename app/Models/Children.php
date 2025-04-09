@@ -24,5 +24,9 @@ class Children extends Model
         return $this->belongsTo('App\Models\Program', 'program_id');
     }
 
+    public function parent(){
+        return $this->hasOne(User::class, 'id', 'parent_id');
+    }
+
 
 }
