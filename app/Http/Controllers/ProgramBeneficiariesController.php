@@ -29,6 +29,7 @@ class ProgramBeneficiariesController extends Controller
 
     public function store(Request $request, Program $program)
     {
+
         // Get program title
         $program_name = $program->title;
 
@@ -37,21 +38,25 @@ class ProgramBeneficiariesController extends Controller
             'record_ids' => ['required', 'array'],
         ]);
 
-        foreach ($validated['record_ids'] as $record_id) {
+
+        $recordIds = $validated['record_ids'];  // Store validated record IDs
+        $childrenIdsToAttach = [];  // Array to store children IDs for the program attachment
+
+        foreach ($recordIds as $record_id) {
             $record = Record::find($record_id);
             $existing_user = User::where('name', $record->parent_name)->first();
             $bmi = $this->calculateBmi($record->weight, $record->height);
 
             // Check if user exists
             if (!$existing_user) {
-                // Create a new user if doesn't exist
+                // Create a new user if it doesn't exist
                 $user = User::create([
                     'name' => $record->parent_name,
                     'email' => $record->email,
+                    'address' => $record->address,
                     'password' => bcrypt($request->password), // Use bcrypt for password hashing
                     'role' => 'parent',
                     'phone' => $record->phone_number,
-                    'address' => $record->address,
                 ]);
             } else {
                 $user = $existing_user;
@@ -80,17 +85,22 @@ class ProgramBeneficiariesController extends Controller
                 'children_id' => $children->id,
             ]);
 
+            // Add the child ID to the list for attaching
+            $childrenIdsToAttach[] = $children->id;
+        }
 
-            if ($request->has('record_ids') && is_array($request->record_ids) && ! empty($request->record_ids)) {
-                $program->children()->attach($request->record_ids);
-            } else {
-                Log::debug('No selected items or the selected items are invalid.');
-            }
+        // Attach all children to the program, avoiding duplicates
+        if (!empty($childrenIdsToAttach)) {
+            $program->children()->syncWithoutDetaching($childrenIdsToAttach);
+        } else {
+            Log::debug('No selected items or the selected items are invalid.');
         }
 
         // Redirect with a success message
-        return Inertia::render('Admin/Program/AddBeneficiaries')->with('message', 'Add Beneficiaries Successfully');
+        return redirect("/programs/{$program->id}")->with('message', 'Added successfully.');
+//        return Inertia::render('Admin/Program/AddBeneficiaries')->with('message', 'Add Beneficiaries Successfully');
     }
+
 
 
 

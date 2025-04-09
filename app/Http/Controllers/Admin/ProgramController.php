@@ -81,7 +81,8 @@ class ProgramController extends Controller
         with('children.parent')
             ->where('program_id', $program->id)
             ->get();
-        dd($beneficiaries->toArray());
+//        dd($beneficiaries->toArray());
+//        dd($beneficiaries->toArray());
 
 
         return Inertia::render('Admin/Program/Show', [

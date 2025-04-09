@@ -40,9 +40,11 @@ const Show = ({ program, beneficiaries }) => {
     console.log(beneficiaries);
     // Mapping beneficiaries to rows with proper ID and calculated age
     const rows = beneficiaries.map((beneficiary) => ({
-        fullName: beneficiary.children.parent.address,
+        id: beneficiary.children.parent.id,  // Make sure this is the unique identifier
+        fullName: beneficiary.children.name,
         age: calculateAge(beneficiary.children.birth_date),  // Use the correct birthdate field
-
+        gender: beneficiary.children.gender,
+        address: beneficiary.children.parent.address,
 
 
     }));
