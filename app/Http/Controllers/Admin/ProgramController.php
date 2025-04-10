@@ -31,8 +31,7 @@ class ProgramController extends Controller
     }
 
     public function store(Request $request)
-    {
-
+    {        
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -52,9 +51,6 @@ class ProgramController extends Controller
             $program_background_url = $request->file('cover_photo')->storeAs($destination_path, $photo_name, 'public');
         }
 
-
-
-
         $program = Program::create([
             'title' => $request->title,
             'description' => $request->description,
@@ -63,8 +59,6 @@ class ProgramController extends Controller
             'total_beneficiaries' => $request->total_beneficiaries,
             'program_background_url' => $program_background_url,
         ]);
-
-
 
         if ($request->has('sponsor_ids') && is_array($request->sponsor_ids) && ! empty($request->sponsor_ids)) {
             $program->sponsors()->attach($request->sponsor_ids);
@@ -75,15 +69,13 @@ class ProgramController extends Controller
         return redirect('/programs')->with('message', 'Program created sucessfully!.');
     }
 
+
     public function show(Request $request, Program $program)
     {
         $beneficiaries = ProgramBeneficiaries::
         with('children.parent')
             ->where('program_id', $program->id)
             ->get();
-//        dd($beneficiaries->toArray());
-//        dd($beneficiaries->toArray());
-
 
         return Inertia::render('Admin/Program/Show', [
             'program' => $program,

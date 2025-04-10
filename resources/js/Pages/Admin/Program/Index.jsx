@@ -68,7 +68,7 @@ const Program = ({ programs, search = '', page = 1 }) => {
         <AuthenticatedLayout>
 
                 <div className="flex flex-col w-full p-2">
-                     <nav aria-label="Breadcrumb" className="flex">
+                    <nav aria-label="Breadcrumb" className="flex">
                         <ol role="list" className="flex items-center space-x-4">
                             <li>
                                 <div>
