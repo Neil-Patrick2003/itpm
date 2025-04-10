@@ -79,7 +79,7 @@ const AddBeneficiaries = ({ program, records }) => {
         <AuthenticatedLayout>
             <Head title="Programs" />
 
-            <div className="flex flex-col gap-y-6 py-6 pr-6 pl-4 bg-gray-50">
+            <div className="flex flex-col gap-y-6 bg-gray-50">
 
                 {/* Breadcrumb */}
                 <nav aria-label="Breadcrumb" className="mb-4">

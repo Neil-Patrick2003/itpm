@@ -42,7 +42,7 @@ const Program = ({ programs, search = '', page = 1 }) => {
 
     return (
         <AuthenticatedLayout>
-            <div className=" space-y-6">
+            <div className="space-y-6">
                 {/* Breadcrumb */}
                 <nav className="flex" aria-label="Breadcrumb">
                     <ol className="flex items-center space-x-4">

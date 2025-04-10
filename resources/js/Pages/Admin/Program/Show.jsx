@@ -149,7 +149,7 @@ const Show = ({ program, beneficiaries }) => {
 
     return (
         <AuthenticatedLayout>
-            <div className="flex flex-col h-screen py-4 pr-4 pl-2">
+            <div className="flex flex-col">
                 {/* Breadcrumb navigation */}
                 <nav aria-label="Breadcrumb" className="flex">
                     <ol role="list" className="flex items-center space-x-4">

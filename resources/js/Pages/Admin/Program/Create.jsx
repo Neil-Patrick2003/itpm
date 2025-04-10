@@ -49,7 +49,7 @@ const Create = ({ sponsors }) => {
 
     return (
         <AuthenticatedLayout>
-            <div className="min-h-screen py-2 px-2">
+            <div className="min-h-screen">
                 <div className="flex flex-col h-full w-full">
                     {/* Breadcrumb */}
                     <nav aria-label="Breadcrumb" className="mb-4">
