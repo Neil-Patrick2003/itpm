@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React, { useState } from 'react';
 import { Head, Link } from "@inertiajs/react";
-import { HomeIcon } from "@heroicons/react/20/solid/index.js";
+import { HomeIcon, ChevronRightIcon, PlusIcon } from "@heroicons/react/20/solid/index.js";
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import Swal from 'sweetalert2';
@@ -151,33 +151,19 @@ const Show = ({ program, beneficiaries }) => {
         <AuthenticatedLayout>
             <div className="flex flex-col h-screen py-4 pr-4 pl-2">
                 {/* Breadcrumb navigation */}
-                <nav aria-label="Breadcrumb" className="flex border-b mb-4 border-gray-200 bg-[#01DAA2] mb-2">
-                    <ol role="list" className="mx-auto flex w-full space-x-4 px-4 sm:px-6 lg:px-8">
-                        <li className="flex">
-                            <div className="flex items-center">
-                                <a href="#" className="text-gray-400 hover:text-gray-500">
-                                    <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
-                                    <span className="sr-only">Home</span>
-                                </a>
-                            </div>
+                <nav aria-label="Breadcrumb" className="flex">
+                    <ol role="list" className="flex items-center space-x-4">
+                        <li>
+                            <a href="#" className="text-gray-400 hover:text-gray-500">
+                                <HomeIcon className="size-5 shrink-0" />
+                                <span className="sr-only">Home</span>
+                            </a>
                         </li>
                         {pages.map((page) => (
-                            <li key={page.name} className="flex">
+                            <li key={page.name}>
                                 <div className="flex items-center">
-                                    <svg
-                                        fill="currentColor"
-                                        viewBox="0 0 24 44"
-                                        preserveAspectRatio="none"
-                                        aria-hidden="true"
-                                        className="h-full w-6 shrink-0 text-white"
-                                    >
-                                        <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-                                    </svg>
-                                    <a
-                                        href={page.href}
-                                        aria-current={page.current ? 'page' : undefined}
-                                        className="ml-4 text-sm font-medium text-white hover:text-green-600"
-                                    >
+                                    <ChevronRightIcon className="size-5 text-gray-400" />
+                                    <a href={page.href} className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
                                         {page.name}
                                     </a>
                                 </div>
@@ -186,25 +172,22 @@ const Show = ({ program, beneficiaries }) => {
                     </ol>
                 </nav>
 
-                {/* Program Header */}
-                <div className="overflow-hidden h-28 bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                    <div className="p-6 flex justify-between text-gray-900 dark:text-gray-100">
-                        <div className="flex flex-col">
-                            <h1 className="sm:text-md md:text-lg lg:text-xl font-bold">{program.title}</h1>
-                            <p className="mt-2 text-sm text-gray-700">
-                                A list of all the users in your account including their name, title, email, and role.
-                            </p>
-                        </div>
-                        <div>
-                            <Link href={`/programs/${program.id}/add_beneficiaries`}>
-                                Add Beneficiaries
-                            </Link>
-                        </div>
-                    </div>
-                </div>
+                
 
-                {/* DataGrid Table */}
-                <div className=" mt-2 h-full">
+                <di className="bg-white my-4 ring-1 shadow-sm ring-black/5 sm:rounded-lg py-8 px-4">
+                    <h1>{program.title}</h1>
+                </di>
+                <div className='flex justify-end'>
+                    <Link href={`/programs/${program.id}/add_beneficiaries`}>
+                        <button className="flex gap-2 bg-[#01DAA2] rounded-full px-4 py-2 text-white hover:bg-green-400">
+                            <span>
+                                <PlusIcon className="h-6 w-6 text-" />
+                            </span>
+                            Add new Program
+                        </button>
+                    </Link>
+                </div>
+                <div className='mt-4'>
                     <Paper sx={{ height: 800, width: '100%' }}>
                         <DataGrid
                             rows={rows}
@@ -220,7 +203,7 @@ const Show = ({ program, beneficiaries }) => {
                             onPageSizeChange={handlePageSizeChange}  // Handle page size change
                             sx={{ border: 0 }}
                         />
-                    </Paper>
+                    </Paper>    
                 </div>
             </div>
         </AuthenticatedLayout>

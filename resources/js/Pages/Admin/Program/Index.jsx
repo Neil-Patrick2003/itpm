@@ -4,7 +4,6 @@ import { Link, router } from '@inertiajs/react';
 import { debounce } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 import Avatar from "@mui/material/Avatar";
-import {IoPersonAddSharp} from "react-icons/io5";
 import { HomeIcon, ChevronRightIcon, PlusIcon } from '@heroicons/react/20/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
@@ -66,6 +65,7 @@ const Program = ({ programs, search = '', page = 1 }) => {
 
     return (
         <AuthenticatedLayout>
+            
 
                 <div className="flex flex-col w-full p-2">
                     <nav aria-label="Breadcrumb" className="flex">
