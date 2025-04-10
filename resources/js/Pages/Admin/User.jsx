@@ -128,7 +128,7 @@ const AdminDashboard = ({ users }) => {
 
             <div>
 
-                <div className="flex flex-col  w-full  p-2   md:py-4 md:pr-4">
+                <div className="flex flex-col  w-full  p-2  ">
                     <nav aria-label="Breadcrumb" className="flex">
                         <ol role="list" className="flex items-center space-x-4">
                             <li>
@@ -250,76 +250,6 @@ const AdminDashboard = ({ users }) => {
                                 </tbody>
                             </table>
                         </div>
-                        {/*<table className="min-w-full divide-y divide-gray-300">*/}
-                        {/*    <thead className="text-wite bg-[#01DAA2]">*/}
-                        {/*    <tr>*/}
-                        {/*        <th scope="col" className="py-3.5 pr-3 pl-4 text-white text-left text-sm font-semibold  sm:pl-6">*/}
-                        {/*            Name*/}
-                        {/*        </th>*/}
-                        {/*        <th scope="col" className="px-3 py-3.5 text-white text-left text-sm font-semibold ">*/}
-                        {/*            Email*/}
-                        {/*        </th>*/}
-                        {/*        <th scope="col" className="px-3 py-3.5 text-white  text-left text-sm font-semibold ">*/}
-                        {/*            Gender*/}
-                        {/*        </th>*/}
-                        {/*        <th scope="col" className="px-3 py-3.5 text-white text-left text-sm font-semibold ">*/}
-                        {/*            Contact Number*/}
-                        {/*        </th>*/}
-                        {/*        <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-6">*/}
-                        {/*            <span className="sr-only">Show</span>*/}
-                        {/*        </th>*/}
-                        {/*    </tr>*/}
-                        {/*    </thead>*/}
-                        {/*    <tbody className="divide-y divide-gray-200 bg-white">*/}
-                        {/*    {users.data.map((user) => (*/}
-                        {/*        <tr key={user.id}>*/}
-                        {/*            <td className="py-2 pl-4 text-xs font-medium whitespace-nowrap text-gray-900 sm:pl-6">*/}
-                        {/*                {user.name}*/}
-                        {/*            </td>*/}
-                        {/*            <td className="py-2 px-3 text-xs font-medium whitespace-nowrap text-gray-900 sm:px-6">*/}
-                        {/*                {user.email}*/}
-                        {/*            </td>*/}
-                        {/*            <td className="px-3 py-2 text-xs whitespace-nowrap text-gray-500">*/}
-                        {/*                {user.role}*/}
-                        {/*            </td>*/}
-                        {/*            <td className="py-2 pr-3 pl-4 text-xs font-medium whitespace-nowrap text-gray-900 sm:px-6">*/}
-                        {/*                {user.phone}*/}
-                        {/*            </td>*/}
-                        {/*            <td className="flex gap-2 py-3 pr-4 pl-3 text-right text-xs font-medium whitespace-nowrap sm:pr-0">*/}
-                        {/*                /!* Show Button with Tooltip *!/*/}
-                        {/*                <Tooltip title="Show User" arrow>*/}
-                        {/*                    <button*/}
-                        {/*                        onClick={() => openEditUser(user)}*/}
-                        {/*                        className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-blue-400 rounded-sm hover:bg-blue-500 focus:outline-none transition-colors duration-300"*/}
-                        {/*                    >*/}
-                        {/*                        <FaEdit style={{ fontSize: '16px' }} />*/}
-                        {/*                    </button>*/}
-                        {/*                </Tooltip>*/}
-
-                        {/*                /!* Delete Button with Tooltip *!/*/}
-                        {/*                <Tooltip title="Delete User" arrow>*/}
-                        {/*                    <button*/}
-                        {/*                        onClick={() => openDeleteUser(user)}*/}
-                        {/*                        className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-red-400 rounded-sm hover:bg-red-500 focus:outline-none transition-colors duration-300"*/}
-                        {/*                    >*/}
-                        {/*                        <MdDeleteForever style={{ fontSize: '16px' }} />*/}
-                        {/*                    </button>*/}
-                        {/*                </Tooltip>*/}
-
-                        {/*                /!* View Button with Tooltip *!/*/}
-                        {/*                <Tooltip title="View User" arrow>*/}
-                        {/*                    <button*/}
-                        {/*                        onClick={() => openViewUser(user)}*/}
-                        {/*                        className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-green-400 rounded-sm hover:bg-green-500 focus:outline-none transition-colors duration-300"*/}
-                        {/*                    >*/}
-                        {/*                        <GrFormView style={{ fontSize: '16px' }} />*/}
-                        {/*                    </button>*/}
-                        {/*                </Tooltip>*/}
-                        {/*            </td>*/}
-                        {/*        </tr>*/}
-                        {/*    ))}*/}
-                        {/*    </tbody>*/}
-                        {/*</table>*/}
                     </div>
                     <div className="px-4 sm:px-6 lg:px-8 my-2">
                         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

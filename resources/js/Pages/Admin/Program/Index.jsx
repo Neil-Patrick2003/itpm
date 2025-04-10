@@ -5,32 +5,42 @@ import { debounce } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 import Avatar from "@mui/material/Avatar";
 import {IoPersonAddSharp} from "react-icons/io5";
-import { HomeIcon } from '@heroicons/react/20/solid'
+import { HomeIcon, ChevronRightIcon, PlusIcon } from '@heroicons/react/20/solid'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
+import Tooltip from '@mui/material/Tooltip';
+
 
 
 
 const Program = ({ programs, search = '', page = 1 }) => {
 
+    //function to create avatar if the program doesatn hav bg photo it will show progarm initial letter
     function stringAvatar(name) {
         const nameSplit = name.split(' ');
         const initials = nameSplit.length > 1 ? `${nameSplit[0][0]}${nameSplit[1][0]}` : `${nameSplit[0][0]}`;
 
         return {
             sx: {
-                bgcolor: '#4CAF50', // Green background (your primary theme)
+                bgcolor: '#01DA9F', // Green background (your primary theme)
             },
             children: initials.toUpperCase(),
         };
     }
 
+    //variable declaration for search input
     const [searchTerm, setSearchTerm] = useState('');
 
+
+    //handing change in the search input like listnre in every letter or character type
     useEffect(() => {
         if (search) {
             setSearchTerm(search);
         }
     }, []);
 
+
+    // function that handle search 
     const handleSearchTermChange = (value) => {
         setSearchTerm(value)
 
@@ -48,6 +58,7 @@ const Program = ({ programs, search = '', page = 1 }) => {
         return () => debouncedSearchTerm.cancel()
     }
 
+    //declaratioj of pages it use for the nav in top showring the page
     const pages = [
         { name: 'Programs', href: '/programs', current: false },
 
@@ -56,11 +67,11 @@ const Program = ({ programs, search = '', page = 1 }) => {
     return (
         <AuthenticatedLayout>
 
-                <div className="flex flex-col w-full h-screen px-2 py-4">
-                    <nav aria-label="Breadcrumb" className="flex border-b  mb-4 border-gray-200 bg-[#01DAA2] mb-2">
-                        <ol role="list" className="mx-auto flex w-full space-x-4 px-4 sm:px-6 lg:px-8">
-                            <li className="flex">
-                                <div className="flex items-center">
+                <div className="flex flex-col w-full p-2">
+                     <nav aria-label="Breadcrumb" className="flex">
+                        <ol role="list" className="flex items-center space-x-4">
+                            <li>
+                                <div>
                                     <a href="#" className="text-gray-400 hover:text-gray-500">
                                         <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
                                         <span className="sr-only">Home</span>
@@ -68,21 +79,13 @@ const Program = ({ programs, search = '', page = 1 }) => {
                                 </div>
                             </li>
                             {pages.map((page) => (
-                                <li key={page.name} className="flex">
+                                <li key={page.name}>
                                     <div className="flex items-center">
-                                        <svg
-                                            fill="currentColor"
-                                            viewBox="0 0 24 44"
-                                            preserveAspectRatio="none"
-                                            aria-hidden="true"
-                                            className="h-full w-6 shrink-0 text-white"
-                                        >
-                                            <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-                                        </svg>
+                                        <ChevronRightIcon aria-hidden="true" className="size-5 shrink-0 text-gray-400" />
                                         <a
                                             href={page.href}
                                             aria-current={page.current ? 'page' : undefined}
-                                            className="ml-4 text-sm font-medium text-white hover:text-green-600"
+                                            className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                                         >
                                             {page.name}
                                         </a>
@@ -90,36 +93,8 @@ const Program = ({ programs, search = '', page = 1 }) => {
                                 </li>
                             ))}
                         </ol>
-                        <div className=" flex justify-center items-center pr-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="size-6">
-                                <path d="M5.85 3.5a.75.75 0 0 0-1.117-1 9.719 9.719 0 0 0-2.348 4.876.75.75 0 0 0 1.479.248A8.219 8.219 0 0 1 5.85 3.5ZM19.267 2.5a.75.75 0 1 0-1.118 1 8.22 8.22 0 0 1 1.987 4.124.75.75 0 0 0 1.48-.248A9.72 9.72 0 0 0 19.266 2.5Z" />
-                                <path fillRule="evenodd" d="M12 2.25A6.75 6.75 0 0 0 5.25 9v.75a8.217 8.217 0 0 1-2.119 5.52.75.75 0 0 0 .298 1.206c1.544.57 3.16.99 4.831 1.243a3.75 3.75 0 1 0 7.48 0 24.583 24.583 0 0 0 4.83-1.244.75.75 0 0 0 .298-1.205 8.217 8.217 0 0 1-2.118-5.52V9A6.75 6.75 0 0 0 12 2.25ZM9.75 18c0-.034 0-.067.002-.1a25.05 25.05 0 0 0 4.496 0l.002.1a2.25 2.25 0 1 1-4.5 0Z" clipRule="evenodd" />
-                            </svg>
-
-                        </div>
-
                     </nav>
-                    <div className="w-full mb-6">
-                        <div className="overflow-hidden h-28 bg-white shadow-sm dark:bg-gray-800">
-                            <div className="p-6 text-gray-900 dark:text-gray-100">
-
-                                <div className='flex justify-between'>
-                                    <h1>All Programs</h1>
-
-                                    <a href="/programs/create" className="text-green-600 hover:underline">
-                                        <button
-                                            type="button"
-                                            className="flex items-center justify-center bg-[#01DAA2] text-white rounded-full w-16 h-16 shadow-lg hover:bg-green-500 focus:outline-none transition-colors duration-300"
-                                        >
-                                            <IoPersonAddSharp className="text-white text-2xl" />
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex  justify-between gap-4 items-center py-4">
-
+                    <div className="flex flex-row justify-between mt-20">
                         <div className="relative w-full max-w-xl">
                             <input
                                 value={searchTerm}
@@ -130,62 +105,126 @@ const Program = ({ programs, search = '', page = 1 }) => {
                             />
                             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" />
                         </div>
+                        <Link href='/programs/create'>
+                        <button className="flex gap-2 bg-[#01DAA2] rounded-full px-4 py-2 text-white hover:bg-green-400">
+                            <span>
+                                <PlusIcon className="h-6 w-6 text-" />
+                            </span>
+                            Add new Program
+                        </button>
+                        </Link>
+                        
                     </div>
-                    <div className="h-screen overflow-y-auto bg-white shadow-sm dark:bg-gray-800">
-                        <ul role="list" className="divide-y divide-gray-200">
-                            {programs.data.map(program => (
-                                <div key={program.id} className="hover:bg-green-100 dark:hover:bg-green-900 transition-colors duration-200">
-                                    {/* Link wrapping the whole program item */}
-                                    <Link href={`/programs/${program.id}`} className="w-full">
-                                        <div className="flex items-center justify-between py-5 px-4 bg-white shadow-sm rounded-md mb-4 hover:shadow-lg transition-all duration-300">
-                                            <div className="min-w-0">
-                                                <div className="flex items-start gap-x-3">
-                                                    <p className="text-lg font-semibold text-gray-900">{program.title}</p>
-                                                </div>
-                                                <div className="mt-1 flex items-center gap-x-2 text-xs text-gray-500">
-                                                    <p className="whitespace-nowrap">
-                                                        Start On {""}
-                                                        <span className="text-gray-600">
-                                                            {new Date(program.start_date).toLocaleDateString('en-GB', {
-                                                                day: '2-digit',
-                                                                month: 'long',
-                                                                year: 'numeric',
-                                                            })}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="flex -space-x-2 overflow-hidden">
-                                                {program.sponsors.map(sponsor => (
-                                                    <li key={sponsor.id} className="flex items-center gap-x-2">
-                                                        <div>
+                    
+                    
+                    <div className="overflow-hidden bg-white mt-4 h-full ring-1 shadow-sm ring-black/5 sm:rounded-lg">
+                        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                            <ul role="list" className="divide-y divide-gray-100">
+                                {programs.data.map((program) => (
+                                    <li key={program.id} className="flex items-center justify-between gap-x-6 py-5">
+                                    <div className="min-w-0">
+                                        <div className="flex items-start gap-x-3">
+                                        <p className="text-sm/6 font-semibold text-gray-900">{program.title}</p>
+                                        {/* <p
+                                            className={classNames(
+                                            statuses[project.status],
+                                            'mt-0.5 rounded-md px-1.5 py-0.5 text-xs font-medium whitespace-nowrap ring-1 ring-inset',
+                                            )}
+                                        >
+                                            {project.status}
+                                        </p> */}
+                                        </div>
+                                        <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
+                                            <p className="whitespace-nowrap">
+                                                Start On {""}
+                                                <span className="text-gray-600">
+                                                    {new Date(program.start_date).toLocaleDateString('en-GB', {
+                                                        day: '2-digit',
+                                                        month: 'long',
+                                                        year: 'numeric',
+                                                    })}
+                                                </span>
+                                            </p>
+                                        <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
+                                            <circle r={1} cx={1} cy={1} />
+                                        </svg>
+                                        <p className="truncate">Created by {program.created_at}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-none items-center gap-x-4">
+                                        <div className="flex -space-x-2 overflow-hidden">
+                                            {program.sponsors.map(sponsor => (
+                                                <li key={sponsor.id} className="flex items-center gap-x-2">
+                                                    <div>
+                                                        <Tooltip title={sponsor.name} arrow>
                                                             <div className="flex -space-x-2 overflow-hidden">
                                                                 {sponsor.photo_url ? (
                                                                     <img
                                                                         src={imageUrl + sponsor.profile_photo_url}
                                                                         alt="Uploaded Image"
                                                                         className="inline-block w-10 h-10 rounded-full ring-2 ring-white"
-                                                                        title={sponsor.name} // Tooltip for the image
+                                                                        title={sponsor.name} 
                                                                     />
                                                                 ) : (
                                                                     <Avatar
                                                                         {...stringAvatar(sponsor.name)}
                                                                         className="inline-block w-10 h-10 rounded-full ring-2 ring-white"
-                                                                        title={sponsor.name} // Tooltip for the avatar
+                                                                        title={sponsor.name} 
                                                                     />
                                                                 )}
                                                             </div>
-                                                        </div>
-                                                    </li>
-                                                ))}
-                                            </div>
+                                                        </Tooltip>
+                                                        
+                                                    </div>
+                                                </li>
+                                            ))}
                                         </div>
-                                    </Link>
-                                </div>
-                            ))}
-                        </ul>
-
-
+                                        <Link
+                                        href={`/programs/${program.id}`}
+                                        className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-600 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 sm:block"
+                                        >
+                                            View Program<span className="sr-only">, {program.title}</span>
+                                        </Link>
+                                        <Menu as="div" className="relative flex-none">
+                                            <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                                                <span className="sr-only">Open options</span>
+                                                <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
+                                            </MenuButton>
+                                            <MenuItems
+                                                transition
+                                                className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 ring-1 shadow-lg ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                            >
+                                                <MenuItem>
+                                                <a
+                                                    href="#"
+                                                    className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                                                >
+                                                    Edit<span className="sr-only">, {program.title}</span>
+                                                </a>
+                                                </MenuItem>
+                                                <MenuItem>
+                                                <a
+                                                    href="#"
+                                                    className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                                                >
+                                                    Move<span className="sr-only">, {program.title}</span>
+                                                </a>
+                                                </MenuItem>
+                                                <MenuItem>
+                                                <a
+                                                    href="#"
+                                                    className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                                                >
+                                                    Delete<span className="sr-only">, {program.title}</span>
+                                                </a>
+                                                </MenuItem>
+                                            </MenuItems>
+                                        </Menu>
+                                    </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                     <div>
                         <div className="flex gap-2 justify-end p-2 mb-4 items-center">
