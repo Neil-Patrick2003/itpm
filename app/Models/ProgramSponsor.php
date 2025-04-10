@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class ProgramSponsor extends Model
 {
     protected $fillable = [
@@ -11,13 +12,14 @@ class ProgramSponsor extends Model
         'sponsor_id',
     ];
 
-    public function program()
+    public function program()   
     {
         return $this->belongTo(Program::class);
     }
 
-    public function sponsor()
-    {
+    public function sponsor(){
         return $this->belongsTo(Sponsor::class);
     }
+
+    
 }

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Head, Link, usePage, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
-import FlashMessage from '@/Components/FlashMessage';
 import Avatar from '@mui/material/Avatar';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
@@ -254,7 +253,7 @@ const AdminDashboard = ({ sponsors }) => {
                 </div>
                 <div className='overflow-x-auto sm:p-4 md:p-6 lg:p8 bg-white h-full'>
                     All sponsor
-                    <FlashMessage/>
+                    
                     <ul>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                             {sponsors.data.map(sponsor => (

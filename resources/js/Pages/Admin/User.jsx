@@ -3,12 +3,12 @@ import { Head, useForm, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
 import { Link } from '@inertiajs/react';
-import { IoPersonAddSharp } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { GrFormView } from "react-icons/gr";
 import Tooltip from '@mui/material/Tooltip';
-import { HomeIcon } from '@heroicons/react/20/solid'
+import { HomeIcon, ChevronRightIcon, PlusIcon, UsersIcon  } from '@heroicons/react/20/solid'
+import Swal from "sweetalert2";
 
 
 
@@ -22,11 +22,6 @@ const AdminDashboard = ({ users }) => {
     const [editingUser, setEditingUser] = useState(null);
     const [deletingUser, setDeletingUser] = useState(null);
     const { flash } = usePage().props;
-
-    const pages = [
-        { name: 'Projects', href: '/users', current: false },
-
-    ]
 
 
     const { data: userData, setData, post, put, errors, processing } = useForm({
@@ -95,7 +90,11 @@ const AdminDashboard = ({ users }) => {
         post('/users', {
             onSuccess: () => {
                 closeAddUser();
-                alert("User created successfully!");
+                Swal.fire(
+                    'Deleted!',
+                    'The beneficiary has been deleted.',
+                    'success'
+                );
                 setData({ name: '', email: '' });
             },
             onError: (error) => {
@@ -116,17 +115,24 @@ const AdminDashboard = ({ users }) => {
         });
     };
 
+    const pages = [
+        { name: 'Users', href: '/users', current: false },
+    ]
+
+
+
+
     return (
         <AuthenticatedLayout>
             <Head title="Users" />
 
             <div>
 
-                <div className="flex flex-col  w-full h-screen p-2   md:py-4 md:pr-4">
-                    <nav aria-label="Breadcrumb" className="flex border-b  mb-4 border-gray-200 bg-[#01DAA2] mb-2">
-                        <ol role="list" className="mx-auto flex w-full space-x-4 px-4 sm:px-6 lg:px-8">
-                            <li className="flex">
-                                <div className="flex items-center">
+                <div className="flex flex-col  w-full  p-2   md:py-4 md:pr-4">
+                    <nav aria-label="Breadcrumb" className="flex">
+                        <ol role="list" className="flex items-center space-x-4">
+                            <li>
+                                <div>
                                     <a href="#" className="text-gray-400 hover:text-gray-500">
                                         <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
                                         <span className="sr-only">Home</span>
@@ -134,21 +140,13 @@ const AdminDashboard = ({ users }) => {
                                 </div>
                             </li>
                             {pages.map((page) => (
-                                <li key={page.name} className="flex">
+                                <li key={page.name}>
                                     <div className="flex items-center">
-                                        <svg
-                                            fill="currentColor"
-                                            viewBox="0 0 24 44"
-                                            preserveAspectRatio="none"
-                                            aria-hidden="true"
-                                            className="h-full w-6 shrink-0 text-white"
-                                        >
-                                            <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-                                        </svg>
+                                        <ChevronRightIcon aria-hidden="true" className="size-5 shrink-0 text-gray-400" />
                                         <a
                                             href={page.href}
                                             aria-current={page.current ? 'page' : undefined}
-                                            className="ml-4 text-sm font-medium text-white hover:text-green-600"
+                                            className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                                         >
                                             {page.name}
                                         </a>
@@ -156,109 +154,172 @@ const AdminDashboard = ({ users }) => {
                                 </li>
                             ))}
                         </ol>
-                        <div className=" flex justify-center items-center pr-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="size-6">
-                                <path d="M5.85 3.5a.75.75 0 0 0-1.117-1 9.719 9.719 0 0 0-2.348 4.876.75.75 0 0 0 1.479.248A8.219 8.219 0 0 1 5.85 3.5ZM19.267 2.5a.75.75 0 1 0-1.118 1 8.22 8.22 0 0 1 1.987 4.124.75.75 0 0 0 1.48-.248A9.72 9.72 0 0 0 19.266 2.5Z" />
-                                <path fillRule="evenodd" d="M12 2.25A6.75 6.75 0 0 0 5.25 9v.75a8.217 8.217 0 0 1-2.119 5.52.75.75 0 0 0 .298 1.206c1.544.57 3.16.99 4.831 1.243a3.75 3.75 0 1 0 7.48 0 24.583 24.583 0 0 0 4.83-1.244.75.75 0 0 0 .298-1.205 8.217 8.217 0 0 1-2.118-5.52V9A6.75 6.75 0 0 0 12 2.25ZM9.75 18c0-.034 0-.067.002-.1a25.05 25.05 0 0 0 4.496 0l.002.1a2.25 2.25 0 1 1-4.5 0Z" clipRule="evenodd" />
-                            </svg>
-
-                        </div>
-
                     </nav>
-                    <div className="w-full mb-2">
-                        <div className="overflow-hidden h-28 bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                            <div className="p-6 flex justify-between text-gray-900 dark:text-gray-100">
-                                <div className='flex flex-col'>
-                                    <h1 className='sm:text-md md:text-lg lg:text-xl font-bold'>
-                                        Add New Users
-                                    </h1>
-                                    <p className="mt-2 text-sm text-gray-700">
-                                        A list of all the users in your account including their name, title, email, and role.
-                                    </p>
-                                </div>
-                                <div>
-                                    <button
-                                        type="button"
-                                        className="flex items-center justify-center bg-[#01DAA2] text-white rounded-full w-16 h-16 shadow-lg hover:bg-green-500 focus:outline-none transition-colors duration-300"
-                                    >
-                                        <IoPersonAddSharp className="text-white text-2xl" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="flex gap-2 justify-end mt-20" onClick={openAddUser}>
+                        <button className="flex gap-2 bg-[#01DAA2] rounded-full px-4 py-2 text-white hover:bg-green-400">
+                            <span>
+                                <PlusIcon className="h-6 w-6 text-" />
+                            </span>
+                            Add new User
+                        </button>
+                        <button className="flex gap-2 bg-[#01DAA2] rounded-full px-4 py-2 text-white hover:bg-green-400">
+                            <span>
+                                <UsersIcon className="h-6 w-6 text-white" />
+                            </span>
+                            Manage Worker
+
+                        </button>
                     </div>
 
-                    <div className="overflow-hidden bg-white mt-16 h-full ring-1 shadow-sm ring-black/5 sm:rounded-lg">
-                        <table className="min-w-full divide-y divide-gray-300">
-                            <thead className="text-wite bg-[#01DAA2]">
-                            <tr>
-                                <th scope="col" className="py-3.5 pr-3 pl-4 text-white text-left text-sm font-semibold  sm:pl-6">
-                                    Name
-                                </th>
-                                <th scope="col" className="px-3 py-3.5 text-white text-left text-sm font-semibold ">
-                                    Email
-                                </th>
-                                <th scope="col" className="px-3 py-3.5 text-white  text-left text-sm font-semibold ">
-                                    Gender
-                                </th>
-                                <th scope="col" className="px-3 py-3.5 text-white text-left text-sm font-semibold ">
-                                    Contact Number
-                                </th>
-                                <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-6">
-                                    <span className="sr-only">Show</span>
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
-                            {users.data.map((user) => (
-                                <tr key={user.id}>
-                                    <td className="py-2 pl-4 text-xs font-medium whitespace-nowrap text-gray-900 sm:pl-6">
-                                        {user.name}
-                                    </td>
-                                    <td className="py-2 px-3 text-xs font-medium whitespace-nowrap text-gray-900 sm:px-6">
-                                        {user.email}
-                                    </td>
-                                    <td className="px-3 py-2 text-xs whitespace-nowrap text-gray-500">
-                                        {user.role}
-                                    </td>
-                                    <td className="py-2 pr-3 pl-4 text-xs font-medium whitespace-nowrap text-gray-900 sm:px-6">
-                                        {user.phone}
-                                    </td>
-                                    <td className="flex gap-2 py-3 pr-4 pl-3 text-right text-xs font-medium whitespace-nowrap sm:pr-0">
-                                        {/* Show Button with Tooltip */}
-                                        <Tooltip title="Show User" arrow>
-                                            <button
-                                                onClick={() => openEditUser(user)}
-                                                className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-blue-400 rounded-sm hover:bg-blue-500 focus:outline-none transition-colors duration-300"
-                                            >
-                                                <FaEdit style={{ fontSize: '16px' }} />
-                                            </button>
-                                        </Tooltip>
+                    <div className="overflow-hidden bg-white mt-4 h-full ring-1 shadow-sm ring-black/5 sm:rounded-lg">
+                        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
 
-                                        {/* Delete Button with Tooltip */}
-                                        <Tooltip title="Delete User" arrow>
-                                            <button
-                                                onClick={() => openDeleteUser(user)}
-                                                className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-red-400 rounded-sm hover:bg-red-500 focus:outline-none transition-colors duration-300"
-                                            >
-                                                <MdDeleteForever style={{ fontSize: '16px' }} />
-                                            </button>
-                                        </Tooltip>
-
-                                        {/* View Button with Tooltip */}
-                                        <Tooltip title="View User" arrow>
-                                            <button
-                                                onClick={() => openViewUser(user)}
-                                                className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-green-400 rounded-sm hover:bg-green-500 focus:outline-none transition-colors duration-300"
-                                            >
-                                                <GrFormView style={{ fontSize: '16px' }} />
-                                            </button>
-                                        </Tooltip>
-                                    </td>
+                            <table className="min-w-full divide-y divide-gray-300">
+                                <thead>
+                                <tr>
+                                    <th scope="col" className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                                        Name
+                                    </th>
+                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        Contact
+                                    </th>
+                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        Status
+                                    </th>
+                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        Role
+                                    </th>
+                                    <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-0">
+                                        <span className="sr-only">Edit</span>
+                                    </th>
                                 </tr>
-                            ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200 bg-white">
+                                {users.data.map((user) => (
+                                    <tr key={user.email}>
+                                        <td className="py-5 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-0">
+                                            <div className="flex items-center">
+                                                <div className="size-11 shrink-0">
+                                                    <img alt="" src={user.image} className="size-11 rounded-full" />
+                                                </div>
+                                                <div className="ml-4">
+                                                    <div className="font-medium text-gray-900">{user.name}</div>
+                                                    <div className="mt-1 text-gray-500">{user.email}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
+                                            <div className="text-gray-900">{user.phone}</div>
+                                            <div className="mt-1 text-gray-500">{user.address}</div>
+                                        </td>
+                                        <td className="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
+                                          <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">
+                                            Active
+                                          </span>
+                                        </td>
+                                        <td className="px-3 py-5 text-sm whitespace-nowrap text-gray-500">{user.role}</td>
+                                        <td className="flex gap-2 py-3 pr-4 pl-3 text-right justify-center text-xs font-medium whitespace-nowrap sm:pr-0">
+                                            {/* Show Button with Tooltip */}
+                                            <Tooltip title="Show User" arrow>
+                                                <button
+                                                    onClick={() => openEditUser(user)}
+                                                >
+                                                    <FaEdit className="w-5 h-5 text-gray-600" />
+                                                </button>
+                                            </Tooltip>
+
+                                            {/* Delete Button with Tooltip */}
+                                            <Tooltip title="Delete User" arrow>
+                                                <button
+                                                    onClick={() => openDeleteUser(user)}
+                                                >
+                                                    <MdDeleteForever className="h-6 w-6 text-gray-600" />
+                                                </button>
+                                            </Tooltip>
+
+                                            {/* View Button with Tooltip */}
+                                            <Tooltip title="View User" arrow>
+                                                <button onClick={() => openViewUser(user)}>
+                                                    <GrFormView className="pt-1 h-8 w-8 text-gray-600" />
+                                                </button>
+                                            </Tooltip>
+                                        </td>
+
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        {/*<table className="min-w-full divide-y divide-gray-300">*/}
+                        {/*    <thead className="text-wite bg-[#01DAA2]">*/}
+                        {/*    <tr>*/}
+                        {/*        <th scope="col" className="py-3.5 pr-3 pl-4 text-white text-left text-sm font-semibold  sm:pl-6">*/}
+                        {/*            Name*/}
+                        {/*        </th>*/}
+                        {/*        <th scope="col" className="px-3 py-3.5 text-white text-left text-sm font-semibold ">*/}
+                        {/*            Email*/}
+                        {/*        </th>*/}
+                        {/*        <th scope="col" className="px-3 py-3.5 text-white  text-left text-sm font-semibold ">*/}
+                        {/*            Gender*/}
+                        {/*        </th>*/}
+                        {/*        <th scope="col" className="px-3 py-3.5 text-white text-left text-sm font-semibold ">*/}
+                        {/*            Contact Number*/}
+                        {/*        </th>*/}
+                        {/*        <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-6">*/}
+                        {/*            <span className="sr-only">Show</span>*/}
+                        {/*        </th>*/}
+                        {/*    </tr>*/}
+                        {/*    </thead>*/}
+                        {/*    <tbody className="divide-y divide-gray-200 bg-white">*/}
+                        {/*    {users.data.map((user) => (*/}
+                        {/*        <tr key={user.id}>*/}
+                        {/*            <td className="py-2 pl-4 text-xs font-medium whitespace-nowrap text-gray-900 sm:pl-6">*/}
+                        {/*                {user.name}*/}
+                        {/*            </td>*/}
+                        {/*            <td className="py-2 px-3 text-xs font-medium whitespace-nowrap text-gray-900 sm:px-6">*/}
+                        {/*                {user.email}*/}
+                        {/*            </td>*/}
+                        {/*            <td className="px-3 py-2 text-xs whitespace-nowrap text-gray-500">*/}
+                        {/*                {user.role}*/}
+                        {/*            </td>*/}
+                        {/*            <td className="py-2 pr-3 pl-4 text-xs font-medium whitespace-nowrap text-gray-900 sm:px-6">*/}
+                        {/*                {user.phone}*/}
+                        {/*            </td>*/}
+                        {/*            <td className="flex gap-2 py-3 pr-4 pl-3 text-right text-xs font-medium whitespace-nowrap sm:pr-0">*/}
+                        {/*                /!* Show Button with Tooltip *!/*/}
+                        {/*                <Tooltip title="Show User" arrow>*/}
+                        {/*                    <button*/}
+                        {/*                        onClick={() => openEditUser(user)}*/}
+                        {/*                        className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-blue-400 rounded-sm hover:bg-blue-500 focus:outline-none transition-colors duration-300"*/}
+                        {/*                    >*/}
+                        {/*                        <FaEdit style={{ fontSize: '16px' }} />*/}
+                        {/*                    </button>*/}
+                        {/*                </Tooltip>*/}
+
+                        {/*                /!* Delete Button with Tooltip *!/*/}
+                        {/*                <Tooltip title="Delete User" arrow>*/}
+                        {/*                    <button*/}
+                        {/*                        onClick={() => openDeleteUser(user)}*/}
+                        {/*                        className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-red-400 rounded-sm hover:bg-red-500 focus:outline-none transition-colors duration-300"*/}
+                        {/*                    >*/}
+                        {/*                        <MdDeleteForever style={{ fontSize: '16px' }} />*/}
+                        {/*                    </button>*/}
+                        {/*                </Tooltip>*/}
+
+                        {/*                /!* View Button with Tooltip *!/*/}
+                        {/*                <Tooltip title="View User" arrow>*/}
+                        {/*                    <button*/}
+                        {/*                        onClick={() => openViewUser(user)}*/}
+                        {/*                        className="flex items-center justify-center gap-1 px-3 py-1 text-white bg-green-400 rounded-sm hover:bg-green-500 focus:outline-none transition-colors duration-300"*/}
+                        {/*                    >*/}
+                        {/*                        <GrFormView style={{ fontSize: '16px' }} />*/}
+                        {/*                    </button>*/}
+                        {/*                </Tooltip>*/}
+                        {/*            </td>*/}
+                        {/*        </tr>*/}
+                        {/*    ))}*/}
+                        {/*    </tbody>*/}
+                        {/*</table>*/}
                     </div>
                     <div className="px-4 sm:px-6 lg:px-8 my-2">
                         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -312,7 +373,7 @@ const AdminDashboard = ({ users }) => {
                             </div>
                             <div className="flex justify-end gap-2 mt-4">
                                 <button
-                                    className="px-6 py-2 border bg-green-400 text-white rounded-lg"
+                                    className="px-6 py-2 border bg-[#01DAA2] text-white rounded-lg"
                                     onClick={handleCreateUser}
                                     disabled={processing}
                                 >
