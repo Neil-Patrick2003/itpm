@@ -10,6 +10,8 @@ use Inertia\Inertia;
 
 class ChildrenController extends Controller
 {
+
+    //admin children index
     public function index(Request $request)
     {
 
@@ -49,6 +51,18 @@ class ChildrenController extends Controller
             'underweightCount' => $underweightCount,
             'normalCount' => $normalCount,
             'overweight_andObeseCount' => $overweight_andObeseCount,
+        ]);
+    }
+
+    public function show(){
+
+        $childrens = Children::with('program')
+            ->latest()
+            ->paginate(20);
+
+
+        return Inertia::render('Admin/Children/ChildrenProfile', [
+            'childrens' => $childrens,
         ]);
     }
 

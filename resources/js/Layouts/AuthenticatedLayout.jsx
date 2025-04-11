@@ -139,6 +139,17 @@ export default function AuthenticatedLayout({ header, children, logoUrl }) {
                                             All Beneficiaries
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link
+                                            href="/childrens/profile"
+                                            className={classNames(
+                                                url?.startsWith('/children') ? 'text-[#01DA9F] font-bold' : 'text-gray-600',
+                                                'hover:text-[#01DA9F] block'
+                                            )}
+                                        >
+                                            Childrens Profile
+                                        </Link>
+                                    </li>
                                 </ul>
                             )}
                         </div>

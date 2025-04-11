@@ -53,6 +53,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 
     Route::get('/childrens/beneficiary', [ProgramBeneficiariesController::class, 'index']);
+    Route::get('/childrens/profile', [\App\Http\Controllers\ChildrenController::class, 'show']);
+
 
 
     Route::get('/reports', fn () => Inertia::render('Admin/Report'));

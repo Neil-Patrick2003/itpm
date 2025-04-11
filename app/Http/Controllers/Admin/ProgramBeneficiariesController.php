@@ -19,9 +19,9 @@ class ProgramBeneficiariesController extends Controller
     public function index()
     {
         // Example: Fetch beneficiaries and return a
-        $childrens = Children::with('program')
-        ->latest()
-        ->paginate(20);
+            $childrens = Children::with('program')
+            ->latest()
+            ->paginate(20);
 
 
 
