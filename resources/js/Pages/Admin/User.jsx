@@ -163,13 +163,13 @@ const AdminDashboard = ({ users }) => {
                                     <td className="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">{user.role}</td>
                                     <td className="px-6 py-4 flex justify-center gap-3 text-gray-600">
                                         <Tooltip title="Edit User" arrow>
-                                            <button onClick={() => openEditUser(user)}><FaEdit /></button>
+                                            <button onClick={() => openEditUser(user)}><FaEdit className="w-5 h-5"/></button>
                                         </Tooltip>
                                         <Tooltip title="Delete User" arrow>
-                                            <button onClick={() => openDeleteUser(user)}><MdDeleteForever className="text-red-500" /></button>
+                                            <button onClick={() => openDeleteUser(user)}><MdDeleteForever className="h-6 w-6 text-red-500" /></button>
                                         </Tooltip>
                                         <Tooltip title="View Details" arrow>
-                                            <button onClick={() => openViewUser(user)}><GrFormView className="text-blue-500" /></button>
+                                            <button onClick={() => openViewUser(user)}><GrFormView className="w-8 h-8 flex justify-centert items-center text-blue-500" /></button>
                                         </Tooltip>
                                     </td>
                                 </tr>

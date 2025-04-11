@@ -83,7 +83,9 @@ const Program = ({ programs, search = '', page = 1 }) => {
                         <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" />
                     </div>
                     <Link href="/programs/create">
-                        <button className="flex items-center gap-2 bg-[#01DAA2] hover:bg-green-500 text-white px-4 py-2 rounded-full transition-all">
+                        <button
+                            className="flex items-center gap-2 bg-[#01DAA2] hover:bg-green-500 text-white px-4 py-2 rounded-full transition-all"
+                        >
                             <PlusIcon className="h-5 w-5" /> Add New Program
                         </button>
                     </Link>
@@ -137,7 +139,7 @@ const Program = ({ programs, search = '', page = 1 }) => {
 
                                         <Link
                                             href={`/programs/${program.id}`}
-                                            className="hidden sm:inline-block bg-white text-sm text-gray-700 font-semibold px-3 py-1.5 rounded-md border ring-1 ring-gray-300 hover:bg-gray-50"
+                                            className="inline-flex items-center gap-1 border border-green-500 text-green-600 bg-green-50 hover:bg-green-100 hover:text-green-700 font-medium text-sm px-3 py-1.5 rounded-md transition-colors duration-150"
                                         >
                                             View
                                         </Link>
