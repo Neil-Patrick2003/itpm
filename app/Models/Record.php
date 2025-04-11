@@ -31,4 +31,32 @@ class Record extends Model
         }
         return null;
     }
+
+    public function scopeUnderweight($query)
+    {
+        return $query->whereNotNull('height')
+            ->whereNotNull('weight')
+            ->whereRaw('(weight / POWER(height / 100, 2)) < 18.5');
+    }
+
+    public function scopeNormalBmi($query)
+    {
+        return $query->whereNotNull('height')
+            ->whereNotNull('weight')
+            ->whereRaw('(weight / POWER(height / 100, 2)) BETWEEN 18.5 AND 24.9');
+    }
+
+    public function scopeOverweight($query)
+    {
+        return $query->whereNotNull('height')
+            ->whereNotNull('weight')
+            ->whereRaw('(weight / POWER(height / 100, 2)) BETWEEN 25 AND 29.9');
+    }
+
+    public function scopeObese($query)
+    {
+        return $query->whereNotNull('height')
+            ->whereNotNull('weight')
+            ->whereRaw('(weight / POWER(height / 100, 2)) >= 30');
+    }
 }
