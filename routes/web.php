@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\DonationController;
+use App\Http\Controllers\Admin\ProgramBeneficiariesController;
 use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProgramBeneficiariesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,6 +27,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/users', [UserController::class, 'index']);
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+
     Route::get('/programs', [ProgramController::class, 'index']);
     Route::get('/programs/create', [ProgramController::class, 'create']);
     Route::post('/programs/create', [ProgramController::class, 'store']);
@@ -39,11 +41,20 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/childrens', [\App\Http\Controllers\ChildrenController::class, 'index']);
     Route::get('/childrens/create', [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'create']);
     Route::post('/childrens/create', [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'store']);
+
+
+
     Route::get('/sponsorships', [SponsorController::class, 'index']);
     Route::post('/sponsorships/create', [SponsorController::class, 'store']);
     Route::get('/sponsorships/{sponsor}', [SponsorController::class, 'show']);
     Route::get('/sponsorships/{sponsor}/donation', [DonationController::class, 'create']);
     Route::post('/sponsorships/{sponsor}/donation', [DonationController::class, 'store']);
+
+
+
+    Route::get('/childrens/beneficiary', [ProgramBeneficiariesController::class, 'index']);
+
+
     Route::get('/reports', fn () => Inertia::render('Admin/Report'));
     Route::get('/funds', fn () => Inertia::render('Admin/Funds'));
 });

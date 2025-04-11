@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Children;
 use App\Models\ChildrenRecord;
 use App\Models\Program;
@@ -11,15 +12,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
+
 class ProgramBeneficiariesController extends Controller
 {
+
+    public function index()
+    {
+        // Example: Fetch beneficiaries and return a view
+
+        return inertia('Admin/Beneficiary/AllBeneficiary');
+    }
+
+
     public function create(Request $request, $id)
     {
-
         $program = Program::find($id);
         $records =  Record::all();
-
-
 
         return Inertia::render('Admin/Program/AddBeneficiaries', [
             'program' => $program,
@@ -29,7 +37,6 @@ class ProgramBeneficiariesController extends Controller
 
     public function store(Request $request, Program $program)
     {
-
         // Get program title
         $program_name = $program->title;
 
@@ -100,9 +107,6 @@ class ProgramBeneficiariesController extends Controller
         return redirect("/programs/{$program->id}")->with('message', 'Added successfully.');
 //        return Inertia::render('Admin/Program/AddBeneficiaries')->with('message', 'Add Beneficiaries Successfully');
     }
-
-
-
 
 
     public function calculateBmi($weight, $height)

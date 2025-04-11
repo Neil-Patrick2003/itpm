@@ -130,9 +130,9 @@ export default function AuthenticatedLayout({ header, children, logoUrl }) {
                                     </li>
                                     <li>
                                         <Link
-                                            href="/beneficiaries"
+                                            href="/childrens/beneficiary"
                                             className={classNames(
-                                                url?.startsWith('/beneficiaries') ? 'text-[#01DA9F] font-bold' : 'text-gray-600',
+                                                url?.startsWith('/children') ? 'text-[#01DA9F] font-bold' : 'text-gray-600',
                                                 'hover:text-[#01DA9F] block'
                                             )}
                                         >

@@ -159,7 +159,7 @@ const AdminDashboard = ({
                             <PlusIcon className="h-5 w-5" /> Add New Record
                         </button>
                     </Link>
-                    <Link href="/childrens">
+                    <Link href="/childrens/beneficiary">
                         <button className="flex items-center gap-2 px-2 text-sm md:text-md py-1 md:px-4 md:py-2 bg-[#7BDC9F] hover:bg-green-600 text-white rounded-full shadow">
                             <UserGroupIcon className="h-5 w-5" /> View All Beneficiaries
                         </button>
