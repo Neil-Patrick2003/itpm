@@ -21,12 +21,19 @@ class Children extends Model
     }
 
     public function programs(){
-        return $this->belongsTo('App\Models\Program', 'program_id');
+        return $this->belongsTo(Program::class, 'program_id');
     }
+     public function program(): \Illuminate\Database\Eloquent\Relations\BelongsToMany{
+    return $this->belongsToMany(Program::class, 'program_beneficiaries', 'children_id', 'program_id');
+}
 
     public function parent(){
         return $this->hasOne(User::class, 'id', 'parent_id');
     }
+
+
+
+
 
 
 }

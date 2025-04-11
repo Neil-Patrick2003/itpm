@@ -18,9 +18,16 @@ class ProgramBeneficiariesController extends Controller
 
     public function index()
     {
-        // Example: Fetch beneficiaries and return a view
+        // Example: Fetch beneficiaries and return a
+        $childrens = Children::with('program')
+        ->latest()
+        ->paginate(20);
 
-        return inertia('Admin/Beneficiary/AllBeneficiary');
+
+
+        return inertia('Admin/Beneficiary/AllBeneficiary', [
+        'childrens' => $childrens
+        ]);
     }
 
 
