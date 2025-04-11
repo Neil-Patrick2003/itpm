@@ -21,6 +21,9 @@ class ChildrenRecordController extends Controller
 
     public function store(Request $request){
 
+
+
+
         $validated = $request->validate([
             'name' => ['required', 'string'],
             'birth_date' => ['required', 'date'],

@@ -1,7 +1,7 @@
 import React from 'react';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import { Head, Link, useForm } from "@inertiajs/react"; // Using Inertia's hooks
-import InputError from "@/Components/InputError.jsx"; // Optional InputError component for better error handling
+import { Head, Link, useForm } from "@inertiajs/react";
+import {ChevronRightIcon, HomeIcon} from "@heroicons/react/20/solid/index.js"; // Using Inertia's hooks
 
 const CreateChildren = () => {
     // useForm hook to manage form state, handling POST request, and storing errors
@@ -29,20 +29,44 @@ const CreateChildren = () => {
         });
     }
 
+    const pages = [
+        { name: 'Childrens', href: '/childrens', current: false },
+        { name: 'Create', href: '/childrens/create', current: false },
+
+    ];
+
+
     return (
         <AuthenticatedLayout>
             <Head title="Create Children's Record" />
 
-            <div className="p-4 h-screen overflow-y-auto">
-                <div className="flex flex-col h-full gap-4">
-                    <div className="bg-white h-28 rounded-lg p-4">
-                        <h1>Create Children's Record</h1>
-                    </div>
-                    <div className="flex justify-between p-4">
-                        <Link href="/childrens" className="text-green-500">Back</Link>
-                        <Link href="/childrens/create" className="text-green-500">Create</Link>
-                    </div>
-                    <div className="bg-white rounded-lg p-4">
+            <div className="">
+                <nav className="flex" aria-label="Breadcrumb">
+                    <ol className="flex items-center space-x-4">
+                        <li>
+                            <a href="#" className="text-gray-400 hover:text-gray-500">
+                                <HomeIcon className="h-5 w-5" />
+                                <span className="sr-only">Home</span>
+                            </a>
+                        </li>
+                        {pages.map((page) => (
+                            <li key={page.name}>
+                                <div className="flex items-center">
+                                    <ChevronRightIcon className="h-5 w-5 text-gray-400" />
+                                    <a
+                                        href={page.href}
+                                        className="ml-4 text-sm font-medium text-green-700 hover:text-green-900"
+                                        aria-current={page.current ? 'page' : undefined}
+                                    >
+                                        {page.name}
+                                    </a>
+                                </div>
+                            </li>
+                        ))}
+                    </ol>
+                </nav>
+                <div className="flex flex-col gap-4 mt-4">
+                    <div className="bg-white rounded-lg border md:p-4">
                         {/* Form */}
                         <form onSubmit={submit}>
                             <h1>Personal Details</h1>
@@ -55,7 +79,7 @@ const CreateChildren = () => {
                                         value={data.name || ""}
                                         onChange={(e) => setData('name', e.target.value)}
                                         placeholder="Surname, First Name Middle, Initial."
-                                        className="mt-1 block w-full px-4 py-3 bg-gray-200 border-white focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                        className="mt-1 block w-full px-4 py-3 border rounded-lg focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                     />
                                     {errors.name && <div className="text-red-500">{errors.name}</div>}
                                 </div>
@@ -67,7 +91,7 @@ const CreateChildren = () => {
                                         type="date"
                                         value={data.birth_date || ""}
                                         onChange={(e) => setData('birth_date', e.target.value)}
-                                        className="mt-1 block w-full px-4 py-3 bg-gray-200 border-white focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                        className="mt-1 block w-full px-4 py-3 border rounded-lg focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                     />
                                     {errors.birth_date && <div className="text-red-500">{errors.birth_date}</div>}
                                 </div>
@@ -78,7 +102,7 @@ const CreateChildren = () => {
                                     <select
                                         value={data.gender}
                                         onChange={(e) => setData('gender', e.target.value)}
-                                        className="w-full mt-1 bg-gray-200 border-white focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                        className="mt-1 block w-full px-4 py-3 border rounded-lg focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                     >
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
@@ -93,7 +117,7 @@ const CreateChildren = () => {
                                         type="number"
                                         value={data.weight}
                                         onChange={(e) => setData('weight', e.target.value)}
-                                        className="mt-1 block w-full px-4 py-3 bg-gray-200 border-white focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                        className="mt-1 block w-full px-4 py-3 border rounded-lg focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                     />
                                     {errors.weight && <div className="text-red-500">{errors.weight}</div>}
                                 </div>
@@ -105,7 +129,7 @@ const CreateChildren = () => {
                                         type="number"
                                         value={data.height}
                                         onChange={(e) => setData('height', e.target.value)}
-                                        className="mt-1 block w-full px-4 py-3 bg-gray-200 border-white focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                        className="mt-1 block w-full px-4 py-3 border rounded-lg focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                     />
                                     {errors.height && <div className="text-red-500">{errors.height}</div>}
                                 </div>
@@ -118,7 +142,7 @@ const CreateChildren = () => {
                                         value={data.address || ""}
                                         onChange={(e) => setData('address', e.target.value)}
                                         placeholder="Address"
-                                        className="mt-1 block w-full px-4 py-3 bg-gray-200 border-white focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                        className="mt-1 block w-full px-4 py-3 border rounded-lg focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                     />
                                     {errors.address && <div className="text-red-500">{errors.address}</div>}
                                 </div>
@@ -133,7 +157,7 @@ const CreateChildren = () => {
                                         value={data.parent_name || ""}
                                         onChange={(e) => setData('parent_name', e.target.value)}
                                         placeholder="Parent's Full Name"
-                                        className="mt-1 block w-full px-4 py-3 bg-gray-200 border-white focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                        className="mt-1 block w-full px-4 py-3 border rounded-lg focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                     />
                                     {errors.parent_name && <div className="text-red-500">{errors.parent_name}</div>}
                                 </div>
@@ -145,7 +169,7 @@ const CreateChildren = () => {
                                         type="number"
                                         value={data.parent_age || ""}
                                         onChange={(e) => setData('parent_age', e.target.value)}
-                                        className="mt-1 block w-full px-4 py-3 bg-gray-200 border-white focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                        className="mt-1 block w-full px-4 py-3 border rounded-lg focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                     />
                                     {errors.parent_age && <div className="text-red-500">{errors.parent_age}</div>}
                                 </div>
@@ -157,7 +181,7 @@ const CreateChildren = () => {
                                         type="email"
                                         value={data.email || ""}
                                         onChange={(e) => setData('email', e.target.value)}
-                                        className="mt-1 block w-full px-4 py-3 bg-gray-200 border-white focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                        className="mt-1 block w-full px-4 py-3 border rounded-lg focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                     />
                                     {errors.email && <div className="text-red-500">{errors.email}</div>}
                                 </div>
@@ -169,19 +193,24 @@ const CreateChildren = () => {
                                         type="tel"
                                         value={data.phone_number || ""}
                                         onChange={(e) => setData('phone_number', e.target.value)}
-                                        className="mt-1 block w-full px-4 py-3 bg-gray-200 border-white focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
+                                        className="mt-1 block w-full px-4 py-3 border rounded-lg focus:ring-green-500 focus:border-green-500 focus:outline-none transition-all sm:text-sm"
                                     />
                                     {errors.phone_number && <div className="text-red-500">{errors.phone_number}</div>}
                                 </div>
+
+                            </div>
+                            <div className="flex justify-end">
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="m-4 bg-green-400  text-white px-20 py-2 rounded-lg"
+                                >
+                                    {processing ? "Submitting..." : "Submit"}
+                                </button>
                             </div>
 
-                            <button
-                                type="submit"
-                                disabled={processing}
-                                className="mt-4 bg-green-500 text-white px-6 py-2 rounded-lg"
-                            >
-                                {processing ? "Submitting..." : "Submit"}
-                            </button>
+
+
                         </form>
                     </div>
                 </div>
