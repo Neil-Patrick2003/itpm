@@ -86,14 +86,6 @@ class ChildrenController extends Controller
         });
 
 
-
-
-
-
-
-
-
-
         return Inertia::render('Admin/Children/ChildrenProfile', [
             'child' => $child,
             'growthData' => $growthData,

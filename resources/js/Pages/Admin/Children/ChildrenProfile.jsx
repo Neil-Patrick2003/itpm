@@ -134,8 +134,17 @@ const ChildrenProfile = ({ child, recent_record, growthData }) => {
                     )}
                 </div>
                 <div className="border rounded-lg bg-white p-6 shadow-sm">
-                    <h2 className="text-xl font-semibold text-green-600 mb-2">Blank space</h2>
-
+                    <h2 className="text-xl font-semibold text-green-600 mb-4">Latest Health Record</h2>
+                    {recent_record ? (
+                        <div className="space-y-2 text-gray-700 text-sm">
+                            <p><span className="font-medium">Height:</span> {recent_record.height} cm</p>
+                            <p><span className="font-medium">Weight:</span> {recent_record.weight} kg</p>
+                            <p><span className="font-medium">BMI:</span> {parseFloat(recent_record.bmi).toFixed(2)}</p>
+                            <p><span className="font-medium">Recorded On:</span> {recent_record.created_at}</p>
+                        </div>
+                    ) : (
+                        <p className="text-gray-400 text-sm">No health record available.</p>
+                    )}
                 </div>
 
 
@@ -143,7 +152,7 @@ const ChildrenProfile = ({ child, recent_record, growthData }) => {
                 <div className="col-span-3 bg-white border rounded-lg p-6 shadow-sm">
                     <h2 className="text-xl font-semibold text-green-600 mb-4">Growth Chart</h2>
                     <LineChart
-                        width={700}
+                        width={1100}
                         height={300}
                         xAxis={[{ scaleType: 'band', data: xLabels }]} // 📅 X-axis: dates
                         series={[

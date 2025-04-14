@@ -21,9 +21,8 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
-    Route::get('/dashboard', fn () => Inertia::render('Dashboard', [
-        'user' => auth()->user(),
-    ]))->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
+
     Route::get('/users', [UserController::class, 'index']);
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
