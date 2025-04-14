@@ -60,7 +60,7 @@ const AllBeneficiary = ( { childrens } ) => {
                 </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                {childrens.data.length === 0 ? (
+                    {childrens.data.length === 0 ? (
                     <tr>
                         <td colSpan="5" className="text-center py-6 text-gray-500">
                             No beneficiaries found.

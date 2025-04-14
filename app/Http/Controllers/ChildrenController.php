@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Children;
+use App\Models\ChildrenRecord;
 use App\Models\Program;
 use App\Models\Record;
 use Illuminate\Http\Request;
@@ -61,9 +62,48 @@ class ChildrenController extends Controller
             ->paginate(20);
 
 
-        return Inertia::render('Admin/Children/ChildrenProfile', [
+
+
+        return Inertia::render('Admin/Children/ChildrensProfile', [
             'childrens' => $childrens,
         ]);
     }
+
+    public function showProfile($id)
+    {
+        $child = Children::with('program', 'parent', 'record')
+            ->findOrFail($id);
+
+        // Safely get the most recent record
+        $recentRecord = ChildrenRecord::where('children_id', $child->id)->latest()->first();
+
+        $growthData = $child->record->map(function ($record) {
+            return [
+                'date' => $record->created_at->format('Y-m-d'), // or use a specific date field
+                'height' => $record->height,
+                'weight' => $record->weight,
+            ];
+        });
+
+
+
+
+
+
+
+
+
+
+        return Inertia::render('Admin/Children/ChildrenProfile', [
+            'child' => $child,
+            'growthData' => $growthData,
+            'recent_record' => $recentRecord ? [
+                'id' => $recentRecord->id,
+                'bmi' => $recentRecord->bmi,
+                'bmi_category' => $recentRecord->bmi_category,
+            ] : null,
+        ]);
+    }
+
 
 }

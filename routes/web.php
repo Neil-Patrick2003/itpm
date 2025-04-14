@@ -54,6 +54,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
     Route::get('/childrens/beneficiary', [ProgramBeneficiariesController::class, 'index']);
     Route::get('/childrens/profile', [\App\Http\Controllers\ChildrenController::class, 'show']);
+    Route::get('/childrens/profile/{id}', [\App\Http\Controllers\ChildrenController::class, 'showProfile']);
+
 
 
 

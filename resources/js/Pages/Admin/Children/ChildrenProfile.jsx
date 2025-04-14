@@ -1,24 +1,37 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import {ChevronRightIcon, HomeIcon} from "@heroicons/react/20/solid/index.js";
+import {
+    ChevronRightIcon,
+    HomeIcon,
+    UsersIcon,
+    MapPinIcon,
+    PhoneIcon,
+    EnvelopeIcon
+} from "@heroicons/react/20/solid";
+import boy1 from '../../../../assets/Avatar/boys/boy1.png';
+import { LineChart } from '@mui/x-charts/LineChart';
 import React from "react";
-import children from "@/Pages/Admin/Children/Children.jsx";
 
-const  ChildrenProfile = ({childrens}) => {
+const ChildrenProfile = ({ child, recent_record, growthData }) => {
 
-    // declaration of page
+    // 🧭 Breadcrumb navigation links
     const pages = [
-        { name: 'Children', href: '/childrens', current: false },
-        { name: 'Beneficiary', href: '/childrens/beneficiary', current: true },
-        { name: 'Profile', href: '/childrens/beneficiary/profiles', current: true },
+        { name: 'Childrens', href: '/childrens', current: false },
+        { name: 'Profiles', href: '/childrens/profile', current: false },
+        { name: child.name, href: `/childrens/profile/${child.id}`, current: true },
     ];
+
+    // 📊 Prepare chart data arrays for MUI LineChart
+    const xLabels = growthData.map(item => item.date);         // Dates for X-axis
+    const heightData = growthData.map(item => item.height);    // Heights for Y-axis
+    const weightData = growthData.map(item => item.weight);    // Weights for Y-axis
 
     return (
         <AuthenticatedLayout>
-            {/*//the nav in the tap */}
+            {/* 🌐 Breadcrumb Navigation */}
             <nav className="flex" aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-4">
                     <li>
-                        <a href="#" className="text-gray-400 hover:text-gray-500">
+                        <a href="/" className="text-gray-400 hover:text-green-600">
                             <HomeIcon className="h-5 w-5" />
                             <span className="sr-only">Home</span>
                         </a>
@@ -29,7 +42,7 @@ const  ChildrenProfile = ({childrens}) => {
                                 <ChevronRightIcon className="h-5 w-5 text-gray-400" />
                                 <a
                                     href={page.href}
-                                    className="ml-4 text-sm font-medium text-green-700 hover:text-green-900"
+                                    className={`ml-4 text-sm font-medium ${page.current ? 'text-green-600' : 'text-gray-600 hover:text-green-600'}`}
                                     aria-current={page.current ? 'page' : undefined}
                                 >
                                     {page.name}
@@ -39,31 +52,109 @@ const  ChildrenProfile = ({childrens}) => {
                     ))}
                 </ol>
             </nav>
-            <div className="grid mt-4 sm:grid-cols-1 gap-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
-                {childrens.data.map((children) => (
-                    <div id="children.lenght.id" className="border bg-white rounded-lg">
-                        <div className="flex border justify-center items-center py-16">
-                            avatar
-                        </div>
-                        <div className="flex flex-col justify-between p-2">
-                            <div>
-                                <h1>{children.name}</h1>
-                                <p className="ttext-left text-xs font-medium text-gray-700 ">Address</p>
+
+            {/* 📦 Main Content Layout */}
+            <div className="grid grid-cols-1 mt-4 md:grid-cols-4 gap-4">
+
+                {/* 👤 Child Profile Card */}
+                <div className="col-span-3 bg-white rounded-lg p-4 shadow-sm">
+                    <div className="flex gap-4 items-center">
+
+                        {/* 🧒 Avatar */}
+                        <img
+                            src={boy1}
+                            alt="Avatar"
+                            className="h-32 w-32 object-cover rounded-full border border-green-200"
+                        />
+
+                        {/* 📄 Child Info */}
+                        <div className="flex flex-col w-full gap-y-4">
+                            <div className="flex justify-between items-center">
+                                <h1 className="text-2xl font-bold text-gray-600">{child.name}</h1>
+                                <span className="text-sm text-gray-400">#{child.id}</span>
                             </div>
-                            <button
-                                className="inline-flex justify-center mt-2 items-center gap-1 border border-green-500 text-green-600 bg-green-50 hover:bg-green-100 hover:text-green-700 font-medium text-sm px-3 py-1.5 rounded-md transition-colors duration-150"
-                            >View Profile</button>
+                            <p className="text-xs text-gray-400">Created at: {child.created_at}</p>
+                            <div className="flex gap-4">
+                                <span className="bg-green-100 text-green-700 rounded-full px-4 py-1 text-sm font-medium">
+                                    {child.gender}
+                                </span>
+                                <span className="bg-green-100 text-green-700 rounded-full px-4 py-1 text-sm font-medium">
+                                    BMI: {recent_record ? parseFloat(recent_record.bmi).toFixed(2) : 'N/A'}
+                                </span>
+                            </div>
                         </div>
                     </div>
-                ))}
+
+                    <hr className="my-4" />
+
+                    {/* 👪 Parent Information */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                        <div className="flex gap-2">
+                            <UsersIcon className="h-5 w-5 text-green-500" />
+                            <div>
+                                <p className="text-gray-400">Parent</p>
+                                <p className="text-green-600 text-lg font-semibold">{child.parent.name}</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-2">
+                            <MapPinIcon className="h-5 w-5 text-green-500" />
+                            <div>
+                                <p className="text-gray-400">Address</p>
+                                <p className="text-green-600 text-lg font-semibold">{child.parent.address}</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-2">
+                            <PhoneIcon className="h-5 w-5 text-green-500" />
+                            <div>
+                                <p className="text-gray-400">Phone</p>
+                                <p className="text-green-600 text-lg font-semibold">{child.parent.phone}</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-2">
+                            <EnvelopeIcon className="h-5 w-5 text-green-500" />
+                            <div>
+                                <p className="text-gray-400">Email</p>
+                                <p className="text-green-600 text-lg font-semibold">{child.parent.email}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 🧩 Child Programs */}
+                <div className="border rounded-lg bg-white p-6 shadow-sm">
+                    <h2 className="text-xl font-semibold text-green-600 mb-2">Child Programs</h2>
+                    {child.program?.length > 0 ? (
+                        <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            {child.program.map((item) => (
+                                <li key={item.id}>{item.title}</li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="text-gray-400 text-sm">No programs assigned.</p>
+                    )}
+                </div>
+                <div className="border rounded-lg bg-white p-6 shadow-sm">
+                    <h2 className="text-xl font-semibold text-green-600 mb-2">Blank space</h2>
+
+                </div>
 
 
-
-
-
+                {/* 📈 Growth Chart */}
+                <div className="col-span-3 bg-white border rounded-lg p-6 shadow-sm">
+                    <h2 className="text-xl font-semibold text-green-600 mb-4">Growth Chart</h2>
+                    <LineChart
+                        width={700}
+                        height={300}
+                        xAxis={[{ scaleType: 'band', data: xLabels }]} // 📅 X-axis: dates
+                        series={[
+                            { data: heightData, label: 'Height (cm)', color: '#10B981' },
+                            { data: weightData, label: 'Weight (kg)', color: '#34D399' }
+                        ]}
+                    />
+                </div>
             </div>
         </AuthenticatedLayout>
-    )
-}
+    );
+};
 
 export default ChildrenProfile;
