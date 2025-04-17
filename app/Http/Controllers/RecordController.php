@@ -11,7 +11,8 @@ use Inertia\Inertia;
 class RecordController extends Controller
 {
     public function index(Request $request){
-        $records = Record::when($request->search, function ($q) use ($request)
+        $records = Record::where('recorded_by', Auth::id())
+        ->when($request->search, function ($q) use ($request)
             {
                 return $q->where('children_name', 'like', '%' . $request->search . '%');
             })

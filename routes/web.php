@@ -72,6 +72,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'update']);
     Route::delete('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'destroy']);
 
+    Route::get('/health_workers/beneficiary ', [\App\Http\Controllers\HealthWorker\ProgramBeneficiaryController::class, 'index']);
+    Route::get('/health_workers/beneficiary/{id} ', [\App\Http\Controllers\HealthWorker\ProgramBeneficiaryController::class, 'show']);
+
+
 });
 
 Route::middleware('auth')->group(function () {

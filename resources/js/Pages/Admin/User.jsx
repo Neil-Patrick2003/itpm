@@ -229,6 +229,11 @@ const AdminDashboard = ({ users }) => {
                             <option value="sponsor">Sponsor</option>
                             <option value="health_worker">Health Worker</option>
                         </select>
+
+                        {editingUser && editingUser.role === 'health_worker' && (
+                            <input type="text" value={userData.assign_address} onChange={e => setData('assign_address', e.target.value)} placeholder="Asign Adddress" className="w-full border-b p-2" />
+                        )}
+
                         <div className="flex justify-end gap-2">
                             <button className="px-4 py-2 bg-green-600 text-white rounded" onClick={handleUpdateUser}>Save</button>
                             <button className="px-4 py-2 bg-gray-300 text-gray-800 rounded" onClick={closeEditUser}>Cancel</button>

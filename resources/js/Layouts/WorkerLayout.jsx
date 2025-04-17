@@ -1,6 +1,5 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import children from "@/Pages/Admin/Children/Children.jsx";
 import FlashMessage from "@/Components/FlashMessage.jsx";
 
 const user = {
@@ -9,12 +8,13 @@ const user = {
     imageUrl:
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
+
 const navigation = [
-    { name: 'Dashboard', href: '/health_workers/dashboard', current: true },
-    { name: 'Record', href: '/health_workers/records', current: false },
-    { name: 'Programs', href: '/health_workers/programs', current: false },
-    { name: 'Reports', href: '/health_workers/reports', current: false },
+    { name: 'Dashboard', href: '/health_workers/dashboard' },
+    { name: 'Record', href: '/health_workers/records' },
+    { name: 'Beneficiaries', href: '/health_workers/beneficiary' },
 ]
+
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
@@ -26,16 +26,11 @@ function classNames(...classes) {
 }
 
 export default function WorkerLayout({ children }) {
+    // Get the current path from the URL
+    const currentPage = window.location.pathname;
+
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
             <div className="min-h-full">
                 <div className="bg-[#01DAA2] pb-32">
                     <Disclosure as="nav" className="bg-gray-800">
@@ -56,12 +51,12 @@ export default function WorkerLayout({ children }) {
                                                     <a
                                                         key={item.name}
                                                         href={item.href}
-                                                        aria-current={item.current ? 'page' : undefined}
+                                                        aria-current={item.href === currentPage ? 'page' : undefined}
                                                         className={classNames(
-                                                            item.current
+                                                            item.href === currentPage
                                                                 ? 'bg-gray-900 text-white'
                                                                 : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                                            'rounded-md px-3 py-2 text-sm font-medium',
+                                                            'rounded-md px-3 py-2 text-sm font-medium'
                                                         )}
                                                     >
                                                         {item.name}
@@ -92,7 +87,7 @@ export default function WorkerLayout({ children }) {
                                                 </div>
                                                 <MenuItems
                                                     transition
-                                                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 transition focus:outline-hidden"
                                                 >
                                                     {userNavigation.map((item) => (
                                                         <MenuItem key={item.name}>
@@ -128,10 +123,10 @@ export default function WorkerLayout({ children }) {
                                         key={item.name}
                                         as="a"
                                         href={item.href}
-                                        aria-current={item.current ? 'page' : undefined}
+                                        aria-current={item.href === currentPage ? 'page' : undefined}
                                         className={classNames(
-                                            item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                            'block rounded-md px-3 py-2 text-base font-medium',
+                                            item.href === currentPage ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                            'block rounded-md px-3 py-2 text-base font-medium'
                                         )}
                                     >
                                         {item.name}

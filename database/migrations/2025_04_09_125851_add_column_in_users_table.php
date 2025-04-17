@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('address')->nullable()->after('email');
+            $table->string('assign_address')->nullable()->after('address');
+
         });
     }
 
@@ -23,6 +25,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('address');
+            $table->dropColumn('assign_address');
         });
     }
 };
