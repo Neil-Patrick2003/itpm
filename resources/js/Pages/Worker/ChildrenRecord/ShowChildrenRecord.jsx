@@ -48,41 +48,53 @@ const ShowChildrenRecord = ({ child, growthData, recent_record }) => {
     }, []);
 
 
-    function submitRecord(e){
-        e.preventDefault()
-        post(`/worker/children/record/${child.id}`, {})
+    function submitRecord(e) {
+        e.preventDefault();
 
+        post(`/health_workers/beneficiary/${child.id}`, {
+            onSuccess: () => {
+                setIsUpdatigRecordOpen(false)
+                reset([
+                    'weight',
+                    'height',
+                ])
+            },
+            onError: () => {
+                // optional: handle validation errors if needed
+            }
+        });
     }
+
 
     return (
         <WorkerLayout>
             <Modal show={isUpdatigRecordOpen} onClose={closeUpdateRecordModal} maxWidth="xl">
                 <div className="p-6 space-y-4 bg-white">
-                    <form className="bg-white">
+                    <form className="bg-white" onSubmit={submitRecord} >
                         <h2 className="text-xl font-bold">Add New Record</h2>
                         <div className="bg-white">
-                            <InputLabel htmlFor="weight" value="Weight" />
+                            <InputLabel htmlFor="height" value="Height" />
 
                             <TextInput
                                 id="weight"
                                 name="weight"
-                                value={data.weight}
+                                value={data.height}
                                 className="mt-1 block w-full"
                                 autoComplete="name"
                                 isFocused={true}
-                                onChange={(e) => setData('weight', e.target.value)}
+                                onChange={(e) => setData('height', e.target.value)}
                                 required
                                 icon={FaUser}
                             />
-                            <InputError message={errors.weight} className="mt-2" />
+                            <InputError message={errors.height} className="mt-2" />
 
                         </div>
                         <div className="bg-white">
                             <InputLabel htmlFor="weight" value="Weight" />
 
                             <TextInput
-                                id="weight"
-                                name="weight"
+                                id="height"
+                                name="height"
                                 value={data.weight}
                                 className="mt-1 block w-full"
                                 autoComplete="name"
@@ -94,6 +106,7 @@ const ShowChildrenRecord = ({ child, growthData, recent_record }) => {
                             <InputError message={errors.weight} className="mt-2" />
 
                         </div>
+                        <button  className="px-4 py-2 bg-gray-300 text-gray-800 rounded" type="submit">Save</button>
 
 
                     </form>
@@ -118,7 +131,7 @@ const ShowChildrenRecord = ({ child, growthData, recent_record }) => {
                     </div>
                 </div>
             </Modal>
-            <div className="grid  grid-cols-1 mt-4   md:grid-cols-4 gap-4 ">
+            <div className="grid  grid-cols-1 mt-4  md:grid-cols-4 gap-4 ">
                 {/* 👤 Child Profile Card */}
                 <div className="col-span-1 md:col-span-3 bg-white rounded-lg p-4 drop-shadow-md ">
                     <div className="flex flex-col gap-4 items-center">
@@ -128,7 +141,7 @@ const ShowChildrenRecord = ({ child, growthData, recent_record }) => {
                             className="h-32 w-32 object-cover rounded-full border border-green-200"
                         />
 
-                        <div className="flex flex-col md:flex-row border bg-blue-400 w-full gap-4 p-4 rounded-md">
+                        <div className="flex flex-col md:flex-row border bg-gradient-to-br from-green-300 to-green-400 w-full gap-4 p-4 rounded-md">
                             <div className="flex-1">
                                 <div className="flex justify-between items-center flex-wrap gap-2">
                                     <h1 className="text-xl md:text-2xl font-bold text-gray-600">{child.name}</h1>
@@ -229,7 +242,7 @@ const ShowChildrenRecord = ({ child, growthData, recent_record }) => {
                             height={300}
                             xAxis={[{ scaleType: 'band', data: xLabels }]}
                             series={[
-                                { data: heightData, label: 'Height (cm)', color: '#10B981' },
+                                { data: heightData, label: 'Height (cm)', color: '#328E6E' },
                                 { data: weightData, label: 'Weight (kg)', color: '#34D399' }
                             ]}
                         />
