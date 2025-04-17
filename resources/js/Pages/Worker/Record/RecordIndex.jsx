@@ -66,17 +66,9 @@ const RecordIndex = ({ records, search = '', page = 1}) => {
         });
     };
 
-    const notify = () => toast("Wow so easy!");
-
-
-
     return (
         <WorkerLayout>
             <Head title="Records" />
-            <div>
-                <button onClick={notify}>Notify!</button>
-                <ToastContainer />
-            </div>
             <div className="sm:flex  sm:items-center border p-4 ">
                 <div className="sm:flex-auto">
                     <h1 className="text-base font-semibold text-gray-900">Records</h1>
