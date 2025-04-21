@@ -26,7 +26,7 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <div className="w-full text-[#67c4c1]">
+            <div className="w-full h-full text-[#67c4c1] overflow-auto">
                 <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
 
                 <form onSubmit={submit} className="space-y-5">
