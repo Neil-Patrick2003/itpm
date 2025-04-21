@@ -20,6 +20,7 @@ const navigation = [
 const userNavigation = [
     { name: 'Your Profile', href: '/profile' },
     { name: 'Settings', href: '#' },
+    { name: 'Sign out', href: '/logout' },
 ]
 
 function classNames(...classes) {
@@ -34,7 +35,7 @@ export default function WorkerLayout({ children }) {
         <>
             <div className="min-h-full">
                 <div className="bg-[#01DAA2] pb-32">
-                    <Disclosure as="nav" className="bg-gray-800">
+                    <Disclosure as="nav" className="bg-[#253D2C]">
                         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                             <div className="border-b border-gray-700">
                                 <div className="flex h-16 items-center justify-between px-4 sm:px-0">
@@ -55,7 +56,7 @@ export default function WorkerLayout({ children }) {
                                                         aria-current={item.href === currentPage ? 'page' : undefined}
                                                         className={classNames(
                                                             item.href === currentPage
-                                                                ? 'bg-gray-900 text-white'
+                                                                ? 'bg-[#2E6F40] text-white'
                                                                 : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                             'rounded-md px-3 py-2 text-sm font-medium'
                                                         )}
@@ -101,9 +102,7 @@ export default function WorkerLayout({ children }) {
                                                         </MenuItem>
                                                     ))}
                                                     <MenuItem>
-                                                        <Link href="/logout"
-                                                              className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                                              method="post" as="button">Logout</Link>
+                                                        <Link href="/logout" method="post" as="button">Logout</Link>
                                                     </MenuItem>
                                                 </MenuItems>
                                             </Menu>

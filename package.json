@@ -34,6 +34,7 @@
         "framer-motion": "^12.5.0",
         "headlessui": "^0.0.0",
         "heroicons": "^2.2.0",
+        "inertia": "github:inertiajs/inertia",
         "mui": "^0.0.1",
         "primeicons": "^7.0.0",
         "primereact": "^10.9.3",

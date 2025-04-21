@@ -63,7 +63,7 @@ export default function AuthenticatedLayout({ header, children, logoUrl }) {
                         <img src={Text} alt="Text Logo" className="h-8 w-auto" />
                     </div>
 
-                    <h1 className="hidden md:block text-xl font-semibold">{header || 'Default Page Title'}</h1>
+                    <p className="hidden md:block text-xl font-semibold">{header || 'Default Page Title'}</p>
 
                     <div className="flex items-center gap-x-4">
                         <BellAlertIcon className="h-8 w-8 text-green-600 border border-green-600 rounded-full p-1" />

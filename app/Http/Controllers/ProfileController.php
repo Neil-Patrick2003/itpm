@@ -18,7 +18,10 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        return Inertia::render('Profile/Show', [
+        return Inertia::render('Profile/Edit', [
+            'auth' => [
+                'user' => Auth::user(),
+            ],
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
@@ -29,6 +32,7 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        dd($request->validated()->toArray());
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
