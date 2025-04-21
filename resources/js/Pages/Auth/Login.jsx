@@ -89,7 +89,7 @@ export default function Login({ status, canResetPassword }) {
                                 Forgot your password?
                             </Link>
                         )}
-                    </div>  
+                    </div>
 
 
                 </div>
@@ -108,3 +108,5 @@ export default function Login({ status, canResetPassword }) {
         </GuestLayout>
     );
 }
+
+

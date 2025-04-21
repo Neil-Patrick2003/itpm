@@ -1,17 +1,9 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { FaUser } from 'react-icons/fa';
-import { FaPhone } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { FaLock } from "react-icons/fa";
-
-
-
-
-
+import { Link } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+import { Head, useForm } from '@inertiajs/react';
+import { FaUser, FaPhone, FaLock } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
+import GuestLayout from "@/Layouts/GuestLayout.jsx";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -25,7 +17,6 @@ export default function Register() {
 
     const submit = (e) => {
         e.preventDefault();
-
         post(route('register'), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
@@ -35,132 +26,77 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <form onSubmit={submit} className='w-full'>
-                <div>
-                    <h1 className='text-xl text-center md:text-2xl lg:text-3xl mb-2 md:mb-8'>Register</h1>
-                    <InputLabel htmlFor="name" value="Name" />
+            <div className="w-full text-[#67c4c1]">
+                <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
 
-                    <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="name"
-                        isFocused={true}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                        icon={FaUser}
-                    />
+                <form onSubmit={submit} className="space-y-5">
+                    {/* Reusable Input Fields */}
+                    {[
+                        { id: 'name', type: 'text', icon: FaUser, label: 'Name', autoComplete: 'name' },
+                        { id: 'email', type: 'email', icon: MdEmail, label: 'Email', autoComplete: 'email' },
+                        { id: 'phone', type: 'text', icon: FaPhone, label: 'Phone', autoComplete: 'tel' },
+                        { id: 'password', type: 'password', icon: FaLock, label: 'Password', autoComplete: 'new-password' },
+                        { id: 'password_confirmation', type: 'password', icon: FaLock, label: 'Confirm Password', autoComplete: 'new-password' },
+                    ].map(({ id, type, icon: Icon, label, autoComplete }) => (
+                        <div key={id}>
+                            <label htmlFor={id} className="block text-sm font-medium mb-1">{label}</label>
+                            <div className="relative">
+                                <input
+                                    id={id}
+                                    name={id}
+                                    type={type}
+                                    value={data[id]}
+                                    onChange={(e) => setData(id, e.target.value)}
+                                    autoComplete={autoComplete}
+                                    required
+                                    placeholder={`Enter your ${label.toLowerCase()}`}
+                                    className="w-full py-2 pl-2 pr-10 text-[#67c4c1] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#67c4c1] focus:outline-none focus:ring-0"
+                                />
+                                <Icon className="absolute right-2 top-1/2 -translate-y-1/2 text-[#67c4c1]" />
+                            </div>
+                            {errors[id] && <p className="text-sm text-red-500 mt-1">{errors[id]}</p>}
+                        </div>
+                    ))}
 
-                    <InputError message={errors.name} className="mt-2" />
-                </div>
+                    {/* Role Dropdown */}
+                    <div>
+                        <label htmlFor="role" className="block text-sm font-medium mb-1">Role</label>
+                        <select
+                            id="role"
+                            name="role"
+                            value={data.role}
+                            onChange={(e) => setData('role', e.target.value)}
+                            className="w-full py-2 pl-3 bg-white border-0 border-b-2 border-gray-300 text-[#67c4c1] focus:border-[#67c4c1] focus:outline-none focus:ring-0"
+                        >
+                            <option value="">Select your role</option>
+                            <option value="health_worker">Health Worker</option>
+                            <option value="parent">Parent</option>
+                            <option value="sponsor">Sponsor</option>
+                        </select>
+                        {errors.role && <p className="text-sm text-red-500 mt-1">{errors.role}</p>}
+                    </div>
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
+                    {/* Terms and Register Button */}
+                    <div className="text-center text-sm text-[#67c4c1] mt-4">
+                        By signing up you agree to our{' '}
+                        <a href="#" className="text-green-600 underline">Privacy Policy</a> and{' '}
+                        <a href="#" className="text-green-600 underline">Terms</a>.
+                    </div>
 
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                        icon={MdEmail}
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="phone" value="Phone" />
-
-                    <TextInput
-                        id="phone"
-                        type="text"
-                        name="phone"
-                        value={data.phone}
-                        className="mt-1 block w-full"
-                        autoComplete="phone"
-                        onChange={(e) => setData('phone', e.target.value)}
-                        required
-                        icon={FaPhone}
-                    />
-
-                    <InputError message={errors.phone} className="mt-2" />
-                </div>
-                <div className='mt-4'>
-                    <select id='role' value={data.role} name="role" className='w-full rounded-lg' onChange={(e) => setData('role', e.target.value)}>
-                        
-                        <option value=""></option>
-                        <option value="health_worker">Health Worker</option>
-                        <option value="parent">Parent</option>
-                        <option value="sponsor">Sponsor</option>
-
-                    </select>
-                    <InputError message={errors.role} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                        required
-                        icon={FaLock}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel
-                        htmlFor="password_confirmation"
-                        value="Confirm Password"
-                    />
-
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) =>
-                            setData('password_confirmation', e.target.value)
-                        }
-                        required
-                        icon={FaLock}
-                    />
-
-                    <InputError
-                        message={errors.password_confirmation}
-                        className="mt-2"
-                    />
-                </div>
-
-                <div className="mt-4 flex-row items-center  justify-center">
-                    <p className='text-center text-sm'>By signing up you agree with the <a href="" className='text-green-600'>Privacy policy</a> and <a href="" className='text-green-600'>Terms</a> of Healthybite.</p>
-                    <Link
-                        href={route('login')}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                    <button
+                        type="submit"
+                        disabled={processing}
+                        className="w-full mt-4 bg-[#67c4c1] hover:bg-green-700 transition text-white py-2 rounded-full"
                     >
-
-                    </Link>
-
-                    <button type='submit' className="border my-4 py-2 rounded-md bg-green-800 w-full text-white" >
                         Register
                     </button>
-                    <p className='text-center'>Already registered? <Link href="/login" className='text-green-600'>Sign in</Link></p>
-                </div>
-            </form>
+
+                    <p className="text-center mt-4 text-sm text-[#67c4c1]">
+                        Already have an account?{' '}
+                        <Link href="/login" className="text-green-600 underline">Sign in</Link>
+                    </p>
+                </form>
+            </div>
         </GuestLayout>
     );
 }
