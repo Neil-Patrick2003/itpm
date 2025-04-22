@@ -1,130 +1,101 @@
 import React, { useState } from 'react';
 import right from '../../assets/image/right.png';
-import { delay, motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 import { Link } from '@inertiajs/react';
-
 
 const Hero = () => {
     const [isHover, setIsHover] = useState(false);
 
     return (
-        <div className='bg-green-200'>
-            <section id='home' className="mt-12 md:mt-12 lg:mt-0 grid w-full grid-cols-1 gap-4 md:grid-cols-2 h-screen">
-                <div className="max-w-[1400px] mx-auto p-4 md:p-4 lg:p-6 flex flex-col justify-center h-full gap-1 md:gap-4">
+        <div className="bg-[#E6F4EA]">
+            <section id='home' className="grid grid-cols-1 md:grid-cols-2 h-screen">
+                {/* Left - Text */}
+                <div className="flex flex-col justify-center p-6 md:p-10 lg:p-20 gap-4">
                     <motion.h1
                         initial={{ opacity: 0, x: -100 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
                         transition={{ duration: 1 }}
-                        className='text-red-600 text-6xl md:text-7xl lg:text-8xl font-bold'
+                        className="text-[#66CA6A] text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
                     >
-                        Healthy <span className='text-black text-2xl md:text-3xl lg:text-4xl'>Living </span>
-                        <p className='text-black text-2xl md:mt-4 md:text-3xl lg:text-4xl'>made easy!!!</p>
+                        Healthy Living
+                        <p className="text-black text-2xl md:text-3xl mt-2">made easy!</p>
                     </motion.h1>
 
-                    <motion.div
+                    <motion.p
                         initial={{ opacity: 0, x: -100 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 0.8 }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                        className="text-gray-600 text-base md:text-lg lg:text-xl mt-2"
                     >
-                        <p className='text-sm md:text-lg lg:text-xl mb-4 md:mb-6'>
-                            Get your custom plan & one-on-one guidance from our experts.
-                        </p>
-                    </motion.div>
+                        Get your custom plan & one-on-one guidance from our experts.
+                    </motion.p>
 
-                    <Link href='login'>
-                        
-                        <motion.div className="inter flex w-1/2  md:w-full drop-shadow-md   "
+                    <Link href="/login" className="mt-4">
+                        <motion.div
+                            className="relative flex items-center w-full sm:w-[220px] bg-white rounded-full overflow-hidden shadow-md"
+                            onMouseEnter={() => setIsHover(true)}
+                            onMouseLeave={() => setIsHover(false)}
                             initial={{ opacity: 0, x: -100, scale: 0.9 }}
                             whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1, delay: 1.5 }}
+                            transition={{ duration: 1, delay: 1 }}
                         >
-                            <div
-                                className="flex justify-center items-center bg-white py-2 rounded-lg relative overflow-hidden w-full sm:w-1/2 md:w-1/3"
-                                onMouseEnter={() => setIsHover(true)}
-                                onMouseLeave={() => setIsHover(false)}
+                            <motion.div
+                                className="absolute left-6 w-3 h-3 bg-[#66CA6A] rounded-full z-0"
+                                animate={{
+                                    scale: isHover ? 45 : 1,
+                                }}
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                            />
+                            <motion.p
+                                className="z-10 w-full text-center py-2 font-semibold text-lg"
+                                animate={{ color: isHover ? "#fff" : "#166534" }}
                             >
-                                {/* Expanding Circle */}
-                                <motion.div
-                                    className="w-[8px] h-[8px] bg-green-800 rounded-full absolute left-6"
-                                    animate={{
-                                        scale: isHover ? 45 : 1,
-                                    }}
-                                    transition={{
-                                        ease: "easeIn",
-                                        duration: 0.2,
-                                    }}
-                                ></motion.div>
-
-                                {/* Button Text */}
-                                <motion.div
-                                    className="text-lg font-bold text-center z-10"
-                                    animate={{
-                                        x: isHover ? -8 : 8,
-                                        color: isHover ? "#FFFFFF" : "#166534",
-                                    }}
-                                >
-                                    <p>Get Started</p>
-                                </motion.div>
-
-                                {/* Arrow Icon */}
-                                <motion.div
-                                    className="absolute flex items-center right-4 md:right-6"
-                                    animate={{
-                                        x: isHover ? 0 : 12,
-                                    }}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={1.5}
-                                        stroke="white"
-                                        className="size-6"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                                        />
-                                    </svg>
-                                </motion.div>
-                            </div>
+                                Get Started
+                            </motion.p>
+                            <motion.div
+                                className="absolute right-6 z-10"
+                                animate={{ x: isHover ? 0 : 12 }}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </motion.div>
                         </motion.div>
-
                     </Link>
 
-                    <motion.div
-                        initial={{ opacity: 0, x: -100, scale: 0.9 }}
-                        whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 1.8 }}
-                        whileHover={{ scale: 1.05, rotateX: 10, boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)" }}
-                        className='text-sm md:text-md lg:text-lg'
+                    <motion.p
+                        className="text-sm md:text-base mt-6 text-gray-600"
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 1, delay: 1.3 }}
                     >
-                        Signup & get started today
-                    </motion.div>
-
+                        Signup & get started today.
+                    </motion.p>
                 </div>
+
+                {/* Right - Image */}
                 <div className="flex justify-end items-center ">
                     <motion.img
                         src={right}
-                        className="w-[400px] md:w-[600px]"
-                        initial={{ scale: 0.8 }}
-                        animate={{
-                            scale: 1,
-                            y: [0, -10, 0]
-                        }}
+                        alt="Healthy Living"
+                        className="w-[300px] md:w-[500px] lg:w-[600px] object-contain "
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1, y: [0, -10, 0] }}
                         transition={{
-                            scale: { duration: 1, ease: "easeOut" },
-                            y: { duration: 1.5, repeat: Infinity, repeatType: "mirror", ease: "linear" }
+                            y: {
+                                duration: 2,
+                                repeat: Infinity,
+                                repeatType: "mirror",
+                                ease: "easeInOut"
+                            },
+                            scale: { duration: 1 },
+                            opacity: { duration: 1.5 }
                         }}
                     />
                 </div>
-            </section></div>
-    )
-}
+            </section>
+        </div>
+    );
+};
 
-export default Hero
+export default Hero;

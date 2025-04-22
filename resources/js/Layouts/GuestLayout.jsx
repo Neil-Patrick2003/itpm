@@ -7,7 +7,7 @@ export default function GuestLayout({ children }) {
         <div className="h-screen overflow-hidden flex flex-col w-full relative bg-white">
             {/* Background Orbits */}
             <div className="absolute bottom-[-150px] left-[-200px] transform rotate-45 z-0">
-                <div className="h-[1050px] w-[1050px] bg-[#A7E3E1] rounded-[120px]">
+                <div className="h-[1050px] w-[1050px]  rounded-[120px]" style={{ backgroundColor: 'FF66CA6A' }}  >
                     <motion.div
                         className="absolute w-full h-full border border-blue-400 rounded-[120px] z-10"
                         initial={{ scale: 0, opacity: 1 }}
