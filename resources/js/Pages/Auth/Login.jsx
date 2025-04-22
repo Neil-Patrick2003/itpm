@@ -6,6 +6,8 @@ import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Button } from 'react-scroll';
+import {MdEmail} from "react-icons/md";
+import {FaLock} from "react-icons/fa";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -32,37 +34,41 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             )}
 
-            <form onSubmit={submit} className='flex flex-col justify-center w-full'>
+            <form onSubmit={submit} className='flex flex-col justify-center  h-full w-full'>
                 <div>
-                    <h1 className='mb-4 md:mb-8 lg:mb-12 font-bold text-xl text-center md:text-2xl lg:text-3xl'>Login</h1>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <h1 className='mb-4 md:mb-8 lg:mb-12 font-bold text-xl text-[#67c4c1] text-center md:text-2xl lg:text-3xl'>Login</h1>
+                    <InputLabel htmlFor="email" value="Email" className=" text-[#67c4c1]"/>
+                    <div className="relative flex items-center w-full">
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            value={data.email}
+                            className="w-full py-2 pl-2 pr-10 text-[#67c4c1] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#67c4c1] focus:outline-none focus:ring-0"
+                            autoComplete="username"
+                            onChange={(e) => setData('email', e.target.value)}
+                        />
+                        <MdEmail className="absolute top-2 right-2 text-[#67c4c1]" />
+                    </div>
 
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
-                    />
 
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                    />
+                    <InputLabel htmlFor="password" value="Password"  className=" text-[#67c4c1]"/>
+                    <div className="relative">
+                        <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            value={data.password}
+                            className="w-full py-2 pl-2 pr-10 text-[#67c4c1] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#67c4c1] focus:outline-none focus:ring-0"
+                            autoComplete="current-password"
+                            onChange={(e) => setData('password', e.target.value)}
+                        />
+                        <FaLock className="absolute top-2 right-2 text-[#67c4c1]" />
+                    </div>
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
@@ -98,7 +104,9 @@ export default function Login({ status, canResetPassword }) {
                 <div className="mt-4 gap-2 md:gap-4 flex flex-col items-center justify-end">
 
 
-                    <button type='submit' className="w-full border py-2 bg-green-800 text-white rounded-md hover:bg-green-600 transition-all" disabled={processing}>
+                    <button type='submit'
+                            className="w-full mt-4 bg-[#67c4c1] hover:bg-[#A7E3E1] transition text-white py-2 rounded-full"
+                            disabled={processing}>
                         Log in
                     </button>
 

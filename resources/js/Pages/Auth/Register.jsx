@@ -4,6 +4,7 @@ import { Head, useForm } from '@inertiajs/react';
 import { FaUser, FaPhone, FaLock } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import GuestLayout from "@/Layouts/GuestLayout.jsx";
+import InputLabel from "@/Components/InputLabel.jsx";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -39,7 +40,9 @@ export default function Register() {
                         { id: 'password_confirmation', type: 'password', icon: FaLock, label: 'Confirm Password', autoComplete: 'new-password' },
                     ].map(({ id, type, icon: Icon, label, autoComplete }) => (
                         <div key={id}>
-                            <label htmlFor={id} className="block text-sm font-medium mb-1">{label}</label>
+                                {/*<label htmlFor={id} className="block text-sm font-medium mb-1">{label}</label>*/}
+                            <InputLabel htmlFor={id} value={label} className=" text-[#67c4c1]"/>
+
                             <div className="relative">
                                 <input
                                     id={id}
@@ -60,7 +63,7 @@ export default function Register() {
 
                     {/* Role Dropdown */}
                     <div>
-                        <label htmlFor="role" className="block text-sm font-medium mb-1">Role</label>
+                        <label htmlFor="role" className="block text-sm md:text-md lg:text-lg font-medium mb-1">Role</label>
                         <select
                             id="role"
                             name="role"
@@ -86,7 +89,7 @@ export default function Register() {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="w-full mt-4 bg-[#67c4c1] hover:bg-green-700 transition text-white py-2 rounded-full"
+                        className="w-full mt-4 bg-[#67c4c1] hover:bg-[#A7E3E1] transition text-white py-2 rounded-full"
                     >
                         Register
                     </button>
