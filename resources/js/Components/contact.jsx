@@ -114,7 +114,7 @@ const Contact = () => {
                         <motion.div className="col-span-2 flex justify-end" variants={fadeInVariant} custom={0.7}>
                             <button
                                 type="submit"
-                                className="w-1/2 max-w-xs bg-[#67c4c1] hover:bg-[#A7E3E1] transition text-white font-medium py-3 rounded-full"
+                                className="w-1/2 max-w-xs bg-[#66CA6A] hover:bg-green-400    transition text-white font-medium py-3 rounded-full"
                             >
                                 Send
                             </button>

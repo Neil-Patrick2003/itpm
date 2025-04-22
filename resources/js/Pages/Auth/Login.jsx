@@ -36,19 +36,19 @@ export default function Login({ status, canResetPassword }) {
 
             <form onSubmit={submit} className='flex flex-col justify-center  h-full w-full'>
                 <div>
-                    <h1 className='mb-4 md:mb-8 lg:mb-12 font-bold text-xl text-[#67c4c1] text-center md:text-2xl lg:text-3xl'>Login</h1>
-                    <InputLabel htmlFor="email" value="Email" className=" text-[#67c4c1]"/>
+                    <h1 className='mb-4 md:mb-8 lg:mb-12 font-bold text-xl text-[#66CA6A] text-center md:text-2xl lg:text-3xl'>Login</h1>
+                    <InputLabel htmlFor="email" value="Email" className=" text-[#66CA6A]"/>
                     <div className="relative flex items-center w-full">
                         <input
                             id="email"
                             type="email"
                             name="email"
                             value={data.email}
-                            className="w-full py-2 pl-2 pr-10 text-[#67c4c1] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#67c4c1] focus:outline-none focus:ring-0"
+                            className="w-full py-2 pl-2 pr-10 text-[#66CA6A] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#66CA6A] focus:outline-none focus:ring-0"
                             autoComplete="username"
                             onChange={(e) => setData('email', e.target.value)}
                         />
-                        <MdEmail className="absolute top-2 right-2 text-[#67c4c1]" />
+                        <MdEmail className="absolute top-2 right-2 text-[#66CA6A]" />
                     </div>
 
 
@@ -63,11 +63,11 @@ export default function Login({ status, canResetPassword }) {
                             type="password"
                             name="password"
                             value={data.password}
-                            className="w-full py-2 pl-2 pr-10 text-[#67c4c1] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#67c4c1] focus:outline-none focus:ring-0"
+                            className="w-full py-2 pl-2 pr-10 text-[#67c4c1] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#66CA6A] focus:outline-none focus:ring-0"
                             autoComplete="current-password"
                             onChange={(e) => setData('password', e.target.value)}
                         />
-                        <FaLock className="absolute top-2 right-2 text-[#67c4c1]" />
+                        <FaLock className="absolute top-2 right-2 text-[#66CA6A]" />
                     </div>
 
                     <InputError message={errors.password} className="mt-2" />
@@ -105,7 +105,7 @@ export default function Login({ status, canResetPassword }) {
 
 
                     <button type='submit'
-                            className="w-full mt-4 bg-[#67c4c1] hover:bg-[#A7E3E1] transition text-white py-2 rounded-full"
+                            className="w-full mt-4 bg-[#66CA6A] hover:bg-green-400 transition text-white py-2 rounded-full"
                             disabled={processing}>
                         Log in
                     </button>

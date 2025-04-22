@@ -27,7 +27,7 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <div className="w-full h-full text-[#67c4c1] overflow-auto">
+            <div className="w-full h-full text-[#66CA6A] overflow-auto">
                 <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
 
                 <form onSubmit={submit} className="space-y-5">
@@ -41,7 +41,7 @@ export default function Register() {
                     ].map(({ id, type, icon: Icon, label, autoComplete }) => (
                         <div key={id}>
                                 {/*<label htmlFor={id} className="block text-sm font-medium mb-1">{label}</label>*/}
-                            <InputLabel htmlFor={id} value={label} className=" text-[#67c4c1]"/>
+                            <InputLabel htmlFor={id} value={label} className=" text-[#66CA6A]"/>
 
                             <div className="relative">
                                 <input
@@ -53,9 +53,9 @@ export default function Register() {
                                     autoComplete={autoComplete}
                                     required
                                     placeholder={`Enter your ${label.toLowerCase()}`}
-                                    className="w-full py-2 pl-2 pr-10 text-[#67c4c1] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#67c4c1] focus:outline-none focus:ring-0"
+                                    className="w-full py-2 pl-2 pr-10 text-[#66CA6A] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#66CA6A] focus:outline-none focus:ring-0"
                                 />
-                                <Icon className="absolute right-2 top-1/2 -translate-y-1/2 text-[#67c4c1]" />
+                                <Icon className="absolute right-2 top-1/2 -translate-y-1/2 text-[#66CA6A]" />
                             </div>
                             {errors[id] && <p className="text-sm text-red-500 mt-1">{errors[id]}</p>}
                         </div>
@@ -63,13 +63,13 @@ export default function Register() {
 
                     {/* Role Dropdown */}
                     <div>
-                        <label htmlFor="role" className="block text-sm md:text-md lg:text-lg font-medium mb-1">Role</label>
+                        <label htmlFor="role" className="block text-sm md:text-md  text-gray-400 lg:text-lg font-medium mb-1">Role</label>
                         <select
                             id="role"
                             name="role"
                             value={data.role}
                             onChange={(e) => setData('role', e.target.value)}
-                            className="w-full py-2 pl-3 bg-white border-0 border-b-2 border-gray-300 text-[#67c4c1] focus:border-[#67c4c1] focus:outline-none focus:ring-0"
+                            className="w-full py-2 pl-3 bg-white border-0 border-b-2 border-gray-300 text-gray-400 focus:border-[#66CA6A] focus:outline-none focus:ring-0"
                         >
                             <option value="">Select your role</option>
                             <option value="health_worker">Health Worker</option>
@@ -89,7 +89,7 @@ export default function Register() {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="w-full mt-4 bg-[#67c4c1] hover:bg-[#A7E3E1] transition text-white py-2 rounded-full"
+                        className="w-full mt-4 bg-[#66CA6A] hover:bg-green-400 transition text-white py-2 rounded-full"
                     >
                         Register
                     </button>
