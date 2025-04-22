@@ -1,25 +1,47 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import center from "../../assets/image/center.jpg";
 
-const about = () => {
+const About = () => {
     return (
-        <div className='max-w-[1400px] mx-auto min-h-screen p-4 md:p-4 lg:p-6 border'>
-            <section id='about' className="h-fullflex flex-col justify-center items-center p-6 md:p-7 lg:p-12 mt-20 text-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 100 }} // Start hidden and below
-                    whileInView={{ opacity: 1, y: 0 }} // Move up smoothly when in view
-                    viewport={{ once: true, amount: 0.2 }} // Only triggers once, when 30% in view
-                    transition={{ duration: 1, ease: "easeOut" }} // Smooth transition
-                >
-                    <h1 className='text-lg md:text-xl lg:text-2xl mb-8 md:mb-10 lg:mb-12'>About us</h1>
-                    <p className='text-sm md:text-lg lg:text-xl md:mb-6 leading-relaxed tracking-wide'>
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-                    </p>
-                </motion.div>
+        <div className=''>
+            <section
+                id='about'
+                className="h-screen flex flex-col justify-center items-center px-6 md:px-12 lg:px-16 mt-20 text-center relative"
+                style={{ backgroundImage: `url(${center})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            >
+                {/* Semi-transparent overlay */}
+                <div className="absolute inset-0 bg-black opacity-40"></div>
 
+                <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    className='p-6 lg:p-12 relative z-10'
+                >
+                    <motion.h1
+                        className='text-white font-bold text-xl md:text-2xl lg:text-4xl mb-6 md:mb-10 lg:mb-12'
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                        Who are we?
+                    </motion.h1>
+                    <motion.p
+                        className='text-gray-800 bg-white text-sm md:text-lg lg:text-xl leading-relaxed tracking-wide bg-opacity-80 p-6 rounded-xl'
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                    >
+                        The Tuy Rural Health Center is a dedicated public health facility in Batangas focused on community well-being. Our mission is to uplift the lives of children through nutrition, health education, and supportive programs that empower families.
+                        <br /><br />
+                        In partnership with local leaders and sponsors, we’re committed to ending child undernutrition — not through pity, but through compassion, unity, and action.
+                    </motion.p>
+                </motion.div>
             </section>
         </div>
     )
 }
 
-export default about
+export default About

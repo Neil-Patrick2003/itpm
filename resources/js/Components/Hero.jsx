@@ -17,8 +17,10 @@ const Hero = () => {
                         transition={{ duration: 1 }}
                         className="text-[#66CA6A] text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
                     >
-                        Healthy Living
-                        <p className="text-black text-2xl md:text-3xl mt-2">made easy!</p>
+                        Build Brighter Futures,
+
+
+                        <p className="text-black text-2xl md:text-3xl mt-2">Sponsor a Healthier Tomorrow!</p>
                     </motion.h1>
 
                     <motion.p
@@ -27,7 +29,7 @@ const Hero = () => {
                         transition={{ duration: 1, delay: 0.5 }}
                         className="text-gray-600 text-base md:text-lg lg:text-xl mt-2"
                     >
-                        Get your custom plan & one-on-one guidance from our experts.
+                        Your support builds stronger, healthier rural communities.
                     </motion.p>
 
                     <Link href="/login" className="mt-4">
