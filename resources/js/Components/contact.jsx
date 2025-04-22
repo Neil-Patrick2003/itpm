@@ -14,31 +14,31 @@ const fadeInVariant = {
 
 const Contact = () => {
     return (
-        <div className="relative min-h-screen bg-white flex items-center justify-center px-6 sm:px-10 md:px-16 py-20">
+        <div className="relative min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 md:px-10 lg:px-16 py-16 sm:py-20">
             {/* Decorative Background */}
-            <div className="absolute top-0 left-0 w-full h-2/5 bg-[#E6F4EA] z-0 rounded-b-3xl" />
+            <div className="absolute top-0 left-0 w-full h-1/3 sm:h-2/5 bg-[#E6F4EA] z-0" />
 
             <section id="contact" className="relative z-10 max-w-[1400px] w-full">
                 {/* Header */}
                 <motion.div
-                    className="text-center my-12 md:mt-24"
+                    className="text-center my-10 md:my-20"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.3 }}
                     variants={fadeInVariant}
                     custom={0}
                 >
-                    <h1 className="text-2xl md:text-4xl font-semibold text-[#66CA6A] mb-4">
+                    <h1 className="text-xl sm:text-2xl md:text-4xl font-semibold text-[#66CA6A] mb-4">
                         Get in Touch with Us
                     </h1>
-                    <p className="text-base md:text-lg text-gray-700 leading-relaxed italic max-w-3xl mx-auto">
+                    <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed italic max-w-3xl mx-auto px-2">
                         "Every child deserves a chance to grow, learn, and thrive. Through your sponsorship, we bring hope and opportunity to children in need. Reach out and become part of a child’s journey today."
                     </p>
                 </motion.div>
 
                 {/* Contact Form */}
                 <motion.div
-                    className="bg-white rounded-2xl shadow-lg p-6 sm:p-10 lg:p-24 flex flex-col gap-10"
+                    className="bg-white rounded-2xl shadow-lg p-5 sm:p-8 md:p-12 lg:p-20 flex flex-col gap-10"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.3 }}
@@ -96,7 +96,8 @@ const Contact = () => {
                             </motion.div>
                         </div>
 
-                        <motion.div className="flex flex-col " variants={fadeInVariant} custom={0.6}>
+                        {/* Message */}
+                        <motion.div className="flex flex-col" variants={fadeInVariant} custom={0.6}>
                             <InputLabel htmlFor="message" value="Message" />
                             <div className="relative">
                                 <textarea
@@ -104,17 +105,17 @@ const Contact = () => {
                                     name="message"
                                     required
                                     placeholder="Write your message here..."
-                                    className="w-full h-[232px] py-2 pl-3 pr-10 text-[#66CA6A] bg-transparent border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#67c4c1] focus:outline-none resize-none"
+                                    className="w-full sm:h-[200px] md:h-[232px]  py-2 pl-3 pr-10 text-[#66CA6A] bg-transparent border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#67c4c1] focus:outline-none resize-none"
                                 />
                                 <MdMessage className="absolute right-2 top-4 text-[#66CA6A] w-5 h-5" />
                             </div>
                         </motion.div>
 
                         {/* Submit Button */}
-                        <motion.div className="col-span-2 flex justify-end" variants={fadeInVariant} custom={0.7}>
+                        <motion.div className="col-span-1 md:col-span-2 flex justify-center md:justify-end mt-4" variants={fadeInVariant} custom={0.7}>
                             <button
                                 type="submit"
-                                className="w-1/2 max-w-xs bg-[#66CA6A] hover:bg-green-400    transition text-white font-medium py-3 rounded-full"
+                                className="w-full sm:w-1/2 md:max-w-xs bg-[#66CA6A] hover:bg-green-400 transition text-white font-medium py-3 rounded-full"
                             >
                                 Send
                             </button>

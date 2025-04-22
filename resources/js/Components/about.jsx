@@ -18,7 +18,7 @@ const About = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 1, ease: "easeOut" }}
-                    className='p-6 lg:p-12 relative z-10'
+                    className='p-6 lg:p-12 relative z-10 max-w-[1400px]'
                 >
                     <motion.h1
                         className='text-white font-bold text-xl md:text-2xl lg:text-4xl mb-6 md:mb-10 lg:mb-12'

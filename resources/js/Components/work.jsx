@@ -31,7 +31,7 @@ const cardData = [
 const Work = () => {
     return (
         <div className="max-w-[1400px] mx-auto px-4 py-10 md:py-16">
-            <section id="works" className="flex flex-col justify-center items-center text-center h-screen">
+            <section id="works" className="flex flex-col justify-center items-center text-center sm:h-full md:h-screen">
                 <h2 className="text-lg md:text-xl lg:text-2xl font-semibold my-6">
                     How <span className="text-[#66CA6A] text-xl md:text-3xl lg:text-4xl font-bold">Your Sponsorship</span> Works
                 </h2>

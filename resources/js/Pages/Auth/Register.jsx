@@ -28,7 +28,7 @@ export default function Register() {
             <Head title="Register" />
 
             <div className="w-full h-full text-[#66CA6A] overflow-auto">
-                <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
+                <h2 className="text-2xl sm:text-xl md:text-2xl lg:text-3xl font-semibold text-center mb-6">Register</h2>
 
                 <form onSubmit={submit} className="space-y-5">
                     {/* Reusable Input Fields */}
@@ -40,8 +40,7 @@ export default function Register() {
                         { id: 'password_confirmation', type: 'password', icon: FaLock, label: 'Confirm Password', autoComplete: 'new-password' },
                     ].map(({ id, type, icon: Icon, label, autoComplete }) => (
                         <div key={id}>
-                                {/*<label htmlFor={id} className="block text-sm font-medium mb-1">{label}</label>*/}
-                            <InputLabel htmlFor={id} value={label} className=" text-[#66CA6A]"/>
+                            <InputLabel htmlFor={id} value={label} className="text-[#66CA6A]" />
 
                             <div className="relative">
                                 <input
@@ -53,7 +52,7 @@ export default function Register() {
                                     autoComplete={autoComplete}
                                     required
                                     placeholder={`Enter your ${label.toLowerCase()}`}
-                                    className="w-full py-2 pl-2 pr-10 text-[#66CA6A] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#66CA6A] focus:outline-none focus:ring-0"
+                                    className="w-full py-2 pl-2 pr-10 text-[#66CA6A] bg-transparent border-0 border-b-2 border-gray-300 placeholder-gray-400 focus:border-[#66CA6A] focus:outline-none focus:ring-0 text-sm sm:text-base md:text-lg"
                                 />
                                 <Icon className="absolute right-2 top-1/2 -translate-y-1/2 text-[#66CA6A]" />
                             </div>
@@ -63,13 +62,13 @@ export default function Register() {
 
                     {/* Role Dropdown */}
                     <div>
-                        <label htmlFor="role" className="block text-sm md:text-md  text-gray-400 lg:text-lg font-medium mb-1">Role</label>
+                        <label htmlFor="role" className="block text-sm md:text-md lg:text-lg font-medium mb-1 text-gray-400">Role</label>
                         <select
                             id="role"
                             name="role"
                             value={data.role}
                             onChange={(e) => setData('role', e.target.value)}
-                            className="w-full py-2 pl-3 bg-white border-0 border-b-2 border-gray-300 text-gray-400 focus:border-[#66CA6A] focus:outline-none focus:ring-0"
+                            className="w-full py-2 pl-3 bg-white border-0 border-b-2 border-gray-300 text-gray-400 focus:border-[#66CA6A] focus:outline-none focus:ring-0 text-sm sm:text-base md:text-lg"
                         >
                             <option value="">Select your role</option>
                             <option value="health_worker">Health Worker</option>
@@ -80,7 +79,7 @@ export default function Register() {
                     </div>
 
                     {/* Terms and Register Button */}
-                    <div className="text-center text-sm text-[#67c4c1] mt-4">
+                    <div className="text-center text-sm sm:text-xs md:text-sm lg:text-base text-[#67c4c1] mt-4">
                         By signing up you agree to our{' '}
                         <a href="#" className="text-green-600 underline">Privacy Policy</a> and{' '}
                         <a href="#" className="text-green-600 underline">Terms</a>.
@@ -89,12 +88,12 @@ export default function Register() {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="w-full mt-4 bg-[#66CA6A] hover:bg-green-400 transition text-white py-2 rounded-full"
+                        className="w-full mt-4 bg-[#66CA6A] hover:bg-green-400 transition text-white py-2 rounded-full text-sm sm:text-base md:text-lg"
                     >
                         Register
                     </button>
 
-                    <p className="text-center mt-4 text-sm text-[#67c4c1]">
+                    <p className="text-center mt-4 text-sm sm:text-xs md:text-sm lg:text-base text-[#67c4c1]">
                         Already have an account?{' '}
                         <Link href="/login" className="text-green-600 underline">Sign in</Link>
                     </p>

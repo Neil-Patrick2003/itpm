@@ -8,31 +8,31 @@ const Hero = () => {
 
     return (
         <div className="bg-[#E6F4EA]">
-            <section id='home' className="grid grid-cols-1 md:grid-cols-2 h-screen">
+            <section id="home" className="grid grid-cols-1 lg:grid-cols-2 h-screen">
                 {/* Left - Text */}
-                <div className="flex flex-col justify-center p-6 md:p-10 lg:p-20 gap-4">
+                <div className="flex flex-col items-center lg:items-start justify-center text-center lg:text-left mt-12 md:mt-0 p-6 md:p-10 lg:p-20 gap-4">
                     <motion.h1
                         initial={{ opacity: 0, x: -100 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 1 }}
-                        className="text-[#66CA6A] text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
+                        className="text-[#66CA6A] text-3xl md:text-4xl lg:text-7xl font-extrabold leading-tight"
                     >
                         Build Brighter Futures,
-
-
-                        <p className="text-black text-2xl md:text-3xl mt-2">Sponsor a Healthier Tomorrow!</p>
+                        <p className="text-black text-xl md:text-2xl lg:text-3xl mt-2">
+                            Sponsor a Healthier Tomorrow!
+                        </p>
                     </motion.h1>
 
                     <motion.p
                         initial={{ opacity: 0, x: -100 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 1, delay: 0.5 }}
-                        className="text-gray-600 text-base md:text-lg lg:text-xl mt-2"
+                        className="text-gray-600 text-sm md:text-lg lg:text-xl mt-2"
                     >
                         Your support builds stronger, healthier rural communities.
                     </motion.p>
 
-                    <Link href="/login" className="mt-4">
+                    <Link href="/login" className="mt-4 w-full flex justify-center lg:justify-start">
                         <motion.div
                             className="relative flex items-center w-full sm:w-[220px] bg-white rounded-full overflow-hidden shadow-md"
                             onMouseEnter={() => setIsHover(true)}
@@ -76,11 +76,11 @@ const Hero = () => {
                 </div>
 
                 {/* Right - Image */}
-                <div className="flex justify-end items-center ">
+                <div className="hidden lg:flex justify-end items-center">
                     <motion.img
                         src={right}
                         alt="Healthy Living"
-                        className="w-[300px] md:w-[500px] lg:w-[600px] object-contain "
+                        className="w-[300px] md:w-[500px] lg:w-[600px] object-contain"
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1, y: [0, -10, 0] }}
                         transition={{
