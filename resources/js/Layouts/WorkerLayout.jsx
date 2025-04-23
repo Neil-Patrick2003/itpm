@@ -23,6 +23,11 @@ const navigation = [
     { name: 'Dashboard', href: '/health_workers/dashboard' },
     { name: 'Record', href: '/health_workers/records' },
     { name: 'Beneficiaries', href: '/health_workers/beneficiary' },
+    { name: 'Forum', href: '/health_workers/forum' },
+    { name: 'Diet Plan', href: '/health_workers/diet_plan' },
+
+
+
 ]
 
 const userNavigation = [

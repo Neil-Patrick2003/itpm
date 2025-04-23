@@ -74,9 +74,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/health_workers/beneficiary ', [\App\Http\Controllers\HealthWorker\ProgramBeneficiaryController::class, 'index']);
     Route::get('/health_workers/beneficiary/{id} ', [\App\Http\Controllers\HealthWorker\ProgramBeneficiaryController::class, 'show']);
-
     Route::post('/health_workers/beneficiary/{id} ', [\App\Http\Controllers\HealthWorker\ChildrenRecordController::class, 'store']);
 
+
+    Route::get('/health_workers/forum', [\App\Http\Controllers\TopicController::class, 'index']);
 
 
 });
