@@ -47,7 +47,7 @@ export default function WorkerLayout({ children }) {
         <>
             <div className="min-h-full bg-gray-100">
                 <div className="bg-gray-100 pb-32">
-                    <Disclosure as="nav" className="bg-green-900">
+                    <Disclosure as="nav" className="fix bg-green-900">
                         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                             <div className="border-b border-gray-700">
                                 <div className="flex h-16 items-center justify-between px-4 sm:px-0">

@@ -1,9 +1,10 @@
 import WorkerLayout from "@/Layouts/WorkerLayout.jsx";
+import ForumIndex from "@/Pages/Worker/Forum/ForumIndex.jsx";
 
 export default function CreatePost() {
     return (
-        <WorkerLayout>
-            Post Create Page
-        </WorkerLayout>
+        <ForumIndex>
+            hi
+        </ForumIndex>
     )
 }
