@@ -24,9 +24,10 @@ const CreateRecord = () => {
         post('/health_workers/records/create', {
             onSuccess: () => {
                 reset(); // Clear the form data on success
+                // Optionally add success notification or redirect
             },
             onError: () => {
-                // Data will stay as is if there are errors
+                // Optionally handle error state or display a message
             },
         });
     }
@@ -35,13 +36,12 @@ const CreateRecord = () => {
         <WorkerLayout>
             <Head title="Add Record" />
             <Link href="/health_workers/records">
-                <FaArrowLeft/>
+                <FaArrowLeft />
             </Link>
-
 
             <h2 className="text-center">New Record</h2>
             <form onSubmit={submit}>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 px-4">
                     {/* Children Name */}
                     <div className="col-span-3 md:col-span-2 ">
                         <div className="w-full mt-4">
