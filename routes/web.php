@@ -78,6 +78,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     Route::get('/health_workers/forum', [\App\Http\Controllers\TopicController::class, 'index']);
+    Route::get('/health_workers/forum/create_post', [\App\Http\Controllers\HealthWorker\PostController::class, 'create']);;
+
 
 
 });
