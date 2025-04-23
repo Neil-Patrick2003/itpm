@@ -62,7 +62,7 @@ export default function ForumIndex({ search, page = 1 }) {
         <WorkerLayout>
             {/* Create new topic modal */}
             <Modal show={isAddTopicOpen} onClose={() => setIsAddTopicOpen(false)} maxWidth="lg">
-                <div className="p-6">
+                <div className="p-6 gap-y-4">
                     <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
@@ -85,7 +85,14 @@ export default function ForumIndex({ search, page = 1 }) {
                             )}
                         </div>
 
-                        <div className="flex justify-end">
+                        <div className="flex justify-end gap-2">
+                            <button
+                                onClick={() => setIsAddTopicOpen(false)}
+                                className="bg-white border border-green-500 hover:bg-green-600 text-green-500 hover:text-white text-sm px-5 py-2 rounded-md transition duration-150"
+                                disabled={processing}
+                            >
+                                Cancel
+                            </button>
                             <button
                                 type="submit"
                                 className="bg-green-500 hover:bg-green-600 text-white text-sm px-5 py-2 rounded-md transition duration-150"
@@ -103,7 +110,7 @@ export default function ForumIndex({ search, page = 1 }) {
             <div className="flex flex-col p-4 min-h-screen">
                 {/* Header and search bar */}
                 <div className="flex flex-col justify-between items-center space-x-4">
-                    <h1 className="text-2xl font-bold">Nutrisafary Discussion</h1>
+                    <h1 className="text-2xl md:text-3xl  font-bold text-[#66CA6A]">Nutrisafary Discussion</h1>
                     <p className="text-sm">All questions can be discussed here.</p>
                     <div className="relative w-full max-w-xl">
                         <input

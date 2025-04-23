@@ -33,7 +33,6 @@ const navigation = [
 const userNavigation = [
     { name: 'Your Profile', href: '/profile' },
     { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '/logout' },
 ]
 
 function classNames(...classes) {
@@ -45,7 +44,7 @@ export default function WorkerLayout({ children }) {
 
     return (
         <>
-            <div className="min-h-full bg-gray-100">
+            <div className="min-h-full">
                 <div className="bg-gray-100 pb-32">
                     <Disclosure as="nav" className="fix bg-green-900">
                         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -64,8 +63,8 @@ export default function WorkerLayout({ children }) {
                                                         aria-current={item.href === currentPage ? 'page' : undefined}
                                                         className={classNames(
                                                             item.href === currentPage
-                                                                ? 'bg-gray-900 text-white'
-                                                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                                ? 'bg-green-700 text-white'
+                                                                : 'text-gray-300 hover:bg-green-700 hover:text-white',
                                                             'rounded-md px-3 py-2 text-sm font-medium'
                                                         )}
                                                     >
@@ -109,7 +108,7 @@ export default function WorkerLayout({ children }) {
                                                         </MenuItem>
                                                     ))}
                                                     <MenuItem>
-                                                        <Link href="/logout" method="post" as="button">Logout</Link>
+                                                        <Link href="/logout" method="post" as="button" className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden">Logout</Link>
                                                     </MenuItem>
                                                 </MenuItems>
                                             </Menu>

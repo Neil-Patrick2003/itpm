@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { motion } from "framer-motion";
 import { useForm } from "@inertiajs/react";
+import Avatar from "@mui/material/Avatar";
 
 dayjs.extend(relativeTime);
 
@@ -23,6 +24,17 @@ export default function ShowTopic({ topic }) {
             onFinish: () => reset()
         });
     }
+
+    const stringAvatar = (name) => {
+        const nameSplit = name.trim().split(' ');
+        const initials = nameSplit.length > 1
+            ? `${nameSplit[0][0]}${nameSplit[1][0]}`
+            : `${nameSplit[0][0]}`;
+        return {
+            sx: { bgcolor: '#4CAF50' },
+            children: initials.toUpperCase(),
+        };
+    };
 
     return (
         <WorkerLayout>
@@ -127,14 +139,24 @@ export default function ShowTopic({ topic }) {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1, duration: 0.4 }}
-                                    className="flex gap-4 p-4 border border-gray-200 rounded-md bg-white shadow-sm"
+                                    className="flex gap-4 p-2 border border-gray-200 rounded-full bg-white shadow-sm"
                                 >
                                     <div className="shrink-0 w-10 h-10 bg-green-100 text-green-600 flex items-center justify-center rounded-full text-sm font-semibold">
-                                        {topic.user.name}
+                                        <div className="shrink-0">
+                                            {topic.user.profile_photo_url ? (
+                                                <img
+                                                    src={imageUrl + topic.user.profile_photo_url}
+                                                    alt={topic.user.name}
+                                                    className="rounded-full w-12 h-12 object-cover"
+                                                />
+                                            ) : (
+                                                <Avatar {...stringAvatar(topic.user.name)} sx={{ width: 48, height: 48 }} />
+                                            )}
+                                        </div>
                                     </div>
                                     <div className="flex flex-col w-full">
                                         <div className="flex justify-between items-center">
-                                            <p className="font-medium text-sm text-gray-800">{topic.user.name}</p>
+                                            <p className="font-medium text-xs text-gray-800">{topic.user.name}</p>
                                             <p className="text-xs text-gray-400 flex items-center gap-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
