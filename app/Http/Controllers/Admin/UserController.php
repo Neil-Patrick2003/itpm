@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User; // Importing the base Controller class
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use function Laravel\Prompts\password;
 
 class UserController extends Controller
 {
@@ -16,6 +18,31 @@ class UserController extends Controller
         return Inertia::render('Admin/User', [
             'users' => $users,
         ]);
+    }
+
+    public function store(Request $request){
+
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|',
+            'role' => 'required',
+            'assign_address' => 'nullable|max:255',
+            'password' => 'required',
+            'confirm_password' => 'required|same:password'
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'address' => $request->address,
+            'assign_address' => $request->assign_address,
+            'password' => hash::make($request->password),
+            'phone' => $request->phone,
+            'role' => $request->role,
+        ]);
+
+        return redirect()->back()->with('message', 'User created successfully!');
     }
 
     public function update(Request $request, $id)

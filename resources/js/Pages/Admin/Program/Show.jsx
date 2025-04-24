@@ -31,7 +31,7 @@ const Show = ({ program, beneficiaries }) => {
     // Handle edit action (currently just logs the row, can be expanded)
     const handleEdit = (row) => {
         console.log('Edit clicked for: ', row);
-        // Handle the edit functionality, such as opening a modal or redirecting
+        // Handle the edit functionality, such as    opening a modal or redirecting
     };
 
     // Handle delete action with SweetAlert confirmation
@@ -172,7 +172,7 @@ const Show = ({ program, beneficiaries }) => {
                     </ol>
                 </nav>
 
-                
+
 
                 <di className="bg-white my-4 ring-1 shadow-sm ring-black/5 sm:rounded-lg py-8 px-4">
                     <h1>{program.title}</h1>
@@ -183,7 +183,7 @@ const Show = ({ program, beneficiaries }) => {
                             <span>
                                 <PlusIcon className="h-6 w-6 text-" />
                             </span>
-                            Add new Program
+                            Add Beneficiary
                         </button>
                     </Link>
                 </div>
@@ -203,7 +203,7 @@ const Show = ({ program, beneficiaries }) => {
                             onPageSizeChange={handlePageSizeChange}  // Handle page size change
                             sx={{ border: 0 }}
                         />
-                    </Paper>    
+                    </Paper>
                 </div>
             </div>
         </AuthenticatedLayout>
