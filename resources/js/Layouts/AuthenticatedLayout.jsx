@@ -14,7 +14,7 @@ import {
     XMarkIcon,
     Bars3Icon,
     ChevronDownIcon,
-    ChevronUpIcon
+    ChevronUpIcon, MegaphoneIcon
 } from '@heroicons/react/24/outline';
 import { Menu, MenuItem, Fade } from '@mui/material';
 import FlashMessage from "@/Components/FlashMessage.jsx";
@@ -65,7 +65,10 @@ export default function AuthenticatedLayout({ header, children, logoUrl }) {
 
 
                     <div className="flex items-center gap-x-4">
-                        <BellAlertIcon className="h-8 w-8 text-green-600 border border-green-600 rounded-full p-1" />
+                        <Link href="announcements" className="flex items-center gap-x-2">
+                            <MegaphoneIcon className="h-10 w-10 hover:bg-green-600 hover:text-white text-green-600 border border-green-600 rounded-full p-1"  />
+                        </Link>
+                        <BellAlertIcon className="h-10 w-10 hover:bg-green-600 hover:text-white text-green-600 border border-green-600 rounded-full p-1" />
                         <button onClick={handleClick} className="flex items-center bg-green-50 px-4 py-1 rounded-full">
                             <span className="h-10 w-10 rounded-full bg-gray-300"></span>
                             <span className="ml-2 hidden md:block text-green-600">{userName}</span>

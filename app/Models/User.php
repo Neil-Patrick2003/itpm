@@ -60,4 +60,8 @@ class User extends Authenticatable
     public function topic(): HasMany{
         return $this->hasMany(Topic::class);
     }
+
+    public function announcement(): HasMany{
+        return $this->hasMany(Announcement::class);
+    }
 }
