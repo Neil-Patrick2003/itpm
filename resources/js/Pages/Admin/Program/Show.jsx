@@ -249,24 +249,7 @@ const Show = ({ program, beneficiaries }) => {
                     </table>
                 </div>
 
-                {/*<div className='mt-4'>*/}
-                {/*    <Paper sx={{ height: 800, width: '100%' }}>*/}
-                {/*        <DataGrid*/}
-                {/*            rows={rows}*/}
-                {/*            columns={columns}*/}
-                {/*            pagination*/}
-                {/*            paginationMode="server"*/}
-                {/*            pageSize={paginationModel.pageSize}*/}
-                {/*            page={paginationModel.page}*/}
-                {/*            rowCount={totalRowCount}  // Total number of rows for pagination*/}
-                {/*            pageSizeOptions={[5, 10, 25, 50, 100]}  // Pagination options*/}
-                {/*            checkboxSelection*/}
-                {/*            onPageChange={handlePageChange}  // Handle page change*/}
-                {/*            onPageSizeChange={handlePageSizeChange}  // Handle page size change*/}
-                {/*            sx={{ border: 0 }}*/}
-                {/*        />*/}
-                {/*    </Paper>*/}
-                {/*</div>*/}
+
             </div>
         </AuthenticatedLayout>
     );

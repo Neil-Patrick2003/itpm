@@ -30,17 +30,31 @@ class ProgramBeneficiariesController extends Controller
         ]);
     }
 
-
     public function create(Request $request, $id)
     {
         $program = Program::find($id);
-        $records =  Record::all();
+        $records = Record::all()->map(function ($record) {
+            return [
+                'id' => $record->id,
+                'name' => $record->children_name,
+                'birth_date' => $record->birth_date,
+                'gender' => $record->gender,
+                'address' => $record->address,
+                'status' => $record->status,
+                'weight' => $record->weight,
+                'height' => $record->height,
+                'bmi' => $this->calculateBmi($record->weight, $record->height),
+            ];
+        });
+
+
 
         return Inertia::render('Admin/Program/AddBeneficiaries', [
             'program' => $program,
             'records' => $records,
         ]);
     }
+
 
     public function store(Request $request, Program $program)
     {
@@ -122,7 +136,14 @@ class ProgramBeneficiariesController extends Controller
             return 'Height cannot be zero or negative';
         }
 
+        // Convert height from cm to meters if necessary
+        if ($height > 3) { // assumes height is in cm if it's > 3 meters
+            $height = $height / 100;
+        }
+
         $bmi = $weight / ($height * $height);
         return round($bmi, 2);  // Round the result to 2 decimal places
     }
+
+
 }
