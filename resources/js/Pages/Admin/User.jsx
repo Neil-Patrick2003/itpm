@@ -202,18 +202,19 @@ const AdminDashboard = ({ users }) => {
                                 <td className="px-6 py-4 text-sm text-gray-700">{user.role}</td>
                                 <td className="px-6 py-4 flex justify-center gap-3 text-gray-600">
                                     <Tooltip title="Edit User" arrow>
-                                        <button>
-                                            <FaEdit className="w-5 h-5 hover:text-green-600 transition" />
+                                        <button className="flex items-center gap-1 px-3 py-1 rounded-md border border-green-600 text-green-600 hover:bg-green-50">
+                                            <FaEdit className="w-4 h-4" /> Edit
+                                        </button>
+                                    </Tooltip>
+
+                                    <Tooltip title="View Details" arrow>
+                                        <button className="flex items-center gap-1 px-3 py-1 rounded-md border border-gray-500 text-gray-700 hover:bg-gray-50">
+                                            <GrFormView className="w-4 h-4" /> View
                                         </button>
                                     </Tooltip>
                                     <Tooltip title="Delete User" arrow>
-                                        <button>
-                                            <MdDeleteForever className="h-6 w-6 text-red-500 hover:text-red-600 transition" />
-                                        </button>
-                                    </Tooltip>
-                                    <Tooltip title="View Details" arrow>
-                                        <button>
-                                            <GrFormView className="w-8 h-8 text-blue-500 hover:text-blue-600 transition" />
+                                        <button className="flex items-center gap-1 px-3 py-1 rounded-md border border-red-500 text-red-500 hover:bg-red-50">
+                                            <MdDeleteForever className="w-4 h-4" /> Delete
                                         </button>
                                     </Tooltip>
                                 </td>
