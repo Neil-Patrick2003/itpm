@@ -31,7 +31,7 @@ class ProgramController extends Controller
     }
 
     public function store(Request $request)
-    {        
+    {
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -73,9 +73,12 @@ class ProgramController extends Controller
     public function show(Request $request, Program $program)
     {
         $beneficiaries = ProgramBeneficiaries::
-        with('children.parent')
+        with(['children.record' => function ($query) {
+            $query->latest ()->take(1);
+        }])
             ->where('program_id', $program->id)
             ->get();
+
 
         return Inertia::render('Admin/Program/Show', [
             'program' => $program,

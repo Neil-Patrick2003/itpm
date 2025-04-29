@@ -193,7 +193,7 @@ const Program = ({ programs, search = '', page = 1 }) => {
                             </ul>
                         ) : (
                             <EmptySearch estate="No available results."/>
-                        )}  
+                        )}
 
 
                     </div>

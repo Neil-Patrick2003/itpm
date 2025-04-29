@@ -131,6 +131,7 @@ const ShowChildrenRecord = ({ child, growthData, recent_record }) => {
                     </div>
                 </div>
             </Modal>
+
             <div className="grid  grid-cols-1 mt-4  md:grid-cols-4 gap-4 ">
                 {/* 👤 Child Profile Card */}
                 <div className="col-span-1 md:col-span-3 bg-white rounded-lg p-4 drop-shadow-md ">
