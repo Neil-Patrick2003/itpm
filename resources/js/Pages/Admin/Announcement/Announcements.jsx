@@ -6,19 +6,91 @@ import {FaEdit} from "react-icons/fa";
 import {MdDeleteForever} from "react-icons/md";
 import {GrFormView} from "react-icons/gr";
 import React, {useState} from "react";
-import WysiwygEditor from "@/Components/form/WysiwygEditor.jsx";
+import Editor from 'react-simple-wysiwyg';
 import EmptyState from "@/Components/EmptyState.jsx";
+import Modal from "@/Components/Modal.jsx";
+import {useForm} from "@inertiajs/react";
+import dayjs from "dayjs";
 
 export default function Announcements({ announcements, search = '', page = 1  }) {
 
-    const [content, setContent] = useState("");
 
-    const handleSubmit = () => {
-        console.log("Content:", content);
+    const [description, setDescription] = useState('my <b>HTML</b>');
+    const { data, setData, post, loading, error, processing, reset } = useForm({
+        title: '',
+        description: '',
+    });
+
+    const stringAvatar = (name) => {
+        const nameSplit = name.trim().split(' ');
+        const initials = nameSplit.length > 1
+            ? `${nameSplit[0][0]}${nameSplit[1][0]}`
+            : `${nameSplit[0][0]}`;
+        return {
+            sx: { bgcolor: '#4CAF50' },
+            children: initials.toUpperCase(),
+        };
     };
+
+    function onChange(e) {
+        setDescription(e.target.value);
+        setData('description', e.target.value);
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        console.log(data)
+
+        post('/announcements', {
+            onSuccess: () => {
+                reset();
+                closeAddAnnouncementModal();
+            }
+        })
+    }
+
+    // const handleSubmit = () => {
+    //     e.pre
+    //     setOpenAddAnnouncement(false);
+    //     setBody('');
+    // };
+
+    const [ openAddAnnouncement, setOpenAddAnnouncement ] = useState(false);
+
+    const openAddAnnouncementModal = () => {
+        setOpenAddAnnouncement(true);
+    }
+
+    const closeAddAnnouncementModal = () => {
+        setOpenAddAnnouncement(false);
+    }
+
 
     return (
         <AuthenticatedLayout>
+            <Modal show={openAddAnnouncement} onClose={closeAddAnnouncementModal} maxWidth="2xl">
+                <div className="flex flex-col gap-4 p-6 space-y-4 rounded-lg bg-white z-50 relative">
+                    <h1 className="text-2xl font-bold text-gray-800">Create New Announcement</h1>
+                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={data.title}
+                        onChange={(e) => setData('title', e.target.value)}
+                    />
+                    <Editor value={description} onChange={onChange}
+                    className={'w-full h-64'}/>
+
+
+                    <button
+                        onClick={handleSubmit}
+                        className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                    >submit</button>
+                </div>
+            </Modal>
+
+
             <div className="shadow p-4 bg-white rounded-md min-h-screen ">
                 <div className="flex justify-between border items-center mb-4">
                     <div className="flex gap-4 items-center">
@@ -31,7 +103,9 @@ export default function Announcements({ announcements, search = '', page = 1  })
                         </div>
                     </div>
                     <div>
-                        <button className="px-4 py-1 border bg-green-400 text-white rounded-lg hover:bg-green-500 transition transition-all duration-150">
+                        <button className="px-4 py-1 border bg-green-400 text-white rounded-lg hover:bg-green-500 transition transition-all duration-150"
+                                onClick={openAddAnnouncementModal}
+                        >
                             Create new Announcement
                         </button>
                     </div>
@@ -62,6 +136,9 @@ export default function Announcements({ announcements, search = '', page = 1  })
                     ) : (
                         announcements.data.map((announcement) => (
                             <tr key={announcement.id}>
+                                <td>
+                                    { dayjs(announcement.created_at).format('MMMM D, YYYY') }
+                                </td>
                                 <td className="px-6 py-4 text-sm text-gray-900">
                                     <div className="flex items-center gap-3">
                                         <div className="shrink-0">
@@ -76,40 +153,21 @@ export default function Announcements({ announcements, search = '', page = 1  })
                                             )}
                                         </div>
                                         <div>
-                                            <div className="font-semibold">{announcement.user.name}</div>
-                                            <div className="text-gray-500 text-sm">{announcement.user.email}</div>
+                                            <div className="font-semibold">{announcement.title}</div>
+                                            <div className="text-gray-500 text-sm">
+                                                <div dangerouslySetInnerHTML={{ __html: announcement.description }} />
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 text-sm text-gray-900">{announcement.content}</td>
-                                <td className="px-6 py-4 flex justify-center gap-3 text-gray-600">
-                                    <Tooltip title="Edit User" arrow>
-                                        <button>
-                                            <FaEdit className="w-5 h-5 hover:text-green-600 transition" />
-                                        </button>
-                                    </Tooltip>
-                                    <Tooltip title="Delete User" arrow>
-                                        <button>
-                                            <MdDeleteForever className="h-6 w-6 text-red-500 hover:text-red-600 transition" />
-                                        </button>
-                                    </Tooltip>
-                                    <Tooltip title="View Details" arrow>
-                                        <button>
-                                            <GrFormView className="w-8 h-8 text-blue-500 hover:text-blue-600 transition" />
-                                        </button>
-                                    </Tooltip>
-                                </td>
                             </tr>
                         ))
                     )}
                     </tbody>
 
                 </table>
-                <WysiwygEditor value={content} onChange={setContent} />
-                <button
-                    onClick={handleSubmit}
-                    className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                >submit</button>
+
             </div>
         </AuthenticatedLayout>
     )

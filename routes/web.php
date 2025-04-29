@@ -20,7 +20,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'verified',])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/users', [UserController::class, 'index']);
@@ -57,6 +57,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/childrens/profile/{id}', [\App\Http\Controllers\ChildrenController::class, 'showProfile']);
 
     Route::get('/announcements',[\App\Http\Controllers\Admin\AnnouncementController::class, 'index']);
+    Route::post('/announcements',[\App\Http\Controllers\Admin\AnnouncementController::class, 'store']);
+
 
 
 
@@ -65,7 +67,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/funds', fn () => Inertia::render('Admin/Funds'));
 });
 
-Route::middleware(['auth', 'verified', 'role: health_worker'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 //    health worker
     Route::get('/health_workers/dashboard',  [\App\Http\Controllers\HealthWorkerController::class, 'index'])->name('health-workers.dashboard');
     Route::get('/health_workers/records',  [\App\Http\Controllers\RecordController::class, 'index'])->name('records');

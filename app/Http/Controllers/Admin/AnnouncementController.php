@@ -11,6 +11,7 @@ use Inertia\Inertia;
 class AnnouncementController extends Controller
 {
     public function index(Request $request){
+
         $announcements = Announcement::with('user')
             ->when($request->search, function ($q) use ($request) {
                 return $q->where('title', 'like', '%' . $request->search . '%');
@@ -24,5 +25,22 @@ class AnnouncementController extends Controller
         return Inertia::render('Admin/Announcement/Announcements', [
             'announcements' => $announcements,
         ]);
+    }
+
+    public function  store(Request $request)
+    {
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|max:65535',
+        ]);
+
+        Announcement::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'user_id' => auth()->user()->id,
+        ]);
+
+        return redirect()->back()->with('message', 'Announcement created successfully!');
     }
 }
