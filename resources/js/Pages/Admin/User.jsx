@@ -18,6 +18,7 @@ import PersonalDetail from "@/Components/form/PersonalDetail.jsx";
 import Security from "@/Components/form/Security.jsx";
 import Role from "@/Components/form/Role.jsx";
 import Confirmation from "@/Components/form/Confirmation.jsx";
+import EmptySearch from "@/Components/EmptySearch.jsx";
 
 const steps = ['Personal Details', 'Security', 'Role'];
 
@@ -148,6 +149,7 @@ const AdminDashboard = ({ users }) => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row justify-end">
+
                         <button
                             onClick={openAddUser}
                             className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md shadow"
