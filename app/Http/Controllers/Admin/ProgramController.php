@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Program;
 use App\Models\ProgramBeneficiaries;
+use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -71,10 +72,6 @@ class ProgramController extends Controller
 
     public function show(Request $request, Program $program)
     {
-
-        
-
-
         $beneficiaries = ProgramBeneficiaries::with(['children.record' => function ($query) {
             $query->orderBy('created_at', 'desc')->take(1);
         }])
