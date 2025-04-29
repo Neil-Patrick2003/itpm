@@ -33,6 +33,8 @@ Route::middleware(['auth', 'verified',])->group(function () {
     Route::get('/programs/create', [ProgramController::class, 'create']);
     Route::post('/programs/create', [ProgramController::class, 'store']);
     Route::get('/programs/{program}', [ProgramController::class, 'show']);
+    Route::delete('/admin/beneficiaries/{id}', [ProgramController::class, 'destroy']);
+
     Route::get('/programs/{program}/add_beneficiaries',  [ProgramBeneficiariesController::class, 'create']);
     Route::post('/programs/{program}/add_beneficiaries',  [ProgramBeneficiariesController::class, 'store']);
 

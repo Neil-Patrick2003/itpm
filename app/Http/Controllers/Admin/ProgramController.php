@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Program;
 use App\Models\ProgramBeneficiaries;
-use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -72,9 +71,12 @@ class ProgramController extends Controller
 
     public function show(Request $request, Program $program)
     {
-        $beneficiaries = ProgramBeneficiaries::
-        with(['children.record' => function ($query) {
-            $query->latest ()->take(1);
+
+        
+
+
+        $beneficiaries = ProgramBeneficiaries::with(['children.record' => function ($query) {
+            $query->orderBy('created_at', 'desc')->take(1);
         }])
             ->where('program_id', $program->id)
             ->get();
@@ -86,6 +88,15 @@ class ProgramController extends Controller
         ]);
     }
 
+
+    public function destroy(Request $request, $id)
+    {
+        $program_beneficiary = ProgramBeneficiaries::with('children')->where('children_id', $id)->get();
+
+
+
+        return redirect()->back()->with('message', 'Program deleted successfully!');
+    }
 
     public function create()
     {

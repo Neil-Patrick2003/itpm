@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React, { useState } from 'react';
-import { Head, Link } from "@inertiajs/react";
+import {Head, Link, router} from "@inertiajs/react";
 import { HomeIcon, ChevronRightIcon, PlusIcon } from "@heroicons/react/20/solid/index.js";
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
@@ -15,7 +15,7 @@ import children from "@/Pages/Admin/Children/Children.jsx";
 
 const Show = ({ program, beneficiaries }) => {
 
-    console.log(beneficiaries);
+    console.log(program.sponsor);
     // Function to calculate age from the birthdate
     const calculateAge = (birthdate) => {
         const birthDate = new Date(birthdate);
@@ -31,6 +31,8 @@ const Show = ({ program, beneficiaries }) => {
     };
 
 
+
+
     // Handle edit action (currently just logs the row, can be expanded)
     const handleEdit = (row) => {
         console.log('Edit clicked for: ', row);
@@ -38,7 +40,7 @@ const Show = ({ program, beneficiaries }) => {
     };
 
     // Handle delete action with SweetAlert confirmation
-    const handleDelete = (row) => {
+    const handleDelete = (id) => {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -49,13 +51,22 @@ const Show = ({ program, beneficiaries }) => {
             confirmButtonText: 'Yes, delete it!',
         }).then((result) => {
             if (result.isConfirmed) {
-                // Proceed with the deletion logic here, such as calling an API
-                console.log('Delete clicked for: ', row);
-                Swal.fire(
-                    'Deleted!',
-                    'The beneficiary has been deleted.',
-                    'success'
-                );
+                router.delete(`/admin/beneficiaries/${id}`, {
+                    onSuccess: () => {
+                        Swal.fire(
+                            'Deleted!',
+                            'The beneficiary has been deleted.',
+                            'success'
+                        );
+                    },
+                    onError: () => {
+                        Swal.fire(
+                            'Error!',
+                            'Failed to delete the beneficiary.',
+                            'error'
+                        );
+                    }
+                });
             }
         });
     };
@@ -164,8 +175,20 @@ const Show = ({ program, beneficiaries }) => {
                 <div className="bg-white mt-4 py-8 px-4 space-y-4 rounded ">
                     <h1 className="text-2xl font-semibold text-gray-800">{program.title}</h1>
                     <p className="text-gray-600">{program.description}</p>
+                    <h3 className="text-xl font-semibold text-gray-800">Sponsor</h3>
+                    <ul>
+                        {/*{program.sponsor.length === 0 ? (*/}
+                        {/*    <li>No sponsor found</li>*/}
+                        {/*): (*/}
+                        {/*    program.sponsor.data.map((sponsor) => (*/}
+                        {/*        <li key={sponsor.id} className="flex items-center gap-2"></li>*/}
+                        {/*    ))*/}
+                        {/*)*/}
+                        {/*}*/}
+
+                    </ul>
                 </div>
-                <div className='flex justify-end'>
+                <div className='flex justify-center my-4' >
                     <Link href={`/programs/${program.id}/add_beneficiaries`}>
                         <button className="flex gap-2 bg-[#01DAA2] rounded-full px-4 py-2 text-white hover:bg-green-400">
                             <span>
@@ -222,9 +245,11 @@ const Show = ({ program, beneficiaries }) => {
                                             ))}
                                         </td>
                                         <td className="px-6 py-4 flex justify-center gap-3 text-gray-600">
-                                            <button className="flex items-center gap-1 px-3 py-1 rounded-md bg-red-400 text-white hover:bg-red-500">
-                                                <MdDeleteForever className="w-4 h-4" /> Remove
-                                            </button>
+                                            Remarks
+                                            {/*<button className="flex items-center gap-1 px-3 py-1 rounded-md bg-red-400 text-white hover:bg-red-500" onClick={() => handleDelete(beneficiary.children.id)}*/}
+                                            {/*>*/}
+                                            {/*    <MdDeleteForever className="w-4 h-4" /> Remove*/}
+                                            {/*</button>*/}
                                         </td>
                                     </tr>
                                 ))
