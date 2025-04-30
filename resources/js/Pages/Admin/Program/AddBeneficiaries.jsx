@@ -98,7 +98,7 @@ const AddBeneficiaries = ({ program, records }) => {
                     <button
                         type="button"
                         onClick={() => toggleSelection(params.row.id)}
-                        className={`flex items-center mt-3 gap-2 px-4 py-1 rounded-full text-sm font-medium ${
+                        className={`flex items-center mt-3 gap-2 px-4 py-1 rounded-md text-sm font-medium ${
                             isSelected ? "bg-red-500 text-white" : "bg-green-500 text-white"
                         }`}
                     >

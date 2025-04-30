@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProgramBeneficiaries extends Model
 {
+    protected $fillable = ['program_id', 'children_id'];
     public function program():belongsTo{
         return $this->belongsTo('App\Models\Program');
     }

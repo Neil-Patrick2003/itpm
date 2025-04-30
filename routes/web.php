@@ -47,14 +47,16 @@ Route::middleware(['auth', 'verified',])->group(function () {
 
 
     Route::get('/sponsorships', [SponsorController::class, 'index']);
+    Route::get('/sponsorships/create', [SponsorController::class, 'create']);
     Route::post('/sponsorships/create', [SponsorController::class, 'store']);
-    Route::get('/sponsorships/{sponsor}', [SponsorController::class, 'show']);
-    Route::get('/sponsorships/{sponsor}/donation', [DonationController::class, 'create']);
+    Route::get('/sponsorships/{id}', [SponsorController::class, 'show']);
+    Route::get('/sponsorships/{id}/donation', [DonationController::class, 'create']);
     Route::post('/sponsorships/{sponsor}/donation', [DonationController::class, 'store']);
 
 
 
     Route::get('/childrens/beneficiary', [ProgramBeneficiariesController::class, 'index']);
+
     Route::get('/childrens/profile', [\App\Http\Controllers\ChildrenController::class, 'show']);
     Route::get('/childrens/profile/{id}', [\App\Http\Controllers\ChildrenController::class, 'showProfile']);
 

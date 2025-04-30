@@ -166,12 +166,15 @@ const AdminDashboard = ({ sponsors }) => {
 
                 {/* Add Sponsor Button */}
                 <div className="flex justify-end">
-                    <button
-                        className="flex items-center gap-2 bg-[#01DAA2] hover:bg-green-500 text-white px-4 py-2 rounded-full transition"
-                        onClick={openAddSponsor}
-                    >
-                        <PlusIcon className="h-5 w-5" /> Add New Sponsor
-                    </button>
+                    <Link href='/sponsorships/create'>
+                        <button
+                            className="flex items-center gap-2 bg-[#01DAA2] hover:bg-green-500 text-white px-4 py-2 rounded-full transition"
+                            // onClick={openAddSponsor}
+                        >
+                            <PlusIcon className="h-5 w-5" /> Add New Sponsor
+                        </button>
+                    </Link>
+
                 </div>
 
                 {/* Sponsors List */}

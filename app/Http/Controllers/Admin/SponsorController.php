@@ -21,10 +21,16 @@ class SponsorController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        return inertia('Admin/Donation/Create');
+    public function create(){
+        return Inertia::render('Admin/Sponsor/CreateSponsorship');
     }
+
+
+// donation controller
+//    public function create()
+//    {
+//        return inertia('Admin/Donation/Create');
+//    }
 
     public function store(Request $request)
     {
@@ -46,8 +52,7 @@ class SponsorController extends Controller
             $photo_name = $photo_url->getClientOriginalName();
             $profile_photo_url = $request->file('photo_url')->storeAs($destination_path, $photo_name, 'public');
         }
-
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone_number,
@@ -55,6 +60,15 @@ class SponsorController extends Controller
             'profile_photo_url' => $profile_photo_url,
             'password' => Hash::make($request->phone_number),
         ]);
+
+        $sponsor = Sponsor::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'profile_photo_url' => $profile_photo_url,
+        ]);
+
+
 
         // Redirect back with success message
         return redirect('/sponsorships')->with('message', 'Sponsor created successfully.');

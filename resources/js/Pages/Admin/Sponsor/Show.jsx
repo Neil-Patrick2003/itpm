@@ -15,7 +15,7 @@ const Show = ({ sponsor, donations }) => {
                         <div className="flex justify-between">
                             <Link href={`/sponsorships`} className="text-blue-500">Back</Link>
                             <div>
-                                <Link href={`/sponsorships/${sponsor.id}/donation`} className="border px-4 py-2 rounded-md text-white bg-green-600 hover:bg-green-700">
+                                    <Link href={`/sponsorships/${sponsor.id}/donation`} className="border px-4 py-2 rounded-md text-white bg-green-600 hover:bg-green-700">
                                     Add Donations
                                 </Link>
                             </div>

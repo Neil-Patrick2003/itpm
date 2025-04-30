@@ -11,8 +11,9 @@ use Inertia\Inertia;
 
 class DonationController extends Controller
 {
-    public function create(Sponsor $sponsor)
+    public function create($id)
     {
+        $sponsor = Sponsor::findOrFail($id);
 
         $donations = Donation::where('sponsor_id', '=', $sponsor->id)
             ->with('donation_items')
