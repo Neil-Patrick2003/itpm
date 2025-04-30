@@ -77,7 +77,7 @@ const BmiTrendsChart = ({ trends }) => {
                             padding: 0, // remove internal padding if any
                         },
                     }}
-                    height={120} // even smaller chart height
+                    height={100} // even smaller chart height
                 />
             </CardContent>
         </Card>

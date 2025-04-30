@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import { motion } from 'framer-motion';
 
 const SponsorShow = ({ sponsor }) => {
-    const imageUrl = '/storage/';
+        const imageUrl = '/storage/';
 
     const stringAvatar = (name) => {
         const nameSplit = name.trim().split(' ');

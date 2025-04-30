@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Children;
 use App\Models\Donation;
+use App\Models\Program;
 use App\Models\ProgramBeneficiaries;
 use App\Models\Record;
 use App\Models\Sponsor;
@@ -17,10 +18,13 @@ class AdminController extends Controller
     public function dashboard()
     {
 
+        $total_programs = Program::count();
+
         $total_sponsors = Sponsor::count();
 
         $total_beneficiaries = Children::with('program')
         ->count();
+
 
         $total_donations = Donation::count();
 
@@ -29,20 +33,11 @@ class AdminController extends Controller
         $total_cash = Donation::where('type', 'cash')->count();
 
 
-
-
-
         $top_sponsors = Sponsor::withCount('donations')
             ->orderBy('donations_count', 'desc')
             ->take(5)
             ->get()
         ;
-
-
-
-
-
-
 
 
         $recordCount = Record::count();
@@ -84,6 +79,12 @@ class AdminController extends Controller
             'normalCount' => $normalCount,
             'overweight_andObeseCount' => $overweight_andObeseCount,
             'trends' => $trends,
+            'top_sponsors' => $top_sponsors,
+            'total_sponsors' => $total_sponsors,
+            'total_programs' => $total_programs,
+            'total_beneficiaries' => $total_beneficiaries,
+            'total_donations' => $total_donations,
+
             ]);
     }
 }
