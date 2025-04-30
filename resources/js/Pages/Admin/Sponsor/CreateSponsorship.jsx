@@ -24,7 +24,6 @@ const CreateSponsorship = () => {
         items: [],
     });
 
-    // Keep data.items in sync with local items state
     useEffect(() => {
         setData('items', items);
     }, [items]);
@@ -90,30 +89,32 @@ const CreateSponsorship = () => {
 
     return (
         <AuthenticatedLayout>
-            <div className="p-4 w-full bg-white shadow rounded-md">
-                <h1 className="text-3xl font-bold mb-6 text-center text-green-700">Create Sponsorship</h1>
-                <form onSubmit={submitCreate} className="space-y-10">
+            <div className="p-6 w-full bg-white rounded-xl font-sans tracking-wide text-gray-700">
+                <h1 className="text-3xl font-bold mb-8 text-center text-green-700">Create Sponsorship</h1>
+                <form onSubmit={submitCreate} className="space-y-12">
+
                     {/* Avatar Upload */}
                     <div className="flex flex-col items-center">
-                        <label htmlFor="avatar" className="relative cursor-pointer">
+                        <label htmlFor="avatar" className="relative cursor-pointer hover:opacity-90 transition">
                             <img
                                 src={avatar || '/storage/images/default_profile.png'}
                                 alt="Profile Avatar"
-                                className="w-32 h-32 object-cover rounded-full border-4 border-green-600"
+                                className="w-32 h-32 object-cover rounded-full border-4 border-green-600 shadow-md"
                             />
                             <input
                                 type="file"
                                 id="avatar"
                                 className="absolute inset-0 opacity-0"
+                                aria-label="Upload avatar"
                                 onChange={handleImageChange}
                             />
                         </label>
                     </div>
 
                     {/* Personal Info */}
-                    <div className="space-y-4">
-                        <h2 className="text-xl font-semibold text-gray-700">Personal Information</h2>
-                        <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-6">
+                        <h2 className="text-xl font-semibold border-b pb-2 border-gray-200">Personal Information</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <InputLabel htmlFor="name" value="Full Name" />
                                 <TextInput
@@ -146,8 +147,8 @@ const CreateSponsorship = () => {
                                     icon={FaPhone}
                                     className="w-full"
                                     value={data.phone_number}
-                                    onChange={(e) => setData('phone_number', e.target.value)}
                                     placeholder="09123-----"
+                                    onChange={(e) => setData('phone_number', e.target.value)}
                                 />
                                 <InputError message={errors.phone_number} />
                             </div>
@@ -175,9 +176,9 @@ const CreateSponsorship = () => {
                             <InputLabel htmlFor="amount" value="Amount (₱)" />
                             <textarea
                                 id="amount"
-                                className="w-full h-40 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                                className="w-full h-40 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500 p-3"
                                 value={data.amount}
-                                placeholder="00"
+                                placeholder="Enter donation amount"
                                 onChange={(e) => setData('amount', e.target.value)}
                             />
                             <InputError message={errors.amount} />
@@ -187,25 +188,25 @@ const CreateSponsorship = () => {
                     {/* Goods Donation */}
                     {data.donation_type === 'goods' && (
                         <div>
-                            <h2 className="text-xl font-semibold text-gray-700 mb-4">Goods Donation Items</h2>
+                            <h2 className="text-xl font-semibold mb-4 border-b pb-2 border-gray-200">Goods Donation Items</h2>
 
                             {items.length > 0 && (
                                 <ul className="space-y-2 mb-4">
                                     {items.map(item => (
-                                        <li key={item.id} className="flex justify-between items-center bg-gray-50 p-2 rounded border">
+                                        <li key={item.id} className="flex justify-between items-center bg-gray-50 p-3 rounded shadow-sm border">
                                             <span>{item.description} (Qty: {item.qty})</span>
                                             <div className="space-x-2">
                                                 <button
                                                     type="button"
                                                     onClick={() => editItem(item.id)}
-                                                    className="text-blue-600 text-sm"
+                                                    className="text-blue-600 text-sm hover:underline"
                                                 >
                                                     Edit
                                                 </button>
                                                 <button
                                                     type="button"
                                                     onClick={() => removeItem(item.id)}
-                                                    className="text-red-600 text-sm"
+                                                    className="text-red-600 text-sm hover:underline"
                                                 >
                                                     Remove
                                                 </button>
@@ -221,31 +222,31 @@ const CreateSponsorship = () => {
                                     placeholder="Item description"
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
-                                    className="border p-2 rounded w-full"
+                                    className="border p-2 rounded w-full shadow-sm"
                                 />
                                 <input
                                     type="number"
                                     placeholder="Quantity"
                                     value={qty}
                                     onChange={(e) => setQty(e.target.value)}
-                                    className="border p-2 rounded w-full"
+                                    className="border p-2 rounded w-full shadow-sm"
                                 />
                             </div>
 
-                            <div className="mt-4 text-right">
+                            <div className="mt-4 text-right space-x-2">
                                 {editingItemId ? (
                                     <>
                                         <button
                                             type="button"
                                             onClick={cancelEdit}
-                                            className="mr-2 text-gray-600"
+                                            className="text-gray-600 hover:underline"
                                         >
                                             Cancel
                                         </button>
                                         <button
                                             type="button"
                                             onClick={confirmEdit}
-                                            className="bg-blue-600 text-white px-4 py-2 rounded"
+                                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
                                         >
                                             Confirm Edit
                                         </button>
@@ -254,7 +255,7 @@ const CreateSponsorship = () => {
                                     <button
                                         type="button"
                                         onClick={addItem}
-                                        className="bg-green-600 text-white px-4 py-2 rounded"
+                                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
                                     >
                                         Add Item
                                     </button>
@@ -268,7 +269,7 @@ const CreateSponsorship = () => {
                         <button
                             type="submit"
                             disabled={processing}
-                            className="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded shadow"
+                            className="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded shadow-md transition"
                         >
                             {processing ? 'Submitting...' : 'Create Sponsorship'}
                         </button>

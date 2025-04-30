@@ -17,7 +17,7 @@ class SponsorController extends Controller
 {
     public function index()
     {
-        $sponsors = User::where('role', 'sponsor')->paginate(10);
+        $sponsors = Sponsor::latest()->paginate(20);
 
         return Inertia::render('Admin/Sponsor/Index', [
             'sponsors' => $sponsors,
@@ -82,15 +82,18 @@ class SponsorController extends Controller
             ]);
         }
 
+
         // Reuse or create sponsor
         if (!$existingSponsor) {
             $existingSponsor = Sponsor::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
-                'profile_photo_url' => $profile_photo_url,
+                'photo_url' => $profile_photo_url,
             ]);
         }
+
+
 
         // Create donation
         $donation = Donation::create([
@@ -98,6 +101,8 @@ class SponsorController extends Controller
             'amount' => $request->amount,
             'sponsor_id' => $existingSponsor->id,
         ]);
+
+
 
         // Handle goods donation items
         if ($request->donation_type === 'goods') {
@@ -118,9 +123,11 @@ class SponsorController extends Controller
     }
 
 
-    public function show(Request $request, Sponsor $sponsor)
+    public function show($id)
     {
+        $sponsor = Sponsor::where('id' , $id)->first();
         $sponsor = $sponsor->load(['donations.donation_items']);
+
 
 
         return Inertia::render('Admin/Sponsor/Show', [

@@ -1,84 +1,118 @@
-import React from 'react'
+import React from 'react';
+import { Head, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Link, usePage } from '@inertiajs/react';
+import Avatar from '@mui/material/Avatar';
+import { motion } from 'framer-motion';
 
-const Show = ({ sponsor, donations }) => {
+const SponsorShow = ({ sponsor }) => {
+    const imageUrl = '/storage/';
 
-    const { flash } = usePage().props;
+    const stringAvatar = (name) => {
+        const nameSplit = name.trim().split(' ');
+        const initials = nameSplit.length > 1
+            ? `${nameSplit[0][0]}${nameSplit[1][0]}`
+            : `${nameSplit[0][0]}`;
+        return {
+            sx: { bgcolor: '#4CAF50' },
+            children: initials.toUpperCase(),
+        };
+    };
 
     return (
         <AuthenticatedLayout>
-            <div className="h-screen p-4">
-                <div className="flex flex-col h-full gap-4">
-                    <div className="bg-white border h-28 p-4 rounded-lg">show</div>
-                    <div className="overflow-y-auto bg-white border h-full p-4 rounded-lg">
-                        <div className="flex justify-between">
-                            <Link href={`/sponsorships`} className="text-blue-500">Back</Link>
-                            <div>
-                                    <Link href={`/sponsorships/${sponsor.id}/donation`} className="border px-4 py-2 rounded-md text-white bg-green-600 hover:bg-green-700">
-                                    Add Donations
-                                </Link>
-                            </div>
-                        </div>
-                        <h1 className="text-center">
-                            Sponsor by <span className="text-green-800 font-bold text-lg">{sponsor.name}</span>
-                        </h1>
+            <Head title={sponsor.name} />
 
-                        {sponsor.donations.map((donation) => (
+            <div className="min-h-screen">
+                <div className="space-y-8">
+                    <Link href="/sponsorships" className="text-sm text-blue-600 hover:underline">
+                        ← Back to Sponsors
+                    </Link>
 
-                            donation.type === 'goods' ? (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="bg-white rounded-2xl p-8 flex flex-col items-center text-center"
+                    >
+                        {sponsor.photo_url ? (
+                            <motion.img
+                                initial={{ scale: 0.9 }}
+                                animate={{ scale: 1 }}
+                                transition={{ delay: 0.3, type: 'spring' }}
+                                src={`${imageUrl}${sponsor.photo_url}`}
+                                alt={sponsor.name}
+                                className="size-32 rounded-full object-cover border-4 border-white "
+                            />
+                        ) : (
+                            <Avatar {...stringAvatar(sponsor.name)} sx={{ width: 128, height: 128 }} />
+                        )}
 
-                                <div key={donation.id} className="mt-4 shadow-md ">
-                                    <p>Donated at {new Date(donation.created_at).toLocaleDateString('en-GB', {
-                                        day: '2-digit',
-                                        month: 'short',
-                                        year: 'numeric'
-                                    })}</p>
-                                    <table className="min-w-full divide-y divide-gray-300">
-                                        <thead className="bg-gray-50">
-                                        <tr>
-                                            <th scope="col" className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                                Item
-                                            </th>
-                                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                Quantity
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-gray-200 bg-white">
-                                        {donation.donation_items.map((item) => (
-                                            <tr key={`${donation.id}_donation.${item.id}`}>
-                                                <td className="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-6">
-                                                    {item.description}
-                                                </td>
-                                                <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
-                                                    {item.qty}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            ) : (
-                                <div key={donation.id} className="w-full border p-4 mt-4">
-                                    <div className="flex items-center justify-between">
-                                        <p className="font-semibold">Donation Type: {donation.type}</p>
-                                        <div className="flex gap-2">
-                                            <p className="font-medium">Amount:</p>
-                                            <div className="border-2 border-green-600 px-4 py-1 rounded-lg">
-                                                {donation.amount}.00
-                                            </div>
+                        <h2 className="mt-4 text-2xl font-bold text-gray-800">{sponsor.name}</h2>
+                        <p className="text-gray-500">{sponsor.email}</p>
+                        <p className="text-gray-500">{sponsor.phone_number}</p>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="bg-white  rounded-2xl p-6"
+                    >
+                        <h3 className="text-xl font-semibold text-gray-800 mb-4">Donations</h3>
+
+                        {sponsor.donations.length === 0 ? (
+                            <p className="text-gray-500 text-sm">No donations recorded.</p>
+                        ) : (
+                            <div className="space-y-6">
+                                {sponsor.donations.map((donation, index) => (
+                                    <motion.div
+                                        key={donation.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.1 * index }}
+                                        className="border border-gray-200 rounded-lg p-4 bg-gray-50 hover:bg-gray-100 transition"
+                                    >
+                                        <div className="flex justify-between items-center mb-2">
+                                            <p className="text-sm font-medium text-gray-700">
+                                                Date: {new Date(donation.created_at).toLocaleDateString()}
+                                            </p>
+                                            <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                                                {donation.type || 'N/A'}
+                                            </span>
                                         </div>
-                                    </div>
-                                </div>
-                            )
-                        ))}
 
-                    </div>
+                                        <div className="ml-2">
+                                            {donation.type === 'cash' ? (
+                                                <>
+                                                    <p className="text-sm font-semibold mb-1 text-gray-700">Amount:</p>
+                                                    <p className="text-green-700 font-medium text-sm">₱ {donation.amount}</p>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <p className="text-sm font-semibold mb-1 text-gray-700">Items:</p>
+                                                    {donation.donation_items.length === 0 ? (
+                                                        <p className="text-gray-400 text-sm">No items listed.</p>
+                                                    ) : (
+                                                        <ul className="list-disc list-inside text-sm text-gray-700">
+                                                            {donation.donation_items.map((item) => (
+                                                                <li key={item.id}>
+                                                                    {item.description} — Qty: {item.quantity}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        )}
+                    </motion.div>
                 </div>
             </div>
         </AuthenticatedLayout>
     );
 };
 
-export default Show;
+export default SponsorShow;
