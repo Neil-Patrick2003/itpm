@@ -11,12 +11,18 @@ use function Laravel\Prompts\password;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request, )
     {
-        $users = User::latest()->paginate(20);
+        $users = User::when($request->search, function ($q) use ($request) {
+            return $q->where('name', 'like', '%' . $request->search . '%');
+        })
+            ->latest()
+            ->paginate(20);
 
         return Inertia::render('Admin/User', [
             'users' => $users,
+            'search' => $request->query('search'),
+            'page' => $request->input('page', 1)
         ]);
     }
 
@@ -47,21 +53,39 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-
+        // Find the user by ID
         $user = User::findOrFail($id);
 
 
+        // Validate input (optional, but recommended)
         $validated = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|min:10',
+            'name' => 'max:255',
+            'address' => 'nullable|max:255',
+            'email' => 'email|max:255',
+            'phone' => 'nullable|min:10',
             'role' => 'required',
-            'assign_address' => 'required',
+            'assign_address' => 'nullable|max:255',
+            'password' => 'nullable|min:8|',  // Validation for password if provided
+            'confirm_password' => 'nullable|min:8|',  // Validation for password if provided
+
         ]);
 
 
-        $user->update($validated);
+        // Prepare the data to update
+        $data = $request->all();
 
+        // If a password is provided, hash it before saving
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);  // Hash the password
+        } else {
+            // Remove the password field if not provided
+            unset($data['password']);
+        }
+
+        // Update the user with the validated data
+        $user->update($data);
+
+        // Redirect with a success message
         return redirect()->back()->with('message', 'User updated successfully!');
     }
 
