@@ -20,7 +20,7 @@ class ChildrenController extends Controller
             return $q->where('children_name', 'like', '%' . $request->search . '%');
         })
             ->latest()
-            ->paginate(6, ['*'], 'page', $request->input('page', 1));
+            ->paginate(15, ['*'], 'page', $request->input('page', 1));
 
         // 👉 Use through() to inject the computed BMI for every record
         $transformedRecords = $records->through(function ($record) {

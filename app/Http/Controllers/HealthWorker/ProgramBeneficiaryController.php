@@ -32,7 +32,7 @@ class ProgramBeneficiaryController extends Controller
         $child = Children::with('program', 'parent', 'record')
             ->findOrFail($id);
 
-        // Safely get the most recent record
+
         $recentRecord = ChildrenRecord::where('children_id', $child->id)->latest()->first();
 
         $growthData = $child->record->map(function ($record) {
