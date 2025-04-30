@@ -44,7 +44,7 @@ const Program = ({ programs, search = '', page = 1 }) => {
 
     return (
         <AuthenticatedLayout>
-            <div className="p-4 bg-white min-h-[calc(100vh-128px)] rounded-lg shadow">
+            <div className="p-4 bg-white min-h-[calc(100vh-128px)] rounded-lg ">
                 {/* Breadcrumb */}
 
                 {/* Search + Add Program */}

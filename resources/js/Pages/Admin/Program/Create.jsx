@@ -42,43 +42,12 @@ const Create = ({ sponsors }) => {
         });
     };
 
-    const pages = [
-        { name: 'Programs', href: '/programs', current: false },
-        { name: 'Create', href: '/programs/create', current: true },
-    ];
 
     return (
         <AuthenticatedLayout>
             <div className="min-h-screen">
                 <div className="flex flex-col h-full w-full">
-                    {/* Breadcrumb */}
-                    <nav aria-label="Breadcrumb" className="mb-4">
-                        <ol className="flex items-center space-x-2 text-sm">
-                            <li>
-                                <a href="#" className="text-gray-400 hover:text-gray-600">
-                                    <HomeIcon className="h-5 w-5" />
-                                    <span className="sr-only">Home</span>
-                                </a>
-                            </li>
-                            {pages.map((page) => (
-                                <li key={page.name}>
-                                    <div className="flex items-center">
-                                        <ChevronRightIcon className="h-5 w-5 text-gray-400" />
-                                        <a
-                                            href={page.href}
-                                            className="ml-2 text-gray-700 hover:text-green-600"
-                                            aria-current={page.current ? 'page' : undefined}
-                                        >
-                                            {page.name}
-                                        </a>
-                                    </div>
-                                </li>
-                            ))}
-                        </ol>
-                    </nav>
-
-                    {/* Responsive Layout */}
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 bg-white p-4 rounded-xl shadow-lg">
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 bg-white p-4 rounded-lg">
                         {/* Sponsor Sidebar */}
                         <aside className="lg:col-span-1">
                             <div className="flex flex-col gap-3">
@@ -116,8 +85,8 @@ const Create = ({ sponsors }) => {
                                                         onClick={() => handleSponsorToggle(sponsor.id)}
                                                         className={`text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full font-medium border transition
                                                             ${isSelected
-                                                                ? 'bg-red-100 text-red-600 border-red-300 hover:bg-red-200'
-                                                                : 'bg-green-100 text-green-700 border-green-300 hover:bg-green-200'}
+                                                            ? 'bg-red-100 text-red-600 border-red-300 hover:bg-red-200'
+                                                            : 'bg-green-100 text-green-700 border-green-300 hover:bg-green-200'}
                                                         `}
                                                     >
                                                         {isSelected ? 'Remove' : '+ Add'}
@@ -222,7 +191,7 @@ const Create = ({ sponsors }) => {
                                     <button
                                         type="submit"
                                         disabled={processing}
-                                        className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-4 sm:px-6 py-2 rounded-lg shadow transition"
+                                        className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-4 sm:px-6 py-2 rounded-lg transition"
                                     >
                                         Submit Program
                                     </button>

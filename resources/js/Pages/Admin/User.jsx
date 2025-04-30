@@ -87,7 +87,7 @@ const AdminDashboard = ({ users }) => {
 
     return (
         <AuthenticatedLayout>
-            <div className="p-4 bg-white shadow rounded-md">
+            <div className="p-4 bg-white  rounded-md">
                 <Modal show={isAddUserOpen} onClose={closeAddUser} maxWidth="2xl">
                     <Backdrop open={isAddUserOpen} style={{ zIndex: 1 }} />
                     <form onSubmit={addUser}>

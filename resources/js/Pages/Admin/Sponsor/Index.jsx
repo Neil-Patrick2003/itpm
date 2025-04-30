@@ -56,7 +56,7 @@ const AdminDashboard = ({ sponsors }) => {
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: i * 0.1 }}
-                                        className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+                                        className="col-span-1 border flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
                                     >
                                         <Link href={`/sponsorships/${sponsor.id}`}>
                                             <div className="flex flex-1 flex-col p-8">
