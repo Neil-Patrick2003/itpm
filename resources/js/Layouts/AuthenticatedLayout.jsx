@@ -97,7 +97,7 @@ export default function AuthenticatedLayout({ header, children, logoUrl }) {
                                 href={item.href}
                                 className={classNames(
                                     url?.startsWith(item.href) ? 'bg-[#01DA9F] text-white' : 'text-gray-700 hover:bg-[#01DA9F] hover:text-white',
-                                    'flex items-center gap-x-3 rounded-lg px-6 py-3 text-lg font-medium transition-all'
+                                    'flex items-center gap-x-3 rounded-lg px-6 py-2 text-lg font-medium transition-all'
                                 )}
                             >
                                 <item.icon className="h-6 w-6" />
@@ -109,7 +109,7 @@ export default function AuthenticatedLayout({ header, children, logoUrl }) {
                         <div>
                             <button
                                 onClick={() => setIsChildrenMenuOpen(!isChildrenMenuOpen)}
-                                className="flex items-center justify-between w-full gap-x-3 rounded-lg px-6 py-3 text-lg font-medium text-gray-700 hover:bg-[#01DA9F] hover:text-white transition-all"
+                                className="flex items-center justify-between w-full gap-x-3 rounded-lg px-6 py-2 text-lg font-medium text-gray-700 hover:bg-[#01DA9F] hover:text-white transition-all"
                             >
                                 <div className="flex items-center gap-x-3">
                                     <FolderIcon className="h-6 w-6" />
@@ -224,7 +224,7 @@ export default function AuthenticatedLayout({ header, children, logoUrl }) {
                 </Dialog>
 
                 {/* Main Content */}
-                <main className="flex-1 overflow-y-auto p-2 md:p-6 bg-gray-100">
+                <main className="flex-1 overflow-y-auto p-2 md:p-6 bg-gray-50">
                     <FlashMessage />
                     {children}
                 </main>
