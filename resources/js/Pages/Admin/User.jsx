@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useForm } from '@inertiajs/react';
+import React, {useEffect, useState} from 'react';
+import {router, useForm} from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
 import { FaEdit } from "react-icons/fa";
@@ -20,11 +20,12 @@ import Role from "@/Components/form/Role.jsx";
 import Confirmation from "@/Components/form/Confirmation.jsx";
 import EmptySearch from "@/Components/EmptySearch.jsx";
 import {Inertia} from "@inertiajs/inertia";
+import { debounce } from 'lodash';
 
 
 const steps = ['Personal Details', 'Security', 'Role'];
 
-const AdminDashboard = ({ users }) => {
+const AdminDashboard = ({ users, search = '', page = 1 }) => {
     const { data, setData, post, put, reset } = useForm({
         name: '',
         email: '',
@@ -37,6 +38,15 @@ const AdminDashboard = ({ users }) => {
     });
 
     const imageUrl = '/storage/';
+    const [searchTerm, setSearchTerm] = useState('');
+    const [activeStep, setActiveStep] = useState(0);
+    const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [showEditUserModal, setShowEditUserModal] = useState(false);
+    const handleNext = () => setActiveStep((prev) => prev + 1);
+    const handleBack = () => setActiveStep((prev) => prev - 1);
+    const handleReset = () => setActiveStep(0);
+
 
     const stringAvatar = (name) => {
         const initials = name
@@ -51,15 +61,7 @@ const AdminDashboard = ({ users }) => {
         };
     };
 
-    const [activeStep, setActiveStep] = useState(0);
-    const [isAddUserOpen, setIsAddUserOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [showEditUserModal, setShowEditUserModal] = useState(false);
 
-
-    const handleNext = () => setActiveStep((prev) => prev + 1);
-    const handleBack = () => setActiveStep((prev) => prev - 1);
-    const handleReset = () => setActiveStep(0);
 
     const getStepContent = (step) => {
         switch (step) {
@@ -134,6 +136,22 @@ const AdminDashboard = ({ users }) => {
         });
     };
 
+    useEffect(() => {
+        if (search) setSearchTerm(search);
+    }, [search]);
+
+    const handleSearchTermChange = (value) => {
+        console.log(users.data.length);
+        setSearchTerm(value);
+        const delayed = debounce(() => {
+            router.get('/users', { page, search: value }, {
+                preserveState: true,
+                replace: true,
+            });
+        }, 500);
+        delayed();
+        return () => delayed.cancel();
+    };
 
     return (
         <AuthenticatedLayout>
@@ -242,6 +260,8 @@ const AdminDashboard = ({ users }) => {
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full md:w-1/2">
                         <h1 className="text-2xl font-bold text-gray-800">Users</h1>
                         <input
+                            value={searchTerm}
+                            onChange={(e) => handleSearchTermChange(e.target.value)}
                             type="text"
                             placeholder="Search"
                             className="w-full sm:w-1/2 px-3 py-2 border border-gray-300 rounded-md  focus:outline-none focus:ring-2 focus:ring-green-400"
@@ -269,69 +289,70 @@ const AdminDashboard = ({ users }) => {
                         </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                        {users.data.length === 0 ? (
-                            <tr>
-                                <td colSpan="5">
-                                    <EmptySearch message="No users found." />
-                                </td>
-                            </tr>
-                        ) : (
-                            users.data.map((user) => (
-                                <tr key={user.id} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 text-sm text-gray-900">
-                                        <div className="flex items-center gap-3">
-                                            {user.profile_photo_url ? (
-                                                <img
-                                                    src={imageUrl + user.profile_photo_url}
-                                                    alt={user.name}
-                                                    className="rounded-full w-12 h-12 object-cover"
-                                                />
-                                            ) : (
-                                                <Avatar {...stringAvatar(user.name)} sx={{ width: 48, height: 48 }} />
-                                            )}
-                                            <div>
-                                                <div className="font-semibold">{user.name}</div>
-                                                <div className="text-gray-500 text-sm">{user.email}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">
-                                        <div>{user.phone}</div>
-                                        <div className="text-gray-400 text-sm">{user.address}</div>
-                                    </td>
-                                    <td className="px-6 py-4 text-sm">
-                                        <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Active</span>
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-700">{user.role}</td>
-                                    <td className="px-6 py-4 flex justify-center gap-2 text-gray-600">
-                                        <Tooltip title="Edit User" arrow>
-                                            <button className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-emerald-300 text-emerald-600 hover:bg-emerald-50"
-                                                onClick={() => openEditUserModal(user)}
-                                            >
-                                                <FaEdit className="w-4 h-4" />
-                                                <span>Edit</span>
-                                            </button>
-                                        </Tooltip>
-
-                                        <Tooltip title="View Details" arrow>
-                                            <button className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100">
-                                                <GrFormView className="w-4 h-4" />
-                                                <span>View</span>
-
-                                            </button>
-                                        </Tooltip>
-
-                                        <Tooltip title="Delete User" arrow>
-                                            <button className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-red-300 text-red-600 hover:bg-red-50">
-                                                <MdDeleteForever className="w-4 h-4" />
-                                                <span>Delete</span>
-                                            </button>
-                                        </Tooltip>
+                            {users.data.length === 0 ? (
+                                <tr>
+                                    <td colSpan="5" className="py-6 text-red-200 text-center">
+                                        <EmptySearch estate="No users found for this search." />
                                     </td>
                                 </tr>
-                            ))
-                        )}
+                            ) : (
+                                users.data.map((user) => (
+                                    <tr key={user.id} className="hover:bg-gray-50">
+                                        <td className="px-6 py-4 text-sm text-gray-900">
+                                            <div className="flex items-center gap-3">
+                                                {user.profile_photo_url ? (
+                                                    <img
+                                                        src={imageUrl + user.profile_photo_url}
+                                                        alt={user.name}
+                                                        className="rounded-full w-12 h-12 object-cover"
+                                                    />
+                                                ) : (
+                                                    <Avatar {...stringAvatar(user.name)} sx={{ width: 48, height: 48 }} />
+                                                )}
+                                                <div>
+                                                    <div className="font-semibold">{user.name}</div>
+                                                    <div className="text-gray-500 text-sm">{user.email}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-600">
+                                            <div>{user.phone}</div>
+                                            <div className="text-gray-400 text-sm">{user.address}</div>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm">
+                                            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Active</span>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-700">{user.role}</td>
+                                        <td className="px-6 py-4 flex justify-center gap-2 text-gray-600">
+                                            <Tooltip title="Edit User" arrow>
+                                                <button
+                                                    className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-emerald-300 text-emerald-600 hover:bg-emerald-50"
+                                                    onClick={() => openEditUserModal(user)}
+                                                >
+                                                    <FaEdit className="w-4 h-4" />
+                                                    <span>Edit</span>
+                                                </button>
+                                            </Tooltip>
+
+                                            <Tooltip title="View Details" arrow>
+                                                <button className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100">
+                                                    <GrFormView className="w-4 h-4" />
+                                                    <span>View</span>
+                                                </button>
+                                            </Tooltip>
+
+                                            <Tooltip title="Delete User" arrow>
+                                                <button className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-red-300 text-red-600 hover:bg-red-50">
+                                                    <MdDeleteForever className="w-4 h-4" />
+                                                    <span>Delete</span>
+                                                </button>
+                                            </Tooltip>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
+
                     </table>
                 </div>
             </div>
