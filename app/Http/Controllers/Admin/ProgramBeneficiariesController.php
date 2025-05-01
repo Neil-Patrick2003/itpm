@@ -24,7 +24,6 @@ class ProgramBeneficiariesController extends Controller
             ->paginate(20);
 
 
-
         return inertia('Admin/Beneficiary/AllBeneficiary', [
         'childrens' => $childrens
         ]);
@@ -58,6 +57,8 @@ class ProgramBeneficiariesController extends Controller
 
     public function store(Request $request, Program $program)
     {
+
+        dd($request->toArray());
         // Get program title
         $program_name = $program->title;
 
@@ -113,7 +114,6 @@ class ProgramBeneficiariesController extends Controller
                 'children_id' => $children->id,
             ]);
 
-            // Add the child ID to the list for attaching
             $childrenIdsToAttach[] = $children->id;
         }
 

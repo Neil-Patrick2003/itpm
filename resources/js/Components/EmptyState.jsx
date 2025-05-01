@@ -10,7 +10,7 @@ export default function EmptyState({
                                    }) {
     return (
         <div className="flex justify-center items-center py-20 px-4">
-            <div className="group border-4 border-dashed border-gray-300 rounded-2xl p-10 max-w-xl w-full text-center shadow-md bg-white ">
+            <div className="group border-2 border-dashed border-gray-200 rounded-2xl p-10 max-w-xl w-full text-center  bg-white ">
                 {/*hover:shadow-xl transition-all duration-300 ease-in-out hover:border-green-400*/}
                 {logo ? (
                     <img src={logo} alt="Logo" className="w-20 h-20 mx-auto mb-4 rounded-full" />
@@ -18,7 +18,7 @@ export default function EmptyState({
                     <Icon className="w-16 h-16 text-gray-400 mx-auto mb-4 group-hover:text-green-500 transition duration-300" />
                 ) : null}
 
-                <h2 className="text-2xl font-semibold text-gray-700 mb-2 group-hover:text-green-600 transition">
+                <h2 className="text-xl font-semibold text-gray-700 mb-2 group-hover:text-green-600 transition">
                     {title}
                 </h2>
                 <p className="text-gray-500 text-base mb-6">{description}</p>

@@ -20,7 +20,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth', 'verified', 'role: health_worker'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/users', [UserController::class, 'index']);
@@ -74,12 +74,17 @@ Route::middleware(['auth', 'verified', 'role: health_worker'])->group(function (
 Route::middleware(['auth', 'verified'])->group(function () {
 //    health worker
     Route::get('/health_workers/dashboard',  [\App\Http\Controllers\HealthWorkerController::class, 'index'])->name('health-workers.dashboard');
-    Route::get('/health_workers/records',  [\App\Http\Controllers\RecordController::class, 'index'])->name('records');
+
+    Route::get('/health_workers/records',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'index'])->name('records');
+    Route::get('/health_workers/records/{id}',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'show'])->name('records');
+    Route::get('/health_workers/records/{id}/add_record',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'create'])->name('records');
+
     Route::get('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'create']);
     Route::post('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'store']);
     Route::get('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'edit']);
     Route::post('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'update']);
     Route::delete('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'destroy']);
+
 
     Route::get('/health_workers/beneficiary ', [\App\Http\Controllers\HealthWorker\ProgramBeneficiaryController::class, 'index']);
     Route::get('/health_workers/beneficiary/{id} ', [\App\Http\Controllers\HealthWorker\ProgramBeneficiaryController::class, 'show']);
