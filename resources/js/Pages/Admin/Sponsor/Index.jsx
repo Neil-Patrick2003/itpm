@@ -30,7 +30,7 @@ const AdminDashboard = ({ sponsors }) => {
         <AuthenticatedLayout>
             <Head title="Sponsors" />
 
-            <div className="p-4 min-h-screen ">
+            <div className=" min-h-screen ">
                 <div className="space-y-6">
 
                     {/* Header */}

@@ -44,7 +44,7 @@ const Program = ({ programs, search = '', page = 1 }) => {
 
     return (
         <AuthenticatedLayout>
-            <div className="p-4 bg-white min-h-[calc(100vh-128px)] rounded-lg ">
+            <div className=" ">
                 {/* Breadcrumb */}
 
                 {/* Search + Add Program */}
@@ -206,9 +206,9 @@ const Program = ({ programs, search = '', page = 1 }) => {
                             <Link
                                 key={i}
                                 href={link.url}
-                                className={`px-4 py-2 text-sm font-medium rounded-md border  transition-all ${
+                                className={`px-4 py-2 text-sm font-medium rounded-md border border-300  transition-all ${
                                     link.active
-                                        ? 'bg-green-600 text-white font-bold'
+                                        ? 'bg-white text-gray-900  font-bold'
                                         : 'bg-white text-gray-700 hover:bg-green-50'
                                 }`}
                                 dangerouslySetInnerHTML={{__html: link.label}}

@@ -96,7 +96,7 @@ const AdminDashboard = ({
             {/* Modal for child profile */}
             <Modal show={isProfileOpen} onClose={closeProfile} aria-labelledby="profile-modal-title" aria-hidden={!isProfileOpen}>
                 {viewingProfile && (
-                    <div className="p-6 bg-white rounded-lg shadow">
+                    <div className="">
                         <h2 id="profile-modal-title" className="text-xl font-semibold mb-4">Child Profile</h2>
                         <p><strong>Name:</strong> {viewingProfile.name}</p>
                         <p><strong>Birth Date:</strong> {viewingProfile.birth_date}</p>
@@ -112,7 +112,7 @@ const AdminDashboard = ({
                 )}
             </Modal>
 
-            <div className="bg-white p-4 ">
+            <div className=" ">
                 <div className="flex justify-between gap-4">
                     <div className="flex gap-2 w-full ">
                         <h1 className="text-2xl font-semibold">Records</h1>
@@ -149,9 +149,9 @@ const AdminDashboard = ({
                 </div>
 
                 {/* Table */}
-                <div className="overflow-x-auto bg-white shadow ring-1 ring-black/5 rounded-lg">
+                <div className="overflow-x-auto bg-white  border border-gray-200 rounded-lg">
                     <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-green-50">
+                        <thead className="bg-white">
                         <tr>
                             <th className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-600 sm:pl-6">Name</th>
                             <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-600">Age</th>

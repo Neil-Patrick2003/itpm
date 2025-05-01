@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, router, useForm} from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
-import { FaEdit } from "react-icons/fa";
+import {FaEdit, FaSearch} from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { GrFormView } from "react-icons/gr";
 import Tooltip from '@mui/material/Tooltip';
@@ -316,15 +316,19 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
 
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full md:w-1/2">
-                        <h1 className="text-2xl font-bold text-gray-800">Users</h1>
-                        <input
-                            value={searchTerm}
-                            onChange={(e) => handleSearchTermChange(e.target.value)}
-                            type="text"
-                            placeholder="Search"
-                            className="w-full sm:w-1/2 px-3 py-2 border border-gray-300 rounded-md  focus:outline-none focus:ring-2 focus:ring-green-400"
-                        />
+
+                    <div className="flex flex-col-reverse lg:flex-row gap-4 justify-center w-full md:w-1/3  ">
+                        <h1 className="text-2xl text-center font-semibold text-gray-600">Users</h1>
+                        <div className="relative w-full">
+                            <input
+                                value={searchTerm}
+                                onChange={(e) => handleSearchTermChange(e.target.value)}
+                                type="text"
+                                placeholder="Search programs..."
+                                className="border border-gray-300 rounded-md h-10 px-4 pl-10 text-sm text-gray-800 w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+                            />
+                            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" />
+                        </div>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:justify-end items-start sm:items-center gap-3 w-full md:w-1/2">
                         <FormControl variant="outlined" className="w-full sm:w-1/3">

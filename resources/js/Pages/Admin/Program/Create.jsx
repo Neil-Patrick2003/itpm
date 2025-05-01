@@ -45,9 +45,9 @@ const Create = ({ sponsors }) => {
 
     return (
         <AuthenticatedLayout>
-            <div className="min-h-screen">
+            <div className="">
                 <div className="flex flex-col h-full w-full">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 bg-white p-4 rounded-lg">
+                    <div className="grid grid-cols-1 border border-gray-200 lg:grid-cols-4 gap-4 bg-white p-4 rounded-lg">
                         {/* Sponsor Sidebar */}
                         <aside className="lg:col-span-1">
                             <div className="flex flex-col gap-3">
@@ -118,7 +118,7 @@ const Create = ({ sponsors }) => {
                                         id="description"
                                         value={data.description}
                                         onChange={(e) => setData('description', e.target.value)}
-                                        className="w-full h-48 sm:h-60 p-3 sm:p-4 border border-slate-300 rounded-lg text-xs sm:text-sm"
+                                        className="w-full h-36 sm:h-60 p-3 sm:p-4 border border-slate-300 rounded-lg text-xs sm:text-sm"
                                         placeholder="Program Description"
                                         required
                                     />
@@ -187,7 +187,7 @@ const Create = ({ sponsors }) => {
                                 </div>
 
                                 {/* Submit */}
-                                <div className="pt-4">
+                                <div className="pt-2 flex justify-end ">
                                     <button
                                         type="submit"
                                         disabled={processing}

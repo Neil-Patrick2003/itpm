@@ -20,7 +20,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth', 'verified',])->group(function () {
+Route::middleware(['auth', 'verified', 'role: health_worker'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/users', [UserController::class, 'index']);
