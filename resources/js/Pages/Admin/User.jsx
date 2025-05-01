@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {router, useForm} from '@inertiajs/react';
+import {Link, router, useForm} from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Modal from '@/Components/Modal';
 import { FaEdit } from "react-icons/fa";
@@ -444,6 +444,28 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
                         </tbody>
 
                     </table>
+                </div>
+                <div className="flex justify-end items-end gap-2 p-2 mt-4">
+                    {users.links.map((link, i) =>
+                        link.url ? (
+                            <Link
+                                key={i}
+                                href={link.url}
+                                className={`px-4 py-2   text-sm font-medium rounded-md border border-gray-200  transition-all ${
+                                    link.active
+                                        ? 'bg-white text-gray-900 font-bold'
+                                        : 'bg-white text-gray-700 hover:bg-green-50'
+                                }`}
+                                dangerouslySetInnerHTML={{__html: link.label}}
+                            />
+                        ) : (
+                            <span
+                                key={i}
+                                className="px-4 py-2 text-sm font-medium text-slate-400 bg-white border border-gray-200 rounded-md cursor-not-allowed"
+                                dangerouslySetInnerHTML={{__html: link.label}}
+                            />
+                        )
+                    )}
                 </div>
             </div>
         </AuthenticatedLayout>
