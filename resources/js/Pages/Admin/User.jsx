@@ -190,7 +190,7 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
 
     return (
         <AuthenticatedLayout>
-            <div className="bg-gray-50  ">
+            <div className="  ">
                 {/* Modal for Adding User */}
                 <Modal show={isAddUserOpen} onClose={closeAddUser} maxWidth="2xl">
                     <Backdrop open={isAddUserOpen} style={{ zIndex: 1 }} />
@@ -348,8 +348,9 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
                                     <em>All Roles</em>
                                 </MenuItem>
                                 <MenuItem value="admin">Admin</MenuItem>
-                                <MenuItem value="trainer">Trainer</MenuItem>
-                                <MenuItem value="user">User</MenuItem>
+                                <MenuItem value="sponsor">Sponsor</MenuItem>
+                                <MenuItem value="parent">Parent</MenuItem>
+                                <MenuItem value="health_worker">Health Worker</MenuItem>
                             </Select>
                         </FormControl>
 
