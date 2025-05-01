@@ -16,6 +16,9 @@ class UserController extends Controller
         $users = User::when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })
+            ->when($request->role, function ($q) use ($request) {
+                return $q->where('role', $request->role);
+            })
             ->latest()
             ->paginate(20);
 

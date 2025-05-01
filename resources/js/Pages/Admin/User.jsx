@@ -21,6 +21,8 @@ import Confirmation from "@/Components/form/Confirmation.jsx";
 import EmptySearch from "@/Components/EmptySearch.jsx";
 import {Inertia} from "@inertiajs/inertia";
 import { debounce } from 'lodash';
+import {FormControl, MenuItem, Select} from "@mui/material";
+import InputLabel from "@/Components/InputLabel.jsx";
 
 
 const steps = ['Personal Details', 'Security', 'Role'];
@@ -39,6 +41,7 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
 
     const imageUrl = '/storage/';
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedRole, setSelectedRole] = useState('');
     const [activeStep, setActiveStep] = useState(0);
     const [isAddUserOpen, setIsAddUserOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
@@ -46,6 +49,8 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
     const handleNext = () => setActiveStep((prev) => prev + 1);
     const handleBack = () => setActiveStep((prev) => prev - 1);
     const handleReset = () => setActiveStep(0);
+
+    console.log(selectedRole);
 
 
     const stringAvatar = (name) => {
@@ -140,11 +145,10 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
         if (search) setSearchTerm(search);
     }, [search]);
 
-    const handleSearchTermChange = (value) => {
-        console.log(users.data.length);
+    const handleSearchTermChange = (value, role) => {
         setSearchTerm(value);
         const delayed = debounce(() => {
-            router.get('/users', { page, search: value }, {
+            router.get('/users', { page, search: value, role: selectedRole }, {
                 preserveState: true,
                 replace: true,
             });
@@ -152,6 +156,8 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
         delayed();
         return () => delayed.cancel();
     };
+
+
 
     return (
         <AuthenticatedLayout>
@@ -267,13 +273,42 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
                             className="w-full sm:w-1/2 px-3 py-2 border border-gray-300 rounded-md  focus:outline-none focus:ring-2 focus:ring-green-400"
                         />
                     </div>
-                    <button
-                        onClick={openAddUser}
-                        className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md "
-                    >
-                        <PlusIcon className="h-5 w-5" />
-                        Add New User
-                    </button>
+                    <div className="flex flex-col sm:flex-row sm:justify-end items-start sm:items-center gap-3 w-full md:w-1/2">
+                        <FormControl variant="outlined" className="w-full sm:w-1/3">
+                            <Select
+                                labelId="role-label"
+                                id="role-select"
+                                value={selectedRole}
+                                onChange={(e) => {
+                                    const role = e.target.value;
+                                    setSelectedRole(role);
+                                    router.get('/users', { page: 1, search: searchTerm, role }, {
+                                        preserveState: true,
+                                        replace: true,
+                                    });
+                                }}
+                                displayEmpty
+                                variant="outlined"
+                                size="small"
+                            >
+                                <MenuItem value="">
+                                    <em>All Roles</em>
+                                </MenuItem>
+                                <MenuItem value="admin">Admin</MenuItem>
+                                <MenuItem value="trainer">Trainer</MenuItem>
+                                <MenuItem value="user">User</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        <button
+                            onClick={openAddUser}
+                            className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md whitespace-nowrap"
+                        >
+                            <PlusIcon className="h-5 w-5" />
+                            Add New User
+                        </button>
+                    </div>
+
                 </div>
 
                 {/* Table */}
