@@ -23,12 +23,13 @@ import {Inertia} from "@inertiajs/inertia";
 import { debounce } from 'lodash';
 import {FormControl, MenuItem, Select} from "@mui/material";
 import InputLabel from "@/Components/InputLabel.jsx";
+import Swal from "sweetalert2";
 
 
 const steps = ['Personal Details', 'Security', 'Role'];
 
 const AdminDashboard = ({ users, search = '', page = 1 }) => {
-    const { data, setData, post, put, reset } = useForm({
+    const { data, setData, post, put, reset , destroy} = useForm({
         name: '',
         email: '',
         address: '',
@@ -157,6 +158,34 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
         return () => delayed.cancel();
     };
 
+    const deleteUser = (id) => {
+        // Show SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?', // Dialog title
+            text: "This user will be permanently deleted!", // Message below the title
+            icon: 'warning', // Warning icon
+            showCancelButton: true, // Show cancel button
+            confirmButtonColor: '#d33', // Red confirm button
+            cancelButtonColor: '#3085d6', // Blue cancel button
+            confirmButtonText: 'Yes, delete it!', // Confirm button text
+        }).then((result) => {
+            // If user clicks "Yes, delete it!"
+            if (result.isConfirmed) {
+                // Use Inertia to send a DELETE request
+                router.delete(`/users/${id}`, {
+                    onSuccess: () => {
+                        // Show success message after deletion
+                        Swal.fire('Deleted!', 'The user has been deleted.', 'success');
+                    },
+                    onError: () => {
+                        // Show error message if something goes wrong
+                        Swal.fire('Error!', 'Something went wrong.', 'error');
+                    }
+                });
+            }
+        });
+    };
+
 
 
     return (
@@ -166,51 +195,75 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
                 <Modal show={isAddUserOpen} onClose={closeAddUser} maxWidth="2xl">
                     <Backdrop open={isAddUserOpen} style={{ zIndex: 1 }} />
                     <form onSubmit={addUser}>
-                        <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-lg z-50 relative">
+                        <div className="flex flex-col gap-6 p-6 bg-white rounded-lg shadow-xl z-50 relative">
+                            {/* Stepper */}
                             <Box sx={{ width: '100%' }}>
                                 <Stepper activeStep={activeStep} alternativeLabel>
                                     {steps.map((label) => (
                                         <Step key={label}>
-                                            <StepLabel sx={{
-                                                '& .MuiStepIcon-root': { color: 'green' },
-                                                '& .MuiStepIcon-active': { color: 'darkgreen' },
-                                                '& .MuiStepIcon-completed': { color: 'darkgreen' },
-                                            }}>{label}</StepLabel>
+                                            <StepLabel
+                                                sx={{
+                                                    '& .MuiStepIcon-root': { color: '#9CCC65' },
+                                                    '& .MuiStepIcon-active': { color: '#558B2F' },
+                                                    '& .MuiStepIcon-completed': { color: '#558B2F' },
+                                                }}
+                                            >
+                                                {label}
+                                            </StepLabel>
                                         </Step>
                                     ))}
                                 </Stepper>
+                            </Box>
 
-                                <Box sx={{ mt: 4 }}>
-                                    {activeStep === steps.length ? (
-                                        <>
-                                            <Confirmation data={data} setData={setData} />
-                                            <div className="flex justify-end gap-2 mt-4">
-                                                <Button onClick={handleReset} variant="outlined" sx={{ color: 'green' }}>
-                                                    Reset
-                                                </Button>
-                                                <Button type="submit" variant="contained" sx={{ backgroundColor: 'green', color: 'white' }}>
-                                                    Submit
-                                                </Button>
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            {getStepContent(activeStep)}
-                                            <Box className="flex justify-end gap-2 mt-4">
-                                                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ color: 'green' }}>
-                                                    Back
-                                                </Button>
-                                                <Button variant="contained" onClick={handleNext} sx={{ backgroundColor: 'green', color: 'white' }}>
-                                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                                </Button>
-                                            </Box>
-                                        </>
-                                    )}
-                                </Box>
+                            {/* Step Content */}
+                            <Box className="mt-2">
+                                {activeStep === steps.length ? (
+                                    <>
+                                        <Confirmation data={data} setData={setData} />
+                                        <div className="flex justify-end gap-3 mt-6">
+                                            <Button
+                                                onClick={handleReset}
+                                                variant="outlined"
+                                                sx={{ color: 'green', borderColor: 'green' }}
+                                            >
+                                                Reset
+                                            </Button>
+                                            <Button
+                                                type="submit"
+                                                variant="contained"
+                                                sx={{ backgroundColor: 'green', color: 'white' }}
+                                            >
+                                                Submit
+                                            </Button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div>{getStepContent(activeStep)}</div>
+                                        <div className="flex justify-between mt-6">
+                                            <Button
+                                                disabled={activeStep === 0}
+                                                onClick={handleBack}
+                                                variant="outlined"
+                                                sx={{ color: 'green', borderColor: 'green' }}
+                                            >
+                                                Back
+                                            </Button>
+                                            <Button
+                                                onClick={handleNext}
+                                                variant="contained"
+                                                sx={{ backgroundColor: 'green', color: 'white' }}
+                                            >
+                                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                            </Button>
+                                        </div>
+                                    </>
+                                )}
                             </Box>
                         </div>
                     </form>
                 </Modal>
+
 
                 <Modal show={showEditUserModal} onClose={closeEditUserModal} maxWidth="2xl">
                     <Backdrop open={isAddUserOpen} style={{ zIndex: 1 }} />
@@ -369,19 +422,21 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
                                                 </button>
                                             </Tooltip>
 
-                                            <Tooltip title="View Details" arrow>
-                                                <button className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100">
-                                                    <GrFormView className="w-4 h-4" />
-                                                    <span>View</span>
-                                                </button>
-                                            </Tooltip>
+                                            {/*<Tooltip title="View Details" arrow>*/}
+                                            {/*    <button className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100">*/}
+                                            {/*        <GrFormView className="w-4 h-4" />*/}
+                                            {/*        <span>View</span>*/}
+                                            {/*    </button>*/}
+                                            {/*</Tooltip>*/}
 
-                                            <Tooltip title="Delete User" arrow>
-                                                <button className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-red-300 text-red-600 hover:bg-red-50">
-                                                    <MdDeleteForever className="w-4 h-4" />
-                                                    <span>Delete</span>
-                                                </button>
-                                            </Tooltip>
+                                            {/*<Tooltip title="Delete User" arrow>*/}
+                                            {/*    <button className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-red-300 text-red-600 hover:bg-red-50"*/}
+                                            {/*            onClick={() => deleteUser(user.id)}*/}
+                                            {/*    >*/}
+                                            {/*        <MdDeleteForever className="w-4 h-4" />*/}
+                                            {/*        <span>Delete</span>*/}
+                                            {/*    </button>*/}
+                                            {/*</Tooltip>*/}
                                         </td>
                                     </tr>
                                 ))
