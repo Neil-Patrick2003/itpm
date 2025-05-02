@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Mail\ContactUs;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -19,6 +20,21 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::post('/send-message', [\App\Http\Controllers\Email\EmailController::class, 'sendContactEmail'])->name('email.store');;
+
+
+Route::get('/email-1', function () {
+    $name = 'Sanjay';
+    $from = 'neilpatrick.personal@gmail.com';
+
+    \Illuminate\Support\Facades\Mail::to('nutrisafary.tuy@gmail.com')->send(new ContactUs(['name' => $name, 'from' => $from]));
+
+    dd('Email Sent');
+}
+);
+
+
 
 Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');

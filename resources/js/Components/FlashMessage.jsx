@@ -17,7 +17,7 @@ const FlashMessage = () => {
 
     return (
         <ToastContainer
-            position="bottom-right" // Change position to top-right
+            position="top-right" // Change position to top-right
             autoClose={5000} // Auto close after 5 seconds
             hideProgressBar={false} // Show the progress bar
             newestOnTop={true} // Newest toast will appear at the top
