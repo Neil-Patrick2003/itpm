@@ -58,7 +58,6 @@ class ProgramBeneficiariesController extends Controller
     public function store(Request $request, Program $program)
     {
 
-        dd($request->toArray());
         // Get program title
         $program_name = $program->title;
 
@@ -83,7 +82,7 @@ class ProgramBeneficiariesController extends Controller
                     'name' => $record->parent_name,
                     'email' => $record->email,
                     'address' => $record->address,
-                    'password' => bcrypt($request->password), // Use bcrypt for password hashing
+                    'password' => bcrypt($request->phone), // Use bcrypt for password hashing
                     'role' => 'parent',
                     'phone' => $record->phone_number,
                 ]);

@@ -4,8 +4,8 @@ import { InputLabel } from "@mui/material";
 import InputError from "@/Components/InputError.jsx";
 import recording from '../../../../assets/image/recording.png';
 
-const CreateProgramRecord = () => {
-    const { data, setData, post, processing, errors } = useForm({
+const CreateProgramRecord = ({program}) => {
+    const { data, setData, reset, post, processing, errors } = useForm({
         name: '',
         birth_date: '',
         gender: '',
@@ -18,10 +18,14 @@ const CreateProgramRecord = () => {
         phone_number: '',
     });
 
-    const submit = (e) => {
+
+    function submit(e) {
+        console.log(data);
         e.preventDefault();
-        post('/health_workers/records/create');
-    };
+        post(`/health_workers/records/${program.id}/add_record `, {
+            onFinish: () => reset(),
+        });
+    }
 
     return (
         <WorkerLayout>

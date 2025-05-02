@@ -56,4 +56,9 @@ class ProgramBeneficiaryController extends Controller
             ] : null,
         ]);
     }
+
+    public function store()
+    {
+
+    }
 }
