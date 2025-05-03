@@ -20,7 +20,6 @@
             return age;
         };
 
-        console.log(record);
 
         return (
             <WorkerLayout>

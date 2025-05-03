@@ -199,7 +199,7 @@ const RecordIndex = ( {programs} ) => {
                         </h1>
                     </div>
                     <div>
-                        <Link href={'/health_workers/records/0'}
+                        <Link href={'/health_workers/records/general'}
                             className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-emerald-300 text-emerald-600 hover:bg-emerald-50"
                         >
                             <DocumentPlusIcon className="w-4 h-4" />

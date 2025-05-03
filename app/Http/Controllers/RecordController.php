@@ -13,25 +13,25 @@ use function Pest\Laravel\get;
 class RecordController extends Controller
 {
     public function index(Request $request){
+
+
+        dd(Auth::id());
         $programs = Program::all();
 
+        $records = Record::where('recorded_by', Auth::id())
+        ->when($request->search, function ($q) use ($request)
+            {
+                return $q->where('children_name', 'like', '%' . $request->search . '%');
+            })
+            ->latest()
+            ->paginate(20, ['*'], 'page', $request->input('page', 1));
 
 
-
-//        $records = Record::where('recorded_by', Auth::id())
-//        ->when($request->search, function ($q) use ($request)
-//            {
-//                return $q->where('children_name', 'like', '%' . $request->search . '%');
-//            })
-//            ->latest()
-//            ->paginate(20, ['*'], 'page', $request->input('page', 1));
-//
-//
-//        return Inertia::render('Worker/Record/RecordIndex', [
-//            'records' => $records,
-//            'search' => $request->query('search'),
-//            'page' => $request->input('page', 1)
-//        ]);
+        return Inertia::render('Worker/Record/RecordIndex', [
+            'records' => $records,
+            'search' => $request->query('search'),
+            'page' => $request->input('page', 1)
+        ]);
     }
 
     public function create(){
