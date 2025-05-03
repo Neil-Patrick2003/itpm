@@ -23,30 +23,41 @@ const Dashboard = ({ programs, user }) => {
     return (
         <WorkerLayout title="Dashboard">
             <div className="px-4">
+
                 {/* Profile Section */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="flex flex-col md:flex-row md:items-center justify-between mb-8"
+                    className=" mb-8"
                 >
-                    <div className="flex items-center gap-4">
-                        {auth.user.profile_photo_url ? (
-                            <img
-                                src={auth.user.profile_photo_url}
-                                alt={auth.user.name}
-                                className="rounded-full w-14 h-14 object-cover border-2 border-green-500"
-                            />
-                        ) : (
-                            <Avatar {...stringAvatar(auth.user.name)} sx={{ width: 56, height: 56 }} />
-                        )}
-                        <div>
-                            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
-                                {auth.user.name}
-                            </h1>
-                            <p className="text-sm text-gray-500">Assigned: {auth.user.assign_address}</p>
-                        </div>
-                    </div>
+                    {programs?.length > 0 && (
+                        <motion.section
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                        >
+                            <h3 className="text-xl font-semibold text-gray-800 mb-4">Ongoing Nutrition Programs</h3>
+                            <AutoImageSlider programs={programs} autoSlideInterval={3000} />
+                        </motion.section>
+                    )}
+                    {/*<div className="flex items-center gap-4">*/}
+                    {/*    {auth.user.profile_photo_url ? (*/}
+                    {/*        <img*/}
+                    {/*            src={auth.user.profile_photo_url}*/}
+                    {/*            alt={auth.user.name}*/}
+                    {/*            className="rounded-full w-14 h-14 object-cover border-2 border-green-500"*/}
+                    {/*        />*/}
+                    {/*    ) : (*/}
+                    {/*        <Avatar {...stringAvatar(auth.user.name)} sx={{ width: 56, height: 56 }} />*/}
+                    {/*    )}*/}
+                    {/*    <div>*/}
+                    {/*        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">*/}
+                    {/*            {auth.user.name}*/}
+                    {/*        </h1>*/}
+                    {/*        <p className="text-sm text-gray-500">Assigned: {auth.user.assign_address}</p>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </motion.div>
 
                 {/* Hero Section */}
@@ -105,16 +116,7 @@ const Dashboard = ({ programs, user }) => {
                 </motion.section>
 
                 {/* Slider Section */}
-                {programs?.length > 0 && (
-                    <motion.section
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                        <h3 className="text-xl font-semibold text-gray-800 mb-4">Ongoing Nutrition Programs</h3>
-                        <AutoImageSlider programs={programs} autoSlideInterval={3000} />
-                    </motion.section>
-                )}
+
             </div>
         </WorkerLayout>
     );
