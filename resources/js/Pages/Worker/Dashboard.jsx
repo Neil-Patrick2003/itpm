@@ -1,12 +1,19 @@
 import React from 'react';
-import WorkerLayout from "@/Layouts/WorkerLayout.jsx";
-import { usePage } from "@inertiajs/react";
-import AutoImageSlider from "@/Components/AutoImageSlider.jsx";
-import healthWorkerImg from '../../../assets/image/health_worker.png';
-import Avatar from "@mui/material/Avatar";
+import { usePage } from '@inertiajs/react';
+import { Avatar } from '@mui/material';
+import { Pie } from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    ArcElement,
+    Tooltip,
+    Legend,
+} from 'chart.js';
 import { motion } from 'framer-motion';
+import WorkerLayout from '@/Layouts/WorkerLayout';
 
-const Dashboard = ({ programs, user, announcements }) => {
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+const Dashboard = ({ programs, incoming_programs, completed_programs, in_progress, user, announcements, total_beneficiary_count }) => {
     const auth = usePage().props;
 
     const stringAvatar = (name) => {
@@ -20,104 +27,141 @@ const Dashboard = ({ programs, user, announcements }) => {
         };
     };
 
+    const stats = [
+        { title: 'Total Programs', value: programs.length },
+        { title: 'Total Beneficiaries', value: total_beneficiary_count },
+        { title: 'Incoming', value: incoming_programs.length },
+        { title: 'Completed', value: completed_programs.length },
+        { title: 'In Progress', value: in_progress.length },
+        { title: 'Avg. Duration (days)', value: Math.round(programs.reduce((sum, p) => sum + (p.duration || 0), 0) / programs.length) || 0 },
+    ];
+
+    const pieData = {
+        labels: ['Completed', 'In Progress', 'Incoming'],
+        datasets: [{
+            data: [completed_programs.length, in_progress.length, incoming_programs.length],
+            backgroundColor: ['#4CAF50', '#FFC107', '#03A9F4'],
+            borderColor: '#fff',
+            borderWidth: 1,
+        }],
+    };
+
     return (
-        <WorkerLayout announcements={announcements} >
-            <div className="px-4">
-
-                {/* Profile Section */}
+        <WorkerLayout>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="px-4 min-h-screen"
+            >
                 <motion.div
-                    initial={{ opacity: 0, y: -20 }}
+                    className="flex border bg-gray-50 p-2 mb-6 items-center gap-2 rounded-2xl"
+                    initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className=" mb-8"
+                    transition={{ duration: 0.4 }}
                 >
-                    {programs?.length > 0 && (
-                        <motion.section
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                        >
-                            <AutoImageSlider programs={programs} autoSlideInterval={3000} />
-                        </motion.section>
+                    {auth.user.profile_photo_url ? (
+                        <img
+                            src={auth.user.profile_photo_url}
+                            alt={auth.user.name}
+                            className="rounded-full w-14 h-14 object-cover border-2 border-green-500"
+                        />
+                    ) : (
+                        <Avatar {...stringAvatar(auth.user.name)} sx={{ width: 56, height: 56 }} />
                     )}
-
+                    <div>
+                        <h1 className="text-2xl font-semibold text-gray-800">{auth.user.name}</h1>
+                        <p className="text-sm text-gray-500">Assigned: {auth.user.assign_address}</p>
+                    </div>
                 </motion.div>
 
-                {/*/!* Hero Section *!/*/}
-                {/*<motion.section*/}
-                {/*    initial={{ opacity: 0, scale: 0.98 }}*/}
-                {/*    animate={{ opacity: 1, scale: 1 }}*/}
-                {/*    transition={{ delay: 0.2, duration: 0.6 }}*/}
-                {/*    className="flex flex-col md:flex-row bg-white rounded-xl shadow-md overflow-hidden mb-10"*/}
-                {/*>*/}
-                {/*    <div className="w-full md:w-2/3 p-8 flex flex-col justify-center">*/}
-                {/*        <div className="flex border mb-6 items-center gap-4">*/}
-                {/*            {auth.user.profile_photo_url ? (*/}
-                {/*                <img*/}
-                {/*                    src={auth.user.profile_photo_url}*/}
-                {/*                    alt={auth.user.name}*/}
-                {/*                    className="rounded-full w-14 h-14 object-cover border-2 border-green-500"*/}
-                {/*                />*/}
-                {/*            ) : (*/}
-                {/*                <Avatar {...stringAvatar(auth.user.name)} sx={{ width: 56, height: 56 }} />*/}
-                {/*            )}*/}
-                {/*            <div>*/}
-                {/*                <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">*/}
-                {/*                    {auth.user.name}*/}
-                {/*                </h1>*/}
-                {/*                <p className="text-sm text-gray-500">Assigned: {auth.user.assign_address}</p>*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*        <h2 className="text-3xl font-bold text-green-700 mb-2">*/}
-                {/*            Supporting Healthy Futures*/}
-                {/*        </h2>*/}
-                {/*        <p className="text-gray-600 text-lg leading-relaxed">*/}
-                {/*            Empowering barangay health workers to monitor and improve child nutrition — one community at a time.*/}
-                {/*        </p>*/}
-                {/*    </div>*/}
-                {/*    <div className="w-full md:w-1/3 flex items-center justify-center p-4 bg-gray-50">*/}
-                {/*        <img*/}
-                {/*            src={healthWorkerImg}*/}
-                {/*            alt="Health Worker"*/}
-                {/*            className="rounded-lg shadow-lg w-full h-60 object-cover"*/}
-                {/*        />*/}
-                {/*    </div>*/}
-                {/*</motion.section>*/}
-
-                {/* Stats Cards */}
                 <motion.section
                     initial="hidden"
                     animate="visible"
                     variants={{
                         hidden: { opacity: 0 },
-                        visible: {
-                            opacity: 1,
-                            transition: { staggerChildren: 0.2 },
-                        },
+                        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
                     }}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10"
+                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-10"
                 >
-                    {[
-                        { title: 'Total Children Monitored', value: '1,234' },
-                        { title: 'Assigned Barangay', value: user.assign_address },
-                        { title: 'Avg. Weight (kg)', value: '18.6' },
-                    ].map((stat, idx) => (
+                    {stats.map((stat, idx) => (
                         <motion.div
                             key={idx}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="bg-white p-6 border rounded-lg shadow text-center hover:shadow-lg transition duration-200"
+                            className="bg-white p-2 border rounded-2xl shadow-lg text-center hover:shadow-2xl transition duration-300"
                         >
-                            <h4 className="text-lg font-medium text-gray-700">{stat.title}</h4>
-                            <p className="text-3xl font-bold text-green-600 mt-2">{stat.value}</p>
+                            <h4 className="text-md font-medium text-gray-700">{stat.title}</h4>
+                            <p className="text-2xl font-bold text-green-600 mt-2">{stat.value}</p>
                         </motion.div>
                     ))}
                 </motion.section>
 
-                {/* Slider Section */}
+                <div className="flex flex-col lg:flex-row gap-6 mb-10">
+                    <motion.div className="w-full rounded-2xl shadow lg:w-2/3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+                        <div className="bg-white p-4 rounded-2xl h-full overflow-auto">
+                            <h3 className="text-lg font-semibold mb-4">Programs Overview</h3>
+                            <table className="min-w-full divide-y divide-gray-300">
+                                <thead>
+                                <tr>
+                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Program</th>
+                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Start Date</th>
+                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Duration</th>
+                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {in_progress.map((program) => (
+                                    <tr key={program.id} className="border-b hover:bg-gray-50">
+                                        <td className="py-2 text-gray-900">{program.title}</td>
+                                        <td className="py-2 text-gray-500">{program.start_date}</td>
+                                        <td className="py-2 text-gray-500">{program.duration} days</td>
+                                        <td className="py-2 text-green-600 font-medium">In Progress</td>
+                                    </tr>
+                                ))}
+                                {incoming_programs.map((program) => (
+                                    <tr key={program.id} className="border-b hover:bg-gray-50">
+                                        <td className="py-2 text-gray-900">{program.title}</td>
+                                        <td className="py-2 text-gray-500">{program.start_date}</td>
+                                        <td className="py-2 text-gray-500">{program.duration} days</td>
+                                        <td className="py-2 text-blue-600 font-medium">Incoming</td>
+                                    </tr>
+                                ))}
+                                {completed_programs.map((program) => (
+                                    <tr key={program.id} className="border-b hover:bg-gray-50">
+                                        <td className="py-2 text-gray-900">{program.title}</td>
+                                        <td className="py-2 text-gray-500">{program.start_date}</td>
+                                        <td className="py-2 text-gray-500">{program.duration} days</td>
+                                        <td className="py-2 text-gray-600 font-medium">Completed</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </motion.div>
 
-            </div>
+                    <motion.div className="w-full lg:w-1/3 space-y-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.1 }}>
+                        <div className="bg-white p-4 rounded-2xl shadow">
+                            <h3 className="text-lg font-semibold mb-4">Announcements</h3>
+                            <ul className="space-y-3 max-h-[300px] overflow-auto pr-2">
+                                {announcements.map((note, i) => (
+                                    <li key={i} className="border-b pb-2">
+                                        <p className="text-gray-800 font-medium">{note.title}</p>
+                                        <p className="text-sm text-gray-600">{note.body?.slice(0, 80)}...</p>
+                                        <span className="text-xs text-gray-400">{note.date}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="bg-white p-4 rounded-2xl shadow">
+                            <h3 className="text-lg font-semibold mb-4">Program Distribution</h3>
+                            <Pie data={pieData} />
+                        </div>
+                    </motion.div>
+                </div>
+            </motion.div>
         </WorkerLayout>
     );
 };
