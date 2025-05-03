@@ -61,9 +61,6 @@ class ChildrenController extends Controller
             ->latest()
             ->paginate(20);
 
-
-
-
         return Inertia::render('Admin/Children/ChildrensProfile', [
             'childrens' => $childrens,
         ]);

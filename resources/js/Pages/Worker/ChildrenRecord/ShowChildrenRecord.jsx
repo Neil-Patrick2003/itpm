@@ -14,6 +14,7 @@ import TextInput from "@/Components/TextInput.jsx";
 import {FaUser} from "react-icons/fa";
 import InputError from "@/Components/InputError.jsx";
 import {useForm} from "@inertiajs/react";
+import { BarChart } from '@mui/x-charts';
 
 const ShowChildrenRecord = ({ child, growthData, recent_record }) => {
     const xLabels = growthData.map(item => item.date);
@@ -154,7 +155,7 @@ const ShowChildrenRecord = ({ child, growthData, recent_record }) => {
                                 <span className="bg-green-100 text-green-700 rounded-full px-4 py-1 text-sm font-medium">
                                     {child.gender}
                                 </span>
-                                <span className="bg-green-100 text-green-700 rounded-full px-4 py-1 text-sm font-medium">
+                                <span className="bounce bg-green-100 text-green-700 rounded-full px-4 py-1 text-sm font-medium">
                                     BMI: {recent_record ? parseFloat(recent_record.bmi).toFixed(2) : 'N/A'}
                                 </span>
                             </div>
@@ -238,16 +239,25 @@ const ShowChildrenRecord = ({ child, growthData, recent_record }) => {
                 <div className="col-span-1 md:col-span-3 bg-white drop-shadow-md  rounded-lg p-4 md:p-6 shadow-sm overflow-x-auto">
                     <h2 className="text-xl font-semibold text-green-600 mb-4">Growth Chart</h2>
                     <div className="min-w-[300px] md:min-w-0">
-                        <LineChart
-                            width={chartWidth}
-                            height={300}
-                            xAxis={[{ scaleType: 'band', data: xLabels }]}
+                        <BarChart
+                            xAxis={[{ data:xLabels, scaleType: 'band', label: 'Date' }]}
                             series={[
-                                { data: heightData, label: 'Height (cm)', color: '#328E6E' },
-                                { data: weightData, label: 'Weight (kg)', color: '#34D399' }
+                                { data: heightData, label: 'Height (cm)', color: '#84E99B' },
+                                { data: weightData, label: 'Weight (kg)', color: '#5DA44A' },
                             ]}
+                            height={250}
                         />
+                        {/*<LineChart*/}
+                        {/*    width={chartWidth}*/}
+                        {/*    height={300}*/}
+                        {/*    xAxis={[{ scaleType: 'band', data: xLabels }]}*/}
+                        {/*    series={[*/}
+                        {/*        { data: heightData, label: 'Height (cm)', color: '#328E6E' },*/}
+                        {/*        { data: weightData, label: 'Weight (kg)', color: '#34D399' }*/}
+                        {/*    ]}*/}
+                        {/*/>*/}
                     </div>
+
                 </div>
             </div>
         </WorkerLayout>

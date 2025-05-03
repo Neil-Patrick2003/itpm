@@ -35,7 +35,9 @@ class ProgramController extends Controller
         $program = Program::findOrFail($id);
         $record = Program::with('children.record')
             ->where('id', $id)
+
             ->first();
+
 
         return Inertia::render('Worker/Program/RecordPerProgram', [
             'program' => $program,

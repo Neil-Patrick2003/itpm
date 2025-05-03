@@ -38,7 +38,7 @@ const AutoImageSlider = ({ programs, autoSlideInterval = 3000 }) => {
                         <img
                             src={imageUrl + program.program_background_url} // Access the photo attribute
                             alt={program.name}   // Use the program's name for the alt text
-                            className="w-full h-64 object-cover "
+                            className="w-full h-80 object-fit "
                         />
                     </div>
                 ))}

@@ -35,14 +35,15 @@ class ProgramBeneficiaryController extends Controller
 
         $recentRecord = ChildrenRecord::where('children_id', $child->id)->latest()->first();
 
-        $growthData = $child->record->map(function ($record) {
-            return [
-                'date' => $record->created_at->format('Y-m-d'), // or use a specific date field
-                'height' => $record->height,
-                'weight' => $record->weight,
-                'created_at' => $record->created_at,
-            ];
-        });
+            $growthData = $child->record->map(function ($record) {
+                return [
+                    'date' => $record->created_at->format('Y-m-d'), // or use a specific date field
+                    'height' => $record->height,
+                    'weight' => $record->weight,
+                    'created_at' => $record->created_at,
+                ];
+            });
+
 
 
         return Inertia::render('Worker/ChildrenRecord/ShowChildrenRecord', [

@@ -37,52 +37,52 @@ const Dashboard = ({ programs, user, announcements }) => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
-                            <h3 className="text-xl font-semibold text-gray-800 mb-4">Ongoing Nutrition Programs</h3>
                             <AutoImageSlider programs={programs} autoSlideInterval={3000} />
                         </motion.section>
                     )}
-                    {/*<div className="flex items-center gap-4">*/}
-                    {/*    {auth.user.profile_photo_url ? (*/}
-                    {/*        <img*/}
-                    {/*            src={auth.user.profile_photo_url}*/}
-                    {/*            alt={auth.user.name}*/}
-                    {/*            className="rounded-full w-14 h-14 object-cover border-2 border-green-500"*/}
-                    {/*        />*/}
-                    {/*    ) : (*/}
-                    {/*        <Avatar {...stringAvatar(auth.user.name)} sx={{ width: 56, height: 56 }} />*/}
-                    {/*    )}*/}
-                    {/*    <div>*/}
-                    {/*        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">*/}
-                    {/*            {auth.user.name}*/}
-                    {/*        </h1>*/}
-                    {/*        <p className="text-sm text-gray-500">Assigned: {auth.user.assign_address}</p>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
+
                 </motion.div>
 
-                {/* Hero Section */}
-                <motion.section
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.2, duration: 0.6 }}
-                    className="flex flex-col md:flex-row bg-white rounded-xl shadow-md overflow-hidden mb-10"
-                >
-                    <div className="w-full md:w-2/3 p-8 flex flex-col justify-center">
-                        <h2 className="text-3xl font-bold text-green-700 mb-2">
-                            Supporting Healthy Futures
-                        </h2>
-                        <p className="text-gray-600 text-lg leading-relaxed">
-                            Empowering barangay health workers to monitor and improve child nutrition — one community at a time.
-                        </p>
-                    </div>
-                    <div className="w-full md:w-1/3 flex items-center justify-center p-4 bg-gray-50">
-                        <img
-                            src={healthWorkerImg}
-                            alt="Health Worker"
-                            className="rounded-lg shadow-lg w-full h-60 object-cover"
-                        />
-                    </div>
-                </motion.section>
+                {/*/!* Hero Section *!/*/}
+                {/*<motion.section*/}
+                {/*    initial={{ opacity: 0, scale: 0.98 }}*/}
+                {/*    animate={{ opacity: 1, scale: 1 }}*/}
+                {/*    transition={{ delay: 0.2, duration: 0.6 }}*/}
+                {/*    className="flex flex-col md:flex-row bg-white rounded-xl shadow-md overflow-hidden mb-10"*/}
+                {/*>*/}
+                {/*    <div className="w-full md:w-2/3 p-8 flex flex-col justify-center">*/}
+                {/*        <div className="flex border mb-6 items-center gap-4">*/}
+                {/*            {auth.user.profile_photo_url ? (*/}
+                {/*                <img*/}
+                {/*                    src={auth.user.profile_photo_url}*/}
+                {/*                    alt={auth.user.name}*/}
+                {/*                    className="rounded-full w-14 h-14 object-cover border-2 border-green-500"*/}
+                {/*                />*/}
+                {/*            ) : (*/}
+                {/*                <Avatar {...stringAvatar(auth.user.name)} sx={{ width: 56, height: 56 }} />*/}
+                {/*            )}*/}
+                {/*            <div>*/}
+                {/*                <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">*/}
+                {/*                    {auth.user.name}*/}
+                {/*                </h1>*/}
+                {/*                <p className="text-sm text-gray-500">Assigned: {auth.user.assign_address}</p>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*        <h2 className="text-3xl font-bold text-green-700 mb-2">*/}
+                {/*            Supporting Healthy Futures*/}
+                {/*        </h2>*/}
+                {/*        <p className="text-gray-600 text-lg leading-relaxed">*/}
+                {/*            Empowering barangay health workers to monitor and improve child nutrition — one community at a time.*/}
+                {/*        </p>*/}
+                {/*    </div>*/}
+                {/*    <div className="w-full md:w-1/3 flex items-center justify-center p-4 bg-gray-50">*/}
+                {/*        <img*/}
+                {/*            src={healthWorkerImg}*/}
+                {/*            alt="Health Worker"*/}
+                {/*            className="rounded-lg shadow-lg w-full h-60 object-cover"*/}
+                {/*        />*/}
+                {/*    </div>*/}
+                {/*</motion.section>*/}
 
                 {/* Stats Cards */}
                 <motion.section
