@@ -9,9 +9,10 @@ import {
 } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import FlashMessage from "@/Components/FlashMessage.jsx";
-import { Link } from "@inertiajs/react";
-import React from "react";
+import {Link, router, useForm, usePage} from "@inertiajs/react";
+import React, {useState} from "react";
 import logo from '../../assets/image/logo.png';
+import Modal from "@/Components/Modal.jsx";
 
 const user = {
     name: 'Tom Cook',
@@ -39,11 +40,36 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function WorkerLayout({ children }) {
+export default function WorkerLayout({ children,  }) {
+    const { props } = usePage();
+    const announcements = props.announcements || [];
+    const { data, setData, post, patch, processing, errors, reset } = useForm({
+        is_read: ''
+    })
     const currentPage = window.location.pathname;
+    const [openAnnouncement, setOpenAnnouncement] = React.useState(false);
+    const [selected, setSelected] = useState(null);
+
+
+    const openAnnouncementModal = (announcement) => {
+        setSelected(announcement);
+        setOpenAnnouncement(true);
+
+        // if (!announcement.is_read) {
+        //     // Mark as read
+        //     router.post(`/health_worker/announcements/${announcement.id}/read`, {}, {
+        //         preserveScroll: true,
+        //         onSuccess: () => {
+        //             // Optional: update local state
+        //             announcement.is_read = true;
+        //         },
+        //     });
+        // }
+    };
 
     return (
         <>
+
             <div className="min-h-full">
                 <div className="bg-gray-100 pb-32">
                     <Disclosure as="nav" className="fix bg-green-900">
@@ -76,14 +102,51 @@ export default function WorkerLayout({ children }) {
                                     </div>
                                     <div className="hidden md:block">
                                         <div className="ml-4 flex items-center md:ml-6">
-                                            <button
-                                                type="button"
-                                                className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
-                                            >
-                                                <span className="absolute -inset-1.5" />
-                                                <span className="sr-only">View notifications</span>
-                                                <BellIcon aria-hidden="true" className="size-6" />
-                                            </button>
+                                            <Menu as="div" className="relative ml-3">
+                                                <div>
+                                                    <MenuButton className="relative flex max-w-xs items-center text-sm focus:ring-2 focus:ring-white">
+                                                        <span className="absolute -inset-1.5" />
+                                                        <span className="sr-only">View notifications</span>
+                                                        <BellIcon aria-hidden="true" className="size-8 text-white" />
+                                                    </MenuButton>
+                                                </div>
+
+                                                <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 transition focus:outline-hidden max-h-64 overflow-y-auto">
+                                                    {announcements.map((announcement) => (
+                                                        <MenuItem key={announcement.id}>
+                                                            <button
+                                                                onClick={() => openAnnouncementModal(announcement)} // Open modal with content
+                                                                className={`block w-full text-left px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden ${
+                                                                    announcement.is_read === 0 ? 'font-bold' : 'font-normal'
+                                                                }`}
+                                                            >
+                                                                {announcement.title}
+                                                            </button>
+                                                        </MenuItem>
+                                                    ))}
+
+                                                    <MenuItem>
+                                                        <Link
+                                                            href="/logout"
+                                                            method="post"
+                                                            as="button"
+                                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
+                                                        >
+                                                            See all announcements
+                                                        </Link>
+                                                    </MenuItem>
+                                                </MenuItems>
+
+                                            </Menu>
+
+                                            {/*<button*/}
+                                            {/*    type="button"*/}
+                                            {/*    className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"*/}
+                                            {/*>*/}
+                                            {/*    <span className="absolute -inset-1.5" />*/}
+                                            {/*    <span className="sr-only">View notifications</span>*/}
+                                            {/*    <BellIcon aria-hidden="true" className="size-6" />*/}
+                                            {/*</button>*/}
 
                                             <Menu as="div" className="relative ml-3">
                                                 <div>
@@ -182,6 +245,40 @@ export default function WorkerLayout({ children }) {
 
                 <main className="-mt-32">
                     <div className="mx-auto max-w-7xl pb-12 sm:px-6 lg:px-8">
+
+                        {selected && (
+                            <Modal show={openAnnouncement} onClose={() => setOpenAnnouncement(false)} maxWidth="lg">
+                                <div className="p-6 bg-white rounded-lg shadow-lg">
+                                    {/* Logo Section */}
+                                    <div className="flex items-center justify-between border-b pb-4 mb-4">
+                                        <div className="flex items-center space-x-3">
+                                            <img src="/images/logo.png" alt="Logo" className="h-10 w-10 object-contain" />
+                                            <h2 className="text-2xl font-bold text-green-700">Announcement</h2>
+                                        </div>
+                                        <button
+                                            onClick={() => setOpenAnnouncement(false)}
+                                            className="text-gray-400 hover:text-gray-600"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                      d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    {/* Content Section */}
+                                    <div className="space-y-4">
+                                        <h3 className="text-xl font-semibold text-green-800">{selected.title}</h3>
+                                        <p className="text-gray-700 leading-relaxed">{selected.description}</p>
+                                        <p className="text-sm text-gray-500">
+                                            Posted at: {new Date(selected.created_at).toLocaleString()}
+                                        </p>
+                                    </div>
+                                </div>
+                            </Modal>
+
+                        )}
                         <FlashMessage />
                         <div className="rounded-lg bg-white px-0 py-6 ">
                             {children}

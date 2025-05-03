@@ -6,7 +6,7 @@ import healthWorkerImg from '../../../assets/image/health_worker.png';
 import Avatar from "@mui/material/Avatar";
 import { motion } from 'framer-motion';
 
-const Dashboard = ({ programs, user }) => {
+const Dashboard = ({ programs, user, announcements }) => {
     const auth = usePage().props;
 
     const stringAvatar = (name) => {
@@ -21,7 +21,7 @@ const Dashboard = ({ programs, user }) => {
     };
 
     return (
-        <WorkerLayout title="Dashboard">
+        <WorkerLayout announcements={announcements} >
             <div className="px-4">
 
                 {/* Profile Section */}

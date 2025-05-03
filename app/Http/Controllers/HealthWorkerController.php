@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,10 +14,14 @@ class HealthWorkerController extends Controller
     {
         $user = Auth::user();
         $programs = Program::with('sponsors')->limit(5)->latest()->get();
+        $announcements = Announcement::with('user')->limit(5)->latest()->get();
+
+
         return Inertia::render(
             'Worker/Dashboard',[
                 'programs' => $programs,
                 'user' => $user,
+                'announcements' => $announcements,
             ]
         );
     }
