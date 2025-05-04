@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Children;
+use App\Models\ChildrenRecord;
 use App\Models\Program;
 use App\Models\Record;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -15,10 +18,13 @@ class RecordController extends Controller
 
         $programs = Program::all();
 
-        $records = Record::where('recorded_by', Auth::id())
+        $records = Children::with('parent', 'latestRecord')
         ->when($request->search, function ($q) use ($request)
             {
                 return $q->where('children_name', 'like', '%' . $request->search . '%');
+            })
+            ->whereHas('parent', function ($q) use ($request) {
+                $q->where('address', '=', Auth::user()->assign_address);;;
             })
             ->latest()
             ->paginate(20, ['*'], 'page', $request->input('page', 1));
@@ -47,20 +53,32 @@ class RecordController extends Controller
             'gender' => 'required|max:255|string|in:male,female',
         ]);
 
-        $recorded_by = Auth::id();
-
-
-        $record = Record::create([
-            'children_name' => $request->children_name,
-            'birth_date' => $request->birth_date,
-            'parent_name' => $request->parent_name,
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
+            $parent = User::create([
+            'name' => $request->parent_name,
             'email' => $request->email,
+            'password' => hash('sha256', $request->phone_number),
+            'role' => 'parent',
+            'phone' => $request->phone_number,
+            'address' => $request->address,
+        ]);
+
+        $children = Children::create([
+            'name' => $request->children_name,
+            'birth_date' => $request->birth_date,
+            'gender' => $request->gender,
+            'parent_id' => $parent->id,
+        ]);
+
+
+        $heightInMeters = $request->height / 100;
+
+        $bmi = $request->weight / ($heightInMeters * $heightInMeters);
+
+        $record = ChildrenRecord::create([
             'weight' => $request->weight,
             'height' => $request->height,
-            'gender' => $request->gender,
-            'recorded_by' => $recorded_by,
+            'bmi' => $bmi,
+            'children_id' => $children->id,
         ]);
 
         return redirect()->back()->with('message', 'Record added successfully');

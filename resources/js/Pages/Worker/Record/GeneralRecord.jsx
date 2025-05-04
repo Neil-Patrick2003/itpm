@@ -5,6 +5,8 @@ import {Link} from "@inertiajs/react";
 const GeneralRecord = ({ programs, records }) => {
     const hasData = records?.data?.length > 0;
 
+    console.log(records);
+
     const calculateAge = (birthday) => {
         const birthDate = new Date(birthday);
         const today = new Date();
@@ -62,12 +64,23 @@ const GeneralRecord = ({ programs, records }) => {
                                         {records.data.map((record) => (
                                             <tr key={record.id}>
                                                 <td className="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-6">
-                                                    {record.children_name}
+                                                    {record.name}
                                                 </td>
                                                 <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{calculateAge(record.birth_date)} years old</td>
                                                 <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{record.gender}</td>
-                                                <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{record.height}</td>
-                                                <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{record.weight}</td>
+                                                <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
+                                                    {record.latest_record && record.latest_record.height
+                                                        ? record.latest_record.height
+                                                        : 'N/A'}
+                                                </td>
+                                                <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
+                                                    {record.latest_record && record.latest_record.height
+                                                        ? record.latest_record.weight
+                                                        : 'N/A'}
+                                                </td>
+                                                <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
+
+                                                </td>
 
                                                 <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
                                                     <a href="#" className="text-indigo-600 hover:text-indigo-900">
