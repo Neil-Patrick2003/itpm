@@ -19,6 +19,9 @@ class ChildrenController extends Controller
         $records = Record::when($request->search, function ($q) use ($request) {
             return $q->where('children_name', 'like', '%' . $request->search . '%');
         })
+            ->when($request->location, function ($q) use ($request) {
+                return $q->where('address', $request->location);
+            })
             ->latest()
             ->paginate(15, ['*'], 'page', $request->input('page', 1));
 

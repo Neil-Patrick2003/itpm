@@ -51,7 +51,6 @@ const AdminDashboard = ({ users, search = '', page = 1 }) => {
     const handleBack = () => setActiveStep((prev) => prev - 1);
     const handleReset = () => setActiveStep(0);
 
-    console.log(selectedRole);
 
 
     const stringAvatar = (name) => {

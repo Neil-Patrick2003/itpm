@@ -54,8 +54,6 @@ class ChildrenRecordController extends Controller
         ]);
 
 
-
-
         $heightInMeters = $request->height / 100;
 
         $bmi = $request->weight / ($heightInMeters * $heightInMeters);

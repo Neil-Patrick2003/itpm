@@ -30,6 +30,11 @@ class Children extends Model
         return $this->hasOne(User::class, 'id', 'parent_id');
     }
 
+    public function latestRecord()
+    {
+        return $this->hasOne('App\Models\ChildrenRecord')->latest();
+    }
+
 
 
 

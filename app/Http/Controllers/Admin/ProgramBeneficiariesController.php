@@ -20,7 +20,8 @@ class ProgramBeneficiariesController extends Controller
     {
         // Example: Fetch beneficiaries and return a
         $childrens = Children::with('program')
-            ->whereHas('program') // ensures only children with a program are returned
+            ->whereHas('program')
+
             ->latest()
             ->paginate(20);
 
