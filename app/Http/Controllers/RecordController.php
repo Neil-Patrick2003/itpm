@@ -5,17 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Program;
 use App\Models\Record;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use function Pest\Laravel\get;
 
 class RecordController extends Controller
 {
     public function index(Request $request){
 
 
-        dd(Auth::id());
         $programs = Program::all();
 
         $records = Record::where('recorded_by', Auth::id())
@@ -27,11 +24,10 @@ class RecordController extends Controller
             ->paginate(20, ['*'], 'page', $request->input('page', 1));
 
 
-        return Inertia::render('Worker/Record/RecordIndex', [
+        return Inertia::render('Worker/Record/GeneralRecord', [
             'records' => $records,
-            'search' => $request->query('search'),
-            'page' => $request->input('page', 1)
-        ]);
+            ]
+        );
     }
 
     public function create(){

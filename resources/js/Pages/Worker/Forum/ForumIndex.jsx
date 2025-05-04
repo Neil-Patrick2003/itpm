@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';import { debounce } from
 import { FaSearch } from "react-icons/fa";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import EmptyState from "@/Components/EmptyState.jsx";
+import DynamicEmptyEstate from "@/Components/DynamicEmptyEstate.jsx";
 
 
 dayjs.extend(relativeTime); // enable dayjs relative time format like "5 mins ago"
@@ -188,27 +190,14 @@ export default function ForumIndex({ search, page = 1 }) {
                                 </motion.div>
                             ))
                         ) : (
-                            <motion.div
-                                key="empty"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                className="col-span-full text-center py-12 text-gray-500"
-                            >
-                                <div className="flex flex-col items-center space-y-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    <p className="text-lg font-medium">No discussions yet</p>
-                                    <p className="text-sm text-gray-400">Be the first to start a conversation!</p>
-                                    <button
-                                        onClick={() => setIsAddTopicOpen(true)}
-                                        className="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
-                                    >
-                                        Create New Discussion
-                                    </button>
-                                </div>
-                            </motion.div>
+                            <DynamicEmptyEstate
+                                title="No discussions yet"
+                                subtitle="Be the first to start a conversation!"
+                                buttonText="Create New Discussion"
+                                svgPath="M12 4v16m8-8H4"
+                                onClick={() => setIsAddTopicOpen(true)}
+                            />
+
                         )}
                     </AnimatePresence>
                 </div>

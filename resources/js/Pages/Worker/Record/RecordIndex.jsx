@@ -186,6 +186,7 @@ import {DocumentPlusIcon} from "@heroicons/react/16/solid/index.js";
 const RecordIndex = ( {programs} ) => {
     return (
         <WorkerLayout>
+            hahha
             <div className="p-4">
                 <h1 className="text-lg font-semibold text-gray-900">Records</h1>
                 <p className="mt-1 text-sm text-gray-700">All child monitoring records listed below.</p>
@@ -199,14 +200,15 @@ const RecordIndex = ( {programs} ) => {
                         </h1>
                     </div>
                     <div>
-                        <Link href={'/health_workers/records/general'}
-                            className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-emerald-300 text-emerald-600 hover:bg-emerald-50"
+                        <Link href="/health_workers/records/general/create"
+                              className="flex items-center gap-1 px-2 py-1 text-sm rounded-md border border-emerald-300 text-emerald-600 hover:bg-emerald-50"
                         >
                             <DocumentPlusIcon className="w-4 h-4" />
                             <span>Add Record</span>
                         </Link>
                     </div>
                 </div>
+
                 {programs.map((program) => (
                     <div key={program.id} className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2 border border-gray-200 rounded-md p-4">
                         <div>

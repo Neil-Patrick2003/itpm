@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RecordController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -87,7 +88,7 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('/funds', fn () => Inertia::render('Admin/Funds'));
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function () {
 //    health worker
     Route::get('/health_workers/dashboard',  [\App\Http\Controllers\HealthWorkerController::class, 'index'])->name('health-workers.dashboard');
 
@@ -96,10 +97,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/health_workers/records/{id}/add_record',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'create'])->name('records');
     Route::post('/health_workers/records/{id}/add_record',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');
 
-    Route::get('/health_workers/records/general',  [\App\Http\Controllers\RecordController::class,  'index']);
+    Route::get('/health_workers/records/general/create', [RecordController::class, 'index'])  ;
 
-
-    Route::get('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'create']);
+    Route::get('/health_workers/records/general/new_record',  [\App\Http\Controllers\RecordController::class, 'create']);
     Route::post('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'store']);
     Route::get('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'edit']);
     Route::post('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'update']);
