@@ -94,6 +94,8 @@ Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function ()
 
     Route::get('/health_workers/records',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'index'])->name('records');
     Route::get('/health_workers/records/{id}',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'show'])->name('records');
+    Route::post('/health_workers/records/{id}',  [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'store'])->name('records');
+
     Route::get('/health_workers/records/{id}/add_record',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'create'])->name('records');
     Route::post('/health_workers/records/{id}/add_record',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');
 

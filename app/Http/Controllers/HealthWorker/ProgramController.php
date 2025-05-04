@@ -9,6 +9,7 @@ use App\Models\Program;
 use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ProgramController extends Controller
@@ -30,18 +31,30 @@ class ProgramController extends Controller
             'program' => $program,
         ]);
     }
-    public function show($id)
+    public function show(Request $request,   $id)
     {
         $program = Program::findOrFail($id);
-        $record = Program::with('children.record')
-            ->where('id', $id)
 
-            ->first();
+        $records = Children::with('parent', 'latestRecord')
+            ->when($request->search, function ($q) use ($request)
+            {
+                return $q->where('children_name', 'like', '%' . $request->search . '%');
+            })
+            ->whereHas('parent', function ($q) use ($request) {
+                $q->where('address', '=', Auth::user()->assign_address);;;
+            })
+            ->whereHas('program', function ($q) use ($program) {
+                $q->where('id', '=', $program->id);
+            })
+            ->latest()
+            ->paginate(20, ['*'], 'page', $request->input('page', 1));
+
+
 
 
         return Inertia::render('Worker/Program/RecordPerProgram', [
             'program' => $program,
-            'record' => $record,
+            'records' => $records,
         ]);
     }
 

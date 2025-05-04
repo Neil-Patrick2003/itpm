@@ -1,12 +1,45 @@
     import WorkerLayout from "@/Layouts/WorkerLayout.jsx";
-    import React from "react";
+    import React, {useState} from "react";
     import EmptyState from "@/Components/EmptyState.jsx";
     import {map} from "framer-motion/m";
     import {motion} from "framer-motion";
-    import {Link} from "@inertiajs/react";
+    import {Link, useForm} from "@inertiajs/react";
     import {PlusIcon} from "@heroicons/react/20/solid/index.js";
+import Modal from "@/Components/Modal.jsx";
+    const RecordPerProgram = ({program, records}) => {
 
-    const RecordPerProgram = ({program, record}) => {
+        console.log(records);
+        const { data, setData, post, processing, errors, reset } = useForm({
+            height: '',
+            weight: '',
+        })
+
+
+        const [selectedRecord, setSelectedRecord] = useState(null);
+
+        const [openAddRecord, setOpenAddRecord] = useState(false);
+
+        const openAddRecordModal = (record) => {
+            setSelectedRecord(record);
+            setOpenAddRecord(true);
+        };
+
+        const closeAddRecordModal = () => {
+            setOpenAddRecord(false);
+            setSelectedRecord(null);
+            reset('height', 'weight');
+        }
+
+        function updateRecord(e) {
+            console.log(data);
+            e.preventDefault();
+            post(`/health_workers/records/${selectedRecord.id}`, {
+                onSuccess: () => {
+                    closeAddRecordModal();
+                    reset('height', 'weight');
+                }
+            })
+        }
         const calculateAge = (birthdate) => {
             const birthDate = new Date(birthdate);
             const today = new Date();
@@ -23,6 +56,54 @@
 
         return (
             <WorkerLayout>
+                <Modal show={openAddRecord} onClose={closeAddRecordModal} maxWidth="sm" className="bg-white rounded-md border border-gray-200 ">
+
+                    <form onSubmit={updateRecord} className="p-6 space-y-4">
+                        <h2 className="text-xl font-semibold text-gray-800">Add Record</h2>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Height (cm)</label>
+                            <input
+                                type="number"
+                                name="height"
+                                value={data.height}
+                                onChange={(e) => setData('height', e.target.value)}
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
+                            />
+                            {errors.height && <p className="text-sm text-red-600">{errors.height}</p>}
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Weight (kg)</label>
+                            <input
+                                type="number"
+                                name="weight"
+                                value={data.weight}
+                                onChange={(e) => setData('weight', e.target.value)}
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
+                            />
+                            {errors.weight && <p className="text-sm text-red-600">{errors.weight}</p>}
+                        </div>
+
+                        <div className="flex justify-end gap-2">
+                            <button
+                                type="button"
+                                onClick={closeAddRecordModal}
+                                className="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700"
+                                disabled={processing}
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </Modal>
+
                 <div className="flex flex-col gap-4" >
                         <div className="flex items-center border border-gray-200 rounded-md justify-center bg-white w-full py-4">
                             <img
@@ -54,13 +135,16 @@
                             <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider" scope="col">Gender</th>
                             <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider" scope="col">Weight</th>
                             <th className="px-6 py-3 text-center text-xs font-bold text-green-700 uppercase tracking-wider" scope="col">Height</th>
+                            <th className="px-6 py-3 text-center text-xs font-bold text-green-700 uppercase tracking-wider" scope="col">Action</th>
+
                         </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 bg-white w-full">
-                        {record.children.length === 0 ? (
+                        {}
+                        {records.data.length === 0 ? (
                             <EmptyState title="No records yet" description="Add new record here and start improving health" />
                         ): (
-                            record.children.map((child) => (
+                            records.data.map((child) => (
                                 <tr key={child.id} >
                                     <td className="px-6 py-4 text-sm text-gray-700">{child.id}</td>
                                     <td className="px-6 py-4 text-sm text-gray-900">
@@ -75,15 +159,21 @@
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-700">{child.gender}</td>
                                     <td className="px-6 py-4 text-sm text-gray-600">
-                                        <p className="text-sm text-gray-600">
-                                            {child.record.length > 0 ? `${child.record[0].weight} kg` : 'No weight recorded'}
-                                        </p>
+                                        {child.latest_record.weight} kg
                                     </td>
                                     <td className="px-6 py-4 flex justify-center gap-3 text-gray-600">
-                                        <p className="text-sm text-gray-600">
-                                            {child.record.length > 0 ? `${child.record[0].height} cm` : 'No weight recorded'}
-                                        </p>
+                                        {child.latest_record.height} cm
+
                                     </td>
+                                    <td className="px-6 py-4 text-sm text-gray-700">
+                                        <button
+                                            onClick={() => openAddRecordModal(child.latest_record)} // Pass the record
+                                            className="flex gap-2 bg-[#01DAA2] rounded-md px-4 py-2 text-white hover:bg-green-400"
+                                        >
+                                            Edit Record
+                                        </button>
+                                    </td>
+
                                 </tr>
                             ))
                         )}

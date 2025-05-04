@@ -19,21 +19,21 @@ class ChildrenRecordController extends Controller
         return Inertia::render('Admin/Children/CreateChildren');
     }
 
-    public function store(Request $request){
-
-
-
-        $validated = $request->validate([
-            'name' => ['required', 'string'],
-            'birth_date' => ['required', 'date'],
-            'gender' => ['required', 'string'],
-            'weight' => ['required', 'numeric'],
-            'height' => ['required', 'numeric'],
-            'parent_name' => ['required', 'string'],
-            'parent_age' => ['required', 'integer'],
-            'email' => ['required', 'email', 'max:255'],
-            'phone_number' => ['required', 'string'], // Or use the phone package
-        ]);
+//    public function store(Request $request){
+//
+//
+//
+//        $validated = $request->validate([
+//            'name' => ['required', 'string'],
+//            'birth_date' => ['required', 'date'],
+//            'gender' => ['required', 'string'],
+//            'weight' => ['required', 'numeric'],
+//            'height' => ['required', 'numeric'],
+//            'parent_name' => ['required', 'string'],
+//            'parent_age' => ['required', 'integer'],
+//            'email' => ['required', 'email', 'max:255'],
+//            'phone_number' => ['required', 'string'], // Or use the phone package
+//        ]);
 
 //        $parent = User::create([
 //            'name' => $request->parent_name,
@@ -63,9 +63,34 @@ class ChildrenRecordController extends Controller
 //            'bmi' => $bmi,
 //            'children_id' => $children->id,
 //        ]);
+//
+//        return redirect()->back()->with('message', 'Record created.');
+//    }
+
+ public function store(Request $request, $id){
+
+
+
+        $heightInMeters = $request->height / 100;
+
+        $bmi = $request->weight / ($heightInMeters * $heightInMeters);
+
+     $validated = $request->validate([
+         'weight' => 'required|numeric',
+         'height' => 'required|numeric',
+     ]);
+
+     $record = ChildrenRecord::create([
+         'weight' => $request->weight,
+         'height' => $request->height,
+         'bmi' => $bmi,
+         'children_id' => $id,
+     ]);
 
         return redirect()->back()->with('message', 'Record created.');
-    }
+
+
+ }
 
 
 
