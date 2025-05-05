@@ -31,15 +31,16 @@ import Modal from "@/Components/Modal.jsx";
         }
 
         function updateRecord(e) {
-            console.log(data);
             e.preventDefault();
-            post(`/health_workers/records/${selectedRecord.id}`, {
+
+            post(`/health_workers/records/${program.id}/add_record/${selectedRecord.id}`, {
                 onSuccess: () => {
                     closeAddRecordModal();
-                    reset('height', 'weight');
+                    reset(); // This resets all fields defined in useForm
                 }
-            })
+            });
         }
+
         const calculateAge = (birthdate) => {
             const birthDate = new Date(birthdate);
             const today = new Date();
@@ -104,6 +105,10 @@ import Modal from "@/Components/Modal.jsx";
                     </form>
                 </Modal>
 
+
+                eto ba
+
+
                 <div className="flex flex-col gap-4" >
                         <div className="flex items-center border border-gray-200 rounded-md justify-center bg-white w-full py-4">
                             <img
@@ -141,10 +146,10 @@ import Modal from "@/Components/Modal.jsx";
                         </thead>
                         <tbody className="divide-y divide-gray-200 bg-white w-full">
                         {}
-                        {records.data.length === 0 ? (
+                        {records.length === 0 ? (
                             <EmptyState title="No records yet" description="Add new record here and start improving health" />
                         ): (
-                            records.data.map((child) => (
+                            records.map((child) => (
                                 <tr key={child.id} >
                                     <td className="px-6 py-4 text-sm text-gray-700">{child.id}</td>
                                     <td className="px-6 py-4 text-sm text-gray-900">

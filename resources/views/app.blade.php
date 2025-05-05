@@ -19,6 +19,11 @@
         @inertiaHead
     </head>
     <body class="font-sans antialiased w-full">
+    <script>
+        window.routes = {
+            downloadInvoice: "{{ route('reports.export') }}"
+        };
+    </script>
         @inertia
     </body>
 </html>

@@ -11,7 +11,7 @@ import {
     Legend,
     Filler,
 } from 'chart.js';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import SponsorshipStats from "@/Components/Graph/SponsorshipStats.jsx";
 import PieChartComponent from "@/Components/Graph/PieChartComponent.jsx";
@@ -87,6 +87,10 @@ const AdminDashboard = ({ averageWeights, sponsorshipStats, beneficiaryMonthlySt
     const Last = dataPoints[dataPoints.length - 1]?.toFixed(1);
 
 
+
+
+
+
     return (
         <AuthenticatedLayout>
             <Head title="Analytics Dashboard" />
@@ -96,6 +100,11 @@ const AdminDashboard = ({ averageWeights, sponsorshipStats, beneficiaryMonthlySt
                 </h1>
 
                 {/* Top stats */}
+                <a href={window.routes.downloadInvoice} className="btn btn-primary">
+                    Download Invoice PDF
+                </a>
+
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     <div className="bg-white p-6 rounded-xl shadow-md text-center">
                         <p className="text-sm text-gray-500">Avg. Weight</p>
@@ -116,10 +125,11 @@ const AdminDashboard = ({ averageWeights, sponsorshipStats, beneficiaryMonthlySt
                     <div className="bg-white rounded-xl shadow-md p-6 flex flex-col">
                         <h3 className="text-lg font-semibold text-green-700 mb-2">Nutrition Trend</h3>
                         <div className="flex-1">
-                            <Line data={weightData} options={weightOptions} />
+                            <Line data={weightData} options={weightOptions}/>
                             {first && Last && (
                                 <p className="mt-4 text-gray-700">
-                                    Average weight increased from <strong>{first}kg</strong> to <strong>{last}kg</strong> over {labels.length} months.
+                                    Average weight increased
+                                    from <strong>{first}kg</strong> to <strong>{last}kg</strong> over {labels.length} months.
                                 </p>
                             )}
                         </div>

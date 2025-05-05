@@ -67,7 +67,8 @@ class ChildrenRecordController extends Controller
 //        return redirect()->back()->with('message', 'Record created.');
 //    }
 
- public function store(Request $request, $id){
+ public function store(Request $request, ChildrenRecord $record, Program $program){
+        dd($record->toArray());
 
 
 
