@@ -86,7 +86,9 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
 
     Route::get('/reports',  [ AdminController::class, 'analytics' ]);
-    Route::get('/funds', fn () => Inertia::render('Admin/Funds'));
+    Route::get('/funds', [\App\Http\Controllers\ExpensesController::class, 'index']);;
+    Route::post('/funds', [\App\Http\Controllers\ExpensesController::class, 'store']);;
+
 });
 
 Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function () {
