@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\ProgramBeneficiariesController;
 use App\Http\Controllers\Admin\ProgramController;
@@ -84,7 +85,7 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
 
 
-    Route::get('/reports', fn () => Inertia::render('Admin/Report'));
+    Route::get('/reports',  [ AdminController::class, 'analytics' ]);
     Route::get('/funds', fn () => Inertia::render('Admin/Funds'));
 });
 

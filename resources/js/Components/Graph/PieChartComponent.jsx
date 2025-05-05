@@ -1,42 +1,29 @@
-import * as React from 'react';
-import { PieChart } from '@mui/x-charts/PieChart';
+import React from 'react';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-// The reusable pie chart component
-const PieChart = ({
-                               data,
-                               labels,
-                               height = 200,
-                               width = 200,
-                               valueFormatter = (value) => `${value}%`,
-                               colors = ['#60a5fa', '#34d399', '#f87171'], // default colors for the pie slices
-                           }) => {
-    // Prepare data for PieChart component (if you don't have id's, create them)
-    const chartData = data.map((value, index) => ({
-        id: index,
-        value: value,
-        label: labels[index] || `Label ${index + 1}`,
+const PieChartComponent = ({ data, labels, height, width }) => {
+    const COLORS = ['#60a5fa', '#34d399', '#f87171'];  // Colors for each section in the pie chart
+
+    // Data structure needs to be compatible with the Pie chart. If it's not, make sure to map it correctly.
+    const pieData = labels.map((label, index) => ({
+        name: label,
+        value: data[index],
+        fill: COLORS[index % COLORS.length],  // This ensures the colors cycle if you have more than 3 data points
     }));
 
     return (
-        <PieChart
-            series={[
-                {
-                    data: chartData,
-                    highlightScope: { fade: 'global', highlight: 'item' },
-                    faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-                    valueFormatter: valueFormatter,
-                },
-            ]}
-            height={height}
-            width={width}
-            sx={{
-                [`& .${pieArcLabelClasses.root}`]: {
-                    fontWeight: 'bold',
-                    fill: '#333',
-                },
-            }}
-        />
+        <ResponsiveContainer width={width} height={height}>
+            <PieChart>
+                <Pie data={pieData} dataKey="value" nameKey="name" outerRadius={80} label>
+                    {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                    ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+            </PieChart>
+        </ResponsiveContainer>
     );
 };
 
-export default PieChart;
+export default PieChartComponent;
