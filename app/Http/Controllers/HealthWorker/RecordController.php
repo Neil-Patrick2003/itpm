@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\HealthWorker;
 
+use App\Http\Controllers\Controller;
 use App\Models\Children;
 use App\Models\ChildrenRecord;
 use App\Models\Program;
@@ -15,6 +16,7 @@ class RecordController extends Controller
 {
     public function index(Request $request){
 
+        dd("hi");
 
         $programs = Program::all();
 
@@ -41,6 +43,9 @@ class RecordController extends Controller
     }
 
     public function store(Request $request){
+
+        dd($request->all());
+
         $validated = $request->validate([
             'children_name' => 'required|max:255|string',
             'birth_date' => 'required|max:255|date',

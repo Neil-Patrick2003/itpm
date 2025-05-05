@@ -21,7 +21,7 @@ const CreateRecord = () => {
 
     function submit(e) {
         e.preventDefault();
-        post('/health_workers/records/create', {
+        post('/health_workers/records/general/new_record', {
             onSuccess: () => {
                 reset(); // Clear the form data on success
                 // Optionally add success notification or redirect
@@ -35,6 +35,7 @@ const CreateRecord = () => {
     return (
         <WorkerLayout>
             <Head title="Add Record" />
+
             <Link href="/health_workers/records">
                 <FaArrowLeft />
             </Link>

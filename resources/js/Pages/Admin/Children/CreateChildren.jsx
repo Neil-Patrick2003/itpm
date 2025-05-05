@@ -18,6 +18,8 @@ const CreateChildren = () => {
         height: '',
     });
 
+
+
     // Form submission handler
     function submit(e) {
         console.log(data)
@@ -65,6 +67,8 @@ const CreateChildren = () => {
                         ))}
                     </ol>
                 </nav>
+
+
                 <div className="flex flex-col gap-4 mt-4">
                     <div className="bg-white rounded-lg border md:p-4">
                         {/* Form */}

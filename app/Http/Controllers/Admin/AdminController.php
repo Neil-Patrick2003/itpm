@@ -135,7 +135,7 @@ class AdminController extends Controller
                 DB::raw("DATE_FORMAT(childrens.created_at, '%Y-%m') as month"),
                 DB::raw("COUNT(childrens.id) as beneficiaries_count")
             )
-            ->groupBy('month')
+            ->groupBy('month')  
             ->orderBy('month')
             ->get();
 

@@ -7,11 +7,10 @@ use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RecordController;
+use App\Mail\ContactUs;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Mail\ContactUs;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -104,13 +103,13 @@ Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function ()
     Route::get('/health_workers/records/{id}/add_record',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'create'])->name('records');
     Route::post('/health_workers/records/{id}/add_record',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');
 
-    Route::get('/health_workers/records/general/create', [RecordController::class, 'index'])  ;
+    Route::get('/health_workers/records/general/create', [\App\Http\Controllers\HealthWorker\RecordController::class, 'index'])  ;
 
-    Route::get('/health_workers/records/general/new_record',  [\App\Http\Controllers\RecordController::class, 'create']);
-    Route::post('/health_workers/records/create',  [\App\Http\Controllers\RecordController::class, 'store']);
-    Route::get('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'edit']);
-    Route::post('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'update']);
-    Route::delete('/health_workers/records/{record}',  [\App\Http\Controllers\RecordController::class, 'destroy']);
+    Route::get('/health_workers/records/general/new_record',  [\App\Http\Controllers\HealthWorker\RecordController::class, 'create']);
+    Route::post('/health_workers/records/general/new_record',  [\App\Http\Controllers\HealthWorker\RecordController::class, 'store']);;
+    Route::get('/health_workers/records/{record}',  [\App\Http\Controllers\HealthWorker\RecordController::class, 'edit']);
+    Route::post('/health_workers/records/{record}',  [\App\Http\Controllers\HealthWorker\RecordController::class, 'update']);
+    Route::delete('/health_workers/records/{record}',  [\App\Http\Controllers\HealthWorker\RecordController::class, 'destroy']);
 
 
     Route::get('/health_workers/beneficiary ', [\App\Http\Controllers\HealthWorker\ProgramBeneficiaryController::class, 'index']);
