@@ -30,9 +30,18 @@ class AdminController extends Controller
 
         $total_donations = Donation::count();
 
-        $total_goods = Donation::where('type', 'goods')->count();
+        $in_progress_program = Program::with('sponsors')
+            ->whereRaw('start_date <= ? AND start_date + INTERVAL duration DAY > ?', [now(), now()])
+            ->get();
 
-        $total_cash = Donation::where('type', 'cash')->count();
+        $incoming_program = Program::with('sponsors')
+            ->where('start_date', '>', now())
+            ->limit(1)
+        ->get();
+
+
+
+
 
 
         $top_sponsors = Sponsor::withCount('donations')
@@ -87,7 +96,8 @@ class AdminController extends Controller
             'total_beneficiaries' => $total_beneficiaries,
             'total_donations' => $total_donations,
             'childrens' => $childrens,
-
+            'in_progress_program' => $in_progress_program,
+            'incoming_program' => $incoming_program,
             ]);
     }
 
@@ -140,6 +150,8 @@ class AdminController extends Controller
         $in_progress_program_count = Program::with('sponsors')
             ->whereRaw('start_date <= ? AND start_date + INTERVAL duration DAY > ?', [now(), now()])
             ->count();
+
+
 
 
 
