@@ -18,6 +18,8 @@ class AdminController extends Controller
     public function dashboard()
     {
 
+        $childrens = Children::latest()->take(5)->get();
+
         $total_programs = Program::count();
 
         $total_sponsors = Sponsor::count();
@@ -84,6 +86,7 @@ class AdminController extends Controller
             'total_programs' => $total_programs,
             'total_beneficiaries' => $total_beneficiaries,
             'total_donations' => $total_donations,
+            'childrens' => $childrens,
 
             ]);
     }
