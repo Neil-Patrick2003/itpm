@@ -65,6 +65,64 @@ class HealthWorkerController extends Controller
 
         // Fetch all programs (or a filtered version)
         $programs = Program::get();  // You can customize this query to fetch specific programs
+
+        $recent_records = Children::with('parent', 'latestRecord')
+            ->whereHas('parent', function ($q) use ($user) {
+                $q->where('address', $user->assign_address);
+            })
+            ->latest()
+            ->take(10)
+        ->get();
+
+        $total_underweight_count = Children::with('parent', 'latestRecord')
+            ->whereHas('parent', function ($q) use ($user) {
+                $q->where('address', $user->assign_address);
+            })
+            ->whereHas('latestRecord', function ($q) {
+                $q->where('bmi', '<', 18.5);  // Filter for underweight children (BMI < 18.5)
+            })
+            ->count();
+
+        $total_normal_count = Children::with('parent', 'latestRecord')
+            ->whereHas('parent', function ($q) use ($user) {
+                $q->where('address', $user->assign_address);
+            })
+            ->whereHas('latestRecord', function ($q) {
+                $q->where('bmi', '>=', 18.5)
+                    ->where('bmi', '<', 24.9);  // Filter for underweight children (BMI < 18.5)
+            })
+            ->count();
+
+        $total_overweight_count = Children::with('parent', 'latestRecord')
+            ->whereHas('parent', function ($q) use ($user) {
+                $q->where('address', $user->assign_address);
+            })
+            ->whereHas('latestRecord', function ($q) {
+                $q->where('bmi', '>=', 25)
+                ->where('bmi', '<', 29.9);
+            })
+            ->count();
+
+        $total_obese_count = Children::with('parent', 'latestRecord')
+            ->whereHas('parent', function ($q) use ($user) {
+                $q->where('address', $user->assign_address);
+            })
+            ->whereHas('latestRecord', function ($q) {
+                $q->where('bmi', '>=', 30);
+            })
+            ->count();
+
+
+
+
+
+
+
+
+
+
+
+
         return Inertia::render(
             'Worker/Dashboard', [
                 'programs' => $programs,
@@ -77,6 +135,11 @@ class HealthWorkerController extends Controller
                 'beneficiary_count_incoming' => $beneficiary_count_incoming,
                 'beneficiary_count_completed' => $beneficiary_count_completed,
                 'beneficiary_count_in_progress' => $beneficiary_count_in_progress,
+                'recent_records' => $recent_records,
+                'total_underweight_count' => $total_underweight_count,
+                'total_normal_count' => $total_normal_count,
+                'total_overweight_count' => $total_overweight_count,
+                'total_obese_count' => $total_obese_count,
             ]
         );
     }

@@ -2,25 +2,44 @@ import React from 'react';
 import { usePage } from '@inertiajs/react';
 import { Avatar } from '@mui/material';
 import { Pie } from 'react-chartjs-2';
-import {
-    Chart as ChartJS,
-    ArcElement,
-    Tooltip,
-    Legend,
-} from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { motion } from 'framer-motion';
 import WorkerLayout from '@/Layouts/WorkerLayout';
 
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const Dashboard = ({ programs, incoming_programs, completed_programs, in_progress, user, announcements, total_beneficiary_count }) => {
+const Dashboard = ({ programs, incoming_programs, completed_programs, in_progress, recent_records, announcements, total_beneficiary_count, total_underweight_count, total_normal_count, total_overweight_count, total_obese_count }) => {
     const auth = usePage().props;
+
+    function categorizeBmi(bmi) {
+        if (bmi < 18.5) {
+            return 'Underweight';
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+            return 'Normal weight';
+        } else if (bmi >= 25 && bmi < 29.9) {
+            return 'Overweight';
+        } else if (bmi >= 30) {
+            return 'Obese';
+        } else {
+            return 'Invalid BMI';
+        }
+    }
+    const calculateAge = (birthdate) => {
+        const birthDate = new Date(birthdate);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
 
     const stringAvatar = (name) => {
         const nameSplit = name.trim().split(' ');
-        const initials = nameSplit.length > 1
-            ? `${nameSplit[0][0]}${nameSplit[1][0]}`
-            : `${nameSplit[0][0]}`;
+        const initials = nameSplit.length > 1 ? `${nameSplit[0][0]}${nameSplit[1][0]}` : `${nameSplit[0][0]}`;
         return {
             sx: { bgcolor: '#4CAF50' },
             children: initials.toUpperCase(),
@@ -37,9 +56,9 @@ const Dashboard = ({ programs, incoming_programs, completed_programs, in_progres
     ];
 
     const pieData = {
-        labels: ['Completed', 'In Progress', 'Incoming'],
+        labels: ['Underweight', 'Normal', 'Overweight', 'Obese'],
         datasets: [{
-            data: [completed_programs.length, in_progress.length, incoming_programs.length],
+            data: [ total_underweight_count,  total_normal_count, total_overweight_count, total_obese_count],
             backgroundColor: ['#4CAF50', '#FFC107', '#03A9F4'],
             borderColor: '#fff',
             borderWidth: 1,
@@ -52,7 +71,7 @@ const Dashboard = ({ programs, incoming_programs, completed_programs, in_progres
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="px-4 min-h-screen"
+                className="px-4"
             >
                 <motion.div
                     className="flex border bg-gray-50 p-2 mb-6 items-center gap-2 rounded-2xl"
@@ -105,37 +124,27 @@ const Dashboard = ({ programs, incoming_programs, completed_programs, in_progres
                             <table className="min-w-full divide-y divide-gray-300">
                                 <thead>
                                 <tr>
-                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Program</th>
-                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Start Date</th>
-                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Duration</th>
+                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Name</th>
+                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Age</th>
+                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Height</th>
+                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Weight</th>
                                     <th className="text-left text-sm font-semibold text-gray-900 py-2">Status</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {in_progress.map((program) => (
-                                    <tr key={program.id} className="border-b hover:bg-gray-50">
-                                        <td className="py-2 text-gray-900">{program.title}</td>
-                                        <td className="py-2 text-gray-500">{program.start_date}</td>
-                                        <td className="py-2 text-gray-500">{program.duration} days</td>
-                                        <td className="py-2 text-green-600 font-medium">In Progress</td>
+                                {recent_records.length > 0 ? recent_records.map((record) => (
+                                    <tr key={record.id} className="border-b hover:bg-gray-50">
+                                        <td className="py-2 text-gray-900">{record.name}</td>
+                                        <td className="py-2 text-gray-500">{calculateAge(record.birth_date)} years old</td>
+                                        <td className="py-2 text-gray-500">{record.latest_record?.height} cm</td>
+                                        <td className="py-2 text-gray-500">{record.latest_record?.weight} kg</td>
+                                        <td className="py-2 text-gray-500">{categorizeBmi(record.latest_record?.bmi)}</td>
+
                                     </tr>
-                                ))}
-                                {incoming_programs.map((program) => (
-                                    <tr key={program.id} className="border-b hover:bg-gray-50">
-                                        <td className="py-2 text-gray-900">{program.title}</td>
-                                        <td className="py-2 text-gray-500">{program.start_date}</td>
-                                        <td className="py-2 text-gray-500">{program.duration} days</td>
-                                        <td className="py-2 text-blue-600 font-medium">Incoming</td>
-                                    </tr>
-                                ))}
-                                {completed_programs.map((program) => (
-                                    <tr key={program.id} className="border-b hover:bg-gray-50">
-                                        <td className="py-2 text-gray-900">{program.title}</td>
-                                        <td className="py-2 text-gray-500">{program.start_date}</td>
-                                        <td className="py-2 text-gray-500">{program.duration} days</td>
-                                        <td className="py-2 text-gray-600 font-medium">Completed</td>
-                                    </tr>
-                                ))}
+                                )) : (
+                                    <tr><td colSpan="4" className="py-4 text-center text-gray-500">No recent records available</td></tr>
+                                )}
                                 </tbody>
                             </table>
                         </div>
@@ -145,13 +154,15 @@ const Dashboard = ({ programs, incoming_programs, completed_programs, in_progres
                         <div className="bg-white p-4 rounded-2xl shadow">
                             <h3 className="text-lg font-semibold mb-4">Announcements</h3>
                             <ul className="space-y-3 max-h-[300px] overflow-auto pr-2">
-                                {announcements.map((note, i) => (
+                                {announcements.length > 0 ? announcements.map((note, i) => (
                                     <li key={i} className="border-b pb-2">
                                         <p className="text-gray-800 font-medium">{note.title}</p>
                                         <p className="text-sm text-gray-600">{note.body?.slice(0, 80)}...</p>
                                         <span className="text-xs text-gray-400">{note.date}</span>
                                     </li>
-                                ))}
+                                )) : (
+                                    <li className="text-gray-500">No announcements available</li>
+                                )}
                             </ul>
                         </div>
 
