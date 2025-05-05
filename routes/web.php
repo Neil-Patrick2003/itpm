@@ -86,8 +86,10 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
 
     Route::get('/reports',  [ AdminController::class, 'analytics' ]);
-    Route::get('/funds', [\App\Http\Controllers\ExpensesController::class, 'index']);;
-    Route::post('/funds', [\App\Http\Controllers\ExpensesController::class, 'store']);;
+    Route::get('/funds', [\App\Http\Controllers\ExpensesController::class, 'index']);
+    Route::post('/funds', [\App\Http\Controllers\ExpensesController::class, 'store']);
+    Route::patch('/funds/{id}', [\App\Http\Controllers\ExpensesController::class, 'update']);;
+
 
 });
 

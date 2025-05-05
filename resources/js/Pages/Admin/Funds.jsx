@@ -18,7 +18,7 @@ const Funds = ({ sponsors, total_donations, total_expenses, balance, expenses })
     const [isEditing, setIsEditing] = React.useState(false);
     const [editingId, setEditingId] = React.useState(null);
 
-    const { data, setData, post, put, processing, errors, reset } = useForm({
+    const { data, setData, post, patch, processing, errors, reset } = useForm({
         purpose: '',
         amount: '',
         date_spent: '',
@@ -36,9 +36,9 @@ const Funds = ({ sponsors, total_donations, total_expenses, balance, expenses })
         setIsEditing(true);
         setEditingId(expense.id);
         setData({
-            purpose: expense.purpose,
-            amount: expense.amount,
-            date_spent: expense.date_spent,
+            purpose: expense.purpose || '',
+            amount: expense.amount || '',
+            date_spent: expense.date_spent || '',
             notes: expense.notes || '',
         });
         setModalVisible(true);
@@ -54,14 +54,27 @@ const Funds = ({ sponsors, total_donations, total_expenses, balance, expenses })
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const url = isEditing ? `/funds/${editingId}` : '/funds';
-        const method = isEditing ? put : post;
+        if(isEditing)
+            patch(`/funds/${editingId}`, {
+                onSuccess: () => {
+                    closeModal();
+                    setEditingId(null);
+                    setIsEditing(false);
+                    reset();
+                },
+            })
+        else {
+            post('/funds', {
+                onSuccess: () => {
+                    closeModal();
+                    reset();
+                }
+            })
+        }
 
-        method(url, {
-            onSuccess: () => {
-                closeModal();
-            }
-        });
+
+
+
     };
 
     return (
@@ -159,7 +172,7 @@ const Funds = ({ sponsors, total_donations, total_expenses, balance, expenses })
             </div>
 
             {/* Modal for Add/Edit Expense */}
-            <Modal show={modalVisible} onClose={closeModal}>
+            <Modal show={modalVisible} onClose={closeModal} key={editingId ?? 'new'}>
                 <div className="p-6">
                     <h2 className="text-lg font-semibold mb-4 text-gray-800">
                         {isEditing ? 'Edit Expense' : 'Add New Expense'}
@@ -210,11 +223,13 @@ const Funds = ({ sponsors, total_donations, total_expenses, balance, expenses })
 
                         <div>
                             <InputLabel htmlFor="notes" label="Notes (Optional)">Notes (Optional)</InputLabel>
+                            {data.notes}
                             <textarea
                                 id="notes"
                                 name="notes"
-                                value={data.notes}
+
                                 onChange={(e) => setData("notes", e.target.value)}
+                                value={data.notes}
                                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                                 rows="3"
                             />

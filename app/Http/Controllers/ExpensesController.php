@@ -58,4 +58,21 @@ class ExpensesController extends Controller
 
         return redirect()->back()->with('message', 'Expense recorded successfully!');
     }
+
+    public function update(Request $request, $id){
+
+        $expense = Expenses::findOrFail($id);
+
+
+        $validated = $request->validate([
+            'purpose' => 'required|min:5|max:255',
+            'date_spent' => 'required|date',
+            'amount' => 'required|numeric|min:0|max:99999999.99',
+            'notes' => 'nullable|min:5|max:1000',
+        ]);
+
+        $expense->update($validated);
+
+        return redirect()->back()->with('message', 'Expense updated successfully!');
+    }
 }
