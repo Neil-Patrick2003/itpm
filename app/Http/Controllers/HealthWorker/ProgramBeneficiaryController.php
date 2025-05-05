@@ -19,6 +19,7 @@ class ProgramBeneficiaryController extends Controller
             ->whereHas('parent', function ($query) use ($assignmentAddress) {
                 $query->where('address', $assignmentAddress);
             })
+            ->whereHas('program')
             ->get();
 
         return Inertia::render('Worker/ChildrenRecord/ChildrenRecord', [
