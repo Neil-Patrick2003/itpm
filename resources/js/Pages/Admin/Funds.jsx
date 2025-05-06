@@ -108,7 +108,7 @@ const Funds = ({ sponsors, total_donations, total_expenses, balance, expenses })
                 <div className="flex justify-end mb-2">
                     <button
                         onClick={openAddModal}
-                        className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+                        className="bg-green-400 text-white px-4 py-2 rounded hover:bg-indigo-700"
                     >
                         + Add Expense
                     </button>
@@ -121,12 +121,12 @@ const Funds = ({ sponsors, total_donations, total_expenses, balance, expenses })
                             <table className="min-w-full divide-y divide-gray-300">
                                 <thead>
                                 <tr>
-                                    <th className="py-3.5 px-4 text-left text-sm font-semibold text-gray-900">ID</th>
-                                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purpose</th>
-                                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Amount</th>
-                                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date Spent</th>
-                                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Notes</th>
-                                    <th className="py-3.5 px-4 text-right text-sm font-semibold text-gray-900">Action</th>
+                                    <th className="py-3.5 px-4 text-left text-sm font-semibold text-green-800">ID</th>
+                                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-green-800">Purpose</th>
+                                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-green-800">Amount</th>
+                                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-green-800">Date Spent</th>
+                                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-green-800">Notes</th>
+                                    <th className="py-3.5 px-4 text-right text-sm font-semibold text-green-800">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody className="bg-white">
@@ -174,7 +174,7 @@ const Funds = ({ sponsors, total_donations, total_expenses, balance, expenses })
             {/* Modal for Add/Edit Expense */}
             <Modal show={modalVisible} onClose={closeModal} key={editingId ?? 'new'}>
                 <div className="p-6">
-                    <h2 className="text-lg font-semibold mb-4 text-gray-800">
+                    <h2 className="text-lg font-semibold mb-4">
                         {isEditing ? 'Edit Expense' : 'Add New Expense'}
                     </h2>
                     <form onSubmit={handleSubmit} className="space-y-4">

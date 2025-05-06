@@ -34,6 +34,8 @@ class ChildrenRecordController extends Controller
             'children_id' => $children_id,
         ]);
 
+
+
         return back()->with('message', 'Record saved successfully!');
     }
 }

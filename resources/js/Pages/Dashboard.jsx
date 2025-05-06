@@ -34,7 +34,7 @@ export default function Dashboard({
     return (
         <AuthenticatedLayout>
             <div className="flex flex-col gap-4 px-4 w-full ">
-                <h2 className="text-2xl font-bold text-gray-800">Welcome back, {user.name}!</h2>
+                <h2 className="text-2xl font-bold ">Welcome back, {user.name}!</h2>
 
                 {/* Summary Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -48,11 +48,11 @@ export default function Dashboard({
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-grow">
                     {/* Recent Children Record Table */}
                     <div className="lg:col-span-3 bg-white shadow rounded-xl p-4">
-                        <h3 className="flex justify-between text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
+                        <h3 className="flex justify-between text-lg font-semibold  mb-4 border-b pb-2">
                             Recent Children Record
                             <span>
                                 <Link href="/childrens/create">
-                                <PlusCircleIcon className="h-6 w-6 text-gray-500" />
+                                <PlusCircleIcon className="h-6 w-6 " />
                             </Link>
                         </span>
                         </h3>
@@ -98,7 +98,7 @@ export default function Dashboard({
 
                     {/* Top Sponsors */}
                     <div className="bg-white shadow rounded-xl p-2 flex flex-col">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">Top Sponsors</h3>
+                        <h3 className="text-lg font-semibold  mb-4 border-b pb-2">Top Sponsors</h3>
                         <ul className="space-y-4 overflow-y-auto max-h-[320px] pr-2">
                             {top_sponsors?.length > 0 ? (
                                 top_sponsors.map((sponsor) => (
@@ -116,8 +116,8 @@ export default function Dashboard({
                                             <Avatar {...stringAvatar(sponsor.name)} sx={{ width: 56, height: 56 }} />
                                         )}
                                         <div>
-                                            <p className="text-md font-medium text-gray-800">{sponsor.name}</p>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-md font-medium ">{sponsor.name}</p>
+                                            <p className="text-sm ">
                                                 {sponsor.donations_count} donation{(sponsor.donations_count !== 1) && 's'}
                                             </p>
                                         </div>
@@ -134,34 +134,35 @@ export default function Dashboard({
                         {
                             in_progress_program.length > 0 ? (
                                 <div className="flex flex-col gap-4">
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">On going Program</h3>
+                                    <h3 className="text-lg font-semibold  mb-4 border-b pb-2">On going Program</h3>
 
-                                    <p className="text-base text-gray-600 leading-relaxed">
+                                    <p className="text-base  leading-relaxed">
                                         {in_progress_program[0].Title}
                                     </p>
-                                    <p className="text-base text-gray-600 leading-relaxed">
+                                    <p className="text-base
+                                     leading-relaxed">
                                         {in_progress_program[0].description.length > 100
                                             ? `${in_progress_program[0].description.slice(0, 100)}...`
                                             : in_progress_program[0].description}
                                     </p>
-                                    <p className="text-base text-gray-600 leading-relaxed">
+                                    <p className="text-base leading-relaxed">
                                         {in_progress_program[0].start_date}
                                     </p>
                                 </div>
                             ) : (
                                 <div className="flex flex-col">
                                     <div className="flex flex-col gap-2">
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">Upcoming Program</h3>
+                                        <h3 className="text-lg font-semibold mb-4 border-b pb-2">Upcoming Program</h3>
 
-                                        <p className="text-base text-xl text-gray-600 leading-relaxed">
+                                        <p className="text-base text-xl  leading-relaxed">
                                             {incoming_program[0].title}
                                         </p>
-                                        <p className="text-base text-gray-600 leading-relaxed">
+                                        <p className="text-base leading-relaxed">
                                             {incoming_program[0].description.length > 100
                                                 ? `${incoming_program[0].description.slice(0, 100)}...`
                                                 : incoming_program[0].description}
                                         </p>
-                                        <p className="text-base text-gray-600 leading-relaxed">
+                                        <p className="text-base leading-relaxed">
                                             {incoming_program[0].start_date}
                                         </p>
                                     </div>
@@ -179,8 +180,8 @@ export default function Dashboard({
 
                     {/* Announcements */}
                     <div className="lg:col-span-2 bg-white shadow rounded-xl p-6">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">Recent Announcements</h3>
-                        <p className="text-base text-gray-600 leading-relaxed">
+                        <h3 className="text-lg font-semibold mb-4 border-b pb-2">Recent Announcements</h3>
+                        <p className="text-base leading-relaxed">
                             Track new records, latest check-ins, and recent updates. Use this section for admin actions or quick overviews.
                         </p>
                     </div>
@@ -193,23 +194,23 @@ export default function Dashboard({
 // ==================== COMPONENTS ====================
 
 const StatCard = ({ title, count }) => (
-    <div className="flex items-center justify-between p-4 bg-white shadow rounded-xl">
+    <div className="flex items-center justify-between p-4 bg-green-100  border shadow rounded-xl">
         <div>
-            <p className="text-sm font-medium text-gray-600">{title}</p>
-            <h2 className="text-2xl font-bold text-gray-800">{count}</h2>
+            <p className="text-sm font-medium ">{title}</p>
+            <h2 className="text-2xl font-bold ">{count}</h2>
         </div>
         <div className="bg-green-200 p-2 rounded-full">
-            <UserGroupIcon className="h-6 w-6 text-gray-700" />
+            <UserGroupIcon className="h-6 w-6 " />
         </div>
     </div>
 );
 
 const TableHead = ({ children, className = '' }) => (
-    <th className={`px-4 py-3 text-sm font-semibold text-gray-700 ${className}`}>{children}</th>
+    <th className={`px-4 py-3 text-sm font-semibold text-green-700 ${className}`}>{children}</th>
 );
 
 const TableData = ({ children, className = '' }) => (
-    <td className={`px-4 py-4 text-sm text-gray-600 ${className}`}>{children}</td>
+    <td className={`px-4 py-4 text-sm text-green-700 ${className}`}>{children}</td>
 );
 
 const EmptyCard = () => (

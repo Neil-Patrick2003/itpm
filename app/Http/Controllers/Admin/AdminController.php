@@ -54,11 +54,7 @@ class AdminController extends Controller
 
 
         $recordCount = Record::count();
-        $underweightCount = Record::underweight()->count();
-        $normalCount = Record::normalBmi()->count();
-        $overweightCount = Record::overweight()->count();
-        $obeseCount = Record::obese()->count();
-        $overweight_andObeseCount = $overweightCount + $obeseCount;
+
 
 
 
@@ -88,9 +84,7 @@ class AdminController extends Controller
         return Inertia::render('Dashboard', [
             'user' => auth()->user(),
             'recordCount' => $recordCount,
-            'underweightCount' => $underweightCount,
-            'normalCount' => $normalCount,
-            'overweight_andObeseCount' => $overweight_andObeseCount,
+
             'trends' => $trends,
             'top_sponsors' => $top_sponsors,
             'total_sponsors' => $total_sponsors,
@@ -156,6 +150,31 @@ class AdminController extends Controller
 
 
 
+        // Children needing support (BMI < 18.5)
+        $underweightCount = Children::whereHas('latestRecord', function ($q)  {
+            $q->where('bmi', '<', 18.5);
+        })->count();
+
+        $normalCount = Children::whereHas('latestRecord', function ($q)  {
+            $q->where('bmi', '>=', 18.5)
+                ->where('bmi', '<', 25);
+        })
+            ->count();
+
+        $overweightCount = Children::whereHas('latestRecord', function ($q)  {
+            $q->where('bmi', '>=', 25)
+                ->where('bmi', '<', 30);
+
+        })
+            ->count();
+
+        $obeseCount = Children::whereHas('latestRecord', function ($q)  {
+            $q->where('bmi', '>=', 30);
+        })
+            ->count();
+
+
+
 
 
 
@@ -172,6 +191,11 @@ class AdminController extends Controller
             ],
 
             'sponsorshipStats' => $sponsorshipStats,
+            'underweightCount' => $underweightCount,
+            'normalCount' => $normalCount,
+            'overweightCount' => $overweightCount,
+            'obeseCount' => $obeseCount,
+
         ]);
     }
 }

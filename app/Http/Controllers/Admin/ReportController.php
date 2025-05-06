@@ -109,7 +109,7 @@ class ReportController extends Controller
         })->count();
 
         // Children with good nutrition (BMI > 18.5)
-        $goodNutritionCount = Children::whereHas('record', function ($q) use ($start, $end) {
+        $goodNutritionCount = Children::whereHas('latestRecord', function ($q) use ($start, $end) {
             $q->where('bmi', '>', 18.5)->whereBetween('created_at', [$start, $end]);
         })->count();
 
