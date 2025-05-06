@@ -15,9 +15,47 @@ body {
 /* Optional: Customize font sizes, etc. */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
+    color : #2B5A32;
+
+
 }
 
 p {
     font-family: 'Poppins', sans-serif;
+}
+
+
+/* Override FullCalendar's default styles */
+.fc {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Green Theme */
+.fc-header-toolbar {
+    background-color: #4CAF50; /* Dark green background for the toolbar */
+    color: white; /* White text */
+}
+
+.fc-daygrid-day-number {
+    color: #4CAF50; /* Green color for day numbers */
+}
+
+.fc-daygrid-event {
+    background-color: #81C784; /* Light green for events */
+    border-color: #388E3C; /* Dark green border */
+    color: white; /* White text on events */
+}
+
+.fc-daygrid-day.fc-day-today {
+    background-color: #C8E6C9; /* Light green background for today's date */
+}
+
+.fc-button-primary {
+    background-color: #388E3C; /* Green button */
+    border-color: #2C6A2F; /* Darker green border */
+}
+
+.fc-button-primary:hover {
+    background-color: #2C6A2F; /* Darker green hover effect */
 }
 

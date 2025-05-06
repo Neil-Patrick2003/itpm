@@ -5,64 +5,98 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { motion } from 'framer-motion';
 import WorkerLayout from '@/Layouts/WorkerLayout';
-
+import ProgramCalendar from '@/Components/ProgramCalendar.jsx';
+// Import Material UI icons for stat cards
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import GroupIcon from '@mui/icons-material/Group';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import SyncIcon from '@mui/icons-material/Sync';
+import TimerIcon from '@mui/icons-material/Timer';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const Dashboard = ({ programs, incoming_programs, completed_programs, in_progress, recent_records, announcements, total_beneficiary_count, total_underweight_count, total_normal_count, total_overweight_count, total_obese_count }) => {
+const Dashboard = ({
+                       programs,
+                       incoming_programs,
+                       completed_programs,
+                       in_progress,
+                       announcements,
+                       total_beneficiary_count,
+                       total_underweight_count,
+                       total_normal_count,
+                       total_overweight_count,
+                       total_obese_count,
+                   }) => {
     const auth = usePage().props;
-
-    function categorizeBmi(bmi) {
-        if (bmi < 18.5) {
-            return 'Underweight';
-        } else if (bmi >= 18.5 && bmi < 24.9) {
-            return 'Normal weight';
-        } else if (bmi >= 25 && bmi < 29.9) {
-            return 'Overweight';
-        } else if (bmi >= 30) {
-            return 'Obese';
-        } else {
-            return 'Invalid BMI';
-        }
-    }
-    const calculateAge = (birthdate) => {
-        const birthDate = new Date(birthdate);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDifference = today.getMonth() - birthDate.getMonth();
-
-        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        return age;
-    };
 
     const stringAvatar = (name) => {
         const nameSplit = name.trim().split(' ');
-        const initials = nameSplit.length > 1 ? `${nameSplit[0][0]}${nameSplit[1][0]}` : `${nameSplit[0][0]}`;
+        const initials =
+            nameSplit.length > 1
+                ? `${nameSplit[0][0]}${nameSplit[1][0]}`
+                : `${nameSplit[0][0]}`;
         return {
-            sx: { bgcolor: '#4CAF50' },
+            sx: { bgcolor: '#388E3C', fontWeight: 700 },
             children: initials.toUpperCase(),
         };
     };
 
     const stats = [
-        { title: 'Total Programs', value: programs.length },
-        { title: 'Total Beneficiaries', value: total_beneficiary_count },
-        { title: 'Incoming', value: incoming_programs.length },
-        { title: 'Completed', value: completed_programs.length },
-        { title: 'In Progress', value: in_progress.length },
-        { title: 'Avg. Duration (days)', value: Math.round(programs.reduce((sum, p) => sum + (p.duration || 0), 0) / programs.length) || 0 },
+        { title: 'Total Programs', value: programs.length, icon: <AssignmentIcon sx={{ fontSize: 36, color: '#388E3C' }} /> },
+        { title: 'Total Beneficiaries', value: total_beneficiary_count, icon: <GroupIcon sx={{ fontSize: 36, color: '#388E3C' }} /> },
+        { title: 'Incoming', value: incoming_programs.length, icon: <HourglassEmptyIcon sx={{ fontSize: 36, color: '#388E3C' }} /> },
+        { title: 'Completed', value: completed_programs.length, icon: <CheckCircleIcon sx={{ fontSize: 36, color: '#388E3C' }} /> },
+        { title: 'In Progress', value: in_progress.length, icon: <SyncIcon sx={{ fontSize: 36, color: '#388E3C' }} /> },
+        {
+            title: 'Avg. Duration (days)',
+            value:
+                Math.round(
+                    programs.reduce((sum, p) => sum + (p.duration || 0), 0) / programs.length
+                ) || 0,
+            icon: <TimerIcon sx={{ fontSize: 36, color: '#388E3C' }} />,
+        },
     ];
 
     const pieData = {
         labels: ['Underweight', 'Normal', 'Overweight', 'Obese'],
-        datasets: [{
-            data: [ total_underweight_count,  total_normal_count, total_overweight_count, total_obese_count],
-            backgroundColor: ['#4CAF50', '#FFC107', '#03A9F4'],
-            borderColor: '#fff',
-            borderWidth: 1,
-        }],
+        datasets: [
+            {
+                data: [
+                    total_underweight_count,
+                    total_normal_count,
+                    total_overweight_count,
+                    total_obese_count,
+                ],
+                backgroundColor: ['#81C784', '#A5D6A7', '#4DB6AC', '#E57373'],
+                borderColor: '#FFFFFF',
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    const pieOptions = {
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    font: {
+                        size: 12,
+                        weight: 'normal',
+                    },
+                    color: '#4a5568', // Gray 700 for subtlety
+                    padding: 16,
+                },
+            },
+            tooltip: {
+                enabled: true,
+                backgroundColor: '#388E3C',
+                titleFont: { weight: 'bold' },
+                bodyFont: { size: 14 },
+                cornerRadius: 6,
+            },
+        },
+        maintainAspectRatio: false,
     };
 
     return (
@@ -70,107 +104,108 @@ const Dashboard = ({ programs, incoming_programs, completed_programs, in_progres
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="px-4"
+                transition={{ duration: 0.6 }}
+                className="px-6 py-8 bg-gray-50 h-screen font-sans flex flex-col"
+                style={{ fontFamily: '"Roboto", "Helvetica Neue", Arial, sans-serif' }}
             >
-                <motion.div
-                    className="flex border bg-gray-50 p-2 mb-6 items-center gap-2 rounded-2xl"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
-                >
+                {/* Header */}
+                <div className="flex items-center gap-5 p-6 bg-white border border-gray-200 rounded-xl shadow-sm mb-10 flex-shrink-0">
                     {auth.user.profile_photo_url ? (
                         <img
                             src={auth.user.profile_photo_url}
                             alt={auth.user.name}
-                            className="rounded-full w-14 h-14 object-cover border-2 border-green-500"
+                            className="w-16 h-16 rounded-full object-cover border-2 border-green-700"
                         />
                     ) : (
-                        <Avatar {...stringAvatar(auth.user.name)} sx={{ width: 56, height: 56 }} />
+                        <Avatar {...stringAvatar(auth.user.name)} />
                     )}
                     <div>
-                        <h1 className="text-2xl font-semibold text-gray-800">{auth.user.name}</h1>
-                        <p className="text-sm text-gray-500">Assigned: {auth.user.assign_address}</p>
+                        <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+                            {auth.user.name}
+                        </h2>
+                        <p className="text-md text-gray-600 font-medium">
+                            Assigned to: {auth.user.assign_address}
+                        </p>
                     </div>
-                </motion.div>
+                </div>
 
-                <motion.section
-                    initial="hidden"
-                    animate="visible"
-                    variants={{
-                        hidden: { opacity: 0 },
-                        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
-                    }}
-                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-10"
-                >
-                    {stats.map((stat, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="bg-white p-2 border rounded-2xl shadow-lg text-center hover:shadow-2xl transition duration-300"
-                        >
-                            <h4 className="text-md font-medium text-gray-700">{stat.title}</h4>
-                            <p className="text-2xl font-bold text-green-600 mt-2">{stat.value}</p>
-                        </motion.div>
-                    ))}
-                </motion.section>
+                {/* Content and footer container */}
+                <div className="flex flex-col flex-grow overflow-hidden">
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 mb-12 flex-shrink-0">
+                        {stats.map((stat, idx) => (
+                            <div
+                                key={idx}
+                                className="bg-white border border-gray-300 rounded-xl p-6 flex flex-col items-center shadow hover:shadow-lg transition-shadow duration-300 cursor-default"
+                                aria-label={`${stat.title} is ${stat.value}`}
+                                title={`${stat.title}: ${stat.value}`}
+                            >
+                                <div className="mb-3">{stat.icon}</div>
+                                <h4 className="text-sm font-semibold text-gray-700 mb-1">
+                                    {stat.title}
+                                </h4>
+                                <p className="text-2xl font-extrabold text-green-800">{stat.value}</p>
+                            </div>
+                        ))}
+                    </div>
 
-                <div className="flex flex-col lg:flex-row gap-6 mb-10">
-                    <motion.div className="w-full rounded-2xl shadow lg:w-2/3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
-                        <div className="bg-white p-4 rounded-2xl h-full overflow-auto">
-                            <h3 className="text-lg font-semibold mb-4">Programs Overview</h3>
-                            <table className="min-w-full divide-y divide-gray-300">
-                                <thead>
-                                <tr>
-                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Name</th>
-                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Age</th>
-                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Height</th>
-                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Weight</th>
-                                    <th className="text-left text-sm font-semibold text-gray-900 py-2">Status</th>
+                    {/* Main Content */}
+                    <div className="flex flex-col lg:flex-row gap-10 flex-grow overflow-auto">
+                        {/* Program Calendar */}
+                        <section className="w-full lg:w-2/3 bg-white p-8 rounded-xl shadow-md overflow-auto">
+                            <h3 className="text-2xl font-bold text-gray-900 mb-6">Program Calendar</h3>
+                            <ProgramCalendar programs={programs} />
+                        </section>
 
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {recent_records.length > 0 ? recent_records.map((record) => (
-                                    <tr key={record.id} className="border-b hover:bg-gray-50">
-                                        <td className="py-2 text-gray-900">{record.name}</td>
-                                        <td className="py-2 text-gray-500">{calculateAge(record.birth_date)} years old</td>
-                                        <td className="py-2 text-gray-500">{record.latest_record?.height} cm</td>
-                                        <td className="py-2 text-gray-500">{record.latest_record?.weight} kg</td>
-                                        <td className="py-2 text-gray-500">{categorizeBmi(record.latest_record?.bmi)}</td>
+                        {/* Right Panel */}
+                        <aside className="w-full lg:w-1/3 space-y-10 flex-shrink-0 overflow-auto max-h-full">
+                            {/* Announcements */}
+                            <section className="bg-white p-6 rounded-xl shadow-md max-h-[320px] overflow-y-auto">
+                                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                                    Latest Announcements
+                                </h3>
+                                <ul className="space-y-5">
+                                    {announcements.length > 0 ? (
+                                        announcements.map((note, i) => (
+                                            <li
+                                                key={i}
+                                                className="border-b border-gray-200 pb-3 last:border-none last:pb-0"
+                                            >
+                                                <p className="font-semibold text-gray-800">
+                                                    {note.title}
+                                                </p>
+                                                <p className="text-sm text-gray-600 mt-1">
+                                                    {note.body?.slice(0, 100)}
+                                                    {note.body && note.body.length > 100 ? '...' : ''}
+                                                </p>
+                                                <time
+                                                    className="text-xs text-gray-500"
+                                                    dateTime={note.date}
+                                                >
+                                                    {note.date}
+                                                </time>
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <li className="text-gray-500">No announcements available</li>
+                                    )}
+                                </ul>
+                            </section>
 
-                                    </tr>
-                                )) : (
-                                    <tr><td colSpan="4" className="py-4 text-center text-gray-500">No recent records available</td></tr>
-                                )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </motion.div>
+                            {/* BMI Distribution Chart */}
+                            <section className="bg-white p-6 rounded-xl shadow-md h-[340px]">
+                                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                                    BMI Category Distribution
+                                </h3>
+                                <div className="h-[260px]">
+                                    <Pie data={pieData} options={pieOptions} />
+                                </div>
+                            </section>
+                        </aside>
+                    </div>
 
-                    <motion.div className="w-full lg:w-1/3 space-y-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.1 }}>
-                        <div className="bg-white p-4 rounded-2xl shadow">
-                            <h3 className="text-lg font-semibold mb-4">Announcements</h3>
-                            <ul className="space-y-3 max-h-[300px] overflow-auto pr-2">
-                                {announcements.length > 0 ? announcements.map((note, i) => (
-                                    <li key={i} className="border-b pb-2">
-                                        <p className="text-gray-800 font-medium">{note.title}</p>
-                                        <p className="text-sm text-gray-600">{note.body?.slice(0, 80)}...</p>
-                                        <span className="text-xs text-gray-400">{note.date}</span>
-                                    </li>
-                                )) : (
-                                    <li className="text-gray-500">No announcements available</li>
-                                )}
-                            </ul>
-                        </div>
+                    {/* Future Insights Section */}
 
-                        <div className="bg-white p-4 rounded-2xl shadow">
-                            <h3 className="text-lg font-semibold mb-4">Program Distribution</h3>
-                            <Pie data={pieData} />
-                        </div>
-                    </motion.div>
                 </div>
             </motion.div>
         </WorkerLayout>

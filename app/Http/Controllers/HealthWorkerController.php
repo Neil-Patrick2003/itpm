@@ -116,13 +116,6 @@ class HealthWorkerController extends Controller
 
 
 
-
-
-
-
-
-
-
         return Inertia::render(
             'Worker/Dashboard', [
                 'programs' => $programs,

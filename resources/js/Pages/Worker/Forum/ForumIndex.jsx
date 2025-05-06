@@ -1,18 +1,17 @@
 import WorkerLayout from "@/Layouts/WorkerLayout.jsx";
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
 import React, { useEffect, useState } from 'react';
-import {Link, router, useForm, usePage} from "@inertiajs/react";
+import { Link, router, useForm, usePage } from "@inertiajs/react";
 import Modal from '@/Components/Modal';
 import InputLabel from "@/Components/InputLabel.jsx";
-import { motion, AnimatePresence } from 'framer-motion';import { debounce } from 'lodash';
+import { motion, AnimatePresence } from 'framer-motion';
+import { debounce } from 'lodash';
 import { FaSearch } from "react-icons/fa";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import EmptyState from "@/Components/EmptyState.jsx";
 import DynamicEmptyEstate from "@/Components/DynamicEmptyEstate.jsx";
 
-
-dayjs.extend(relativeTime); // enable dayjs relative time format like "5 mins ago"
+dayjs.extend(relativeTime);
 
 const pages = [
     { name: 'Forum', href: '/health_workers/forum', current: false },
@@ -21,15 +20,13 @@ const pages = [
 export default function ForumIndex({ search, page = 1 }) {
     const { topics } = usePage().props;
 
-    // Search input state
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Set search term from URL if exists
     useEffect(() => {
         if (search) setSearchTerm(search);
     }, [search]);
 
-    // Debounced search function using lodash
+    // Debounced search to avoid excessive requests
     const handleSearchTermChange = (value) => {
         setSearchTerm(value);
         const delayed = debounce(() => {
@@ -39,31 +36,28 @@ export default function ForumIndex({ search, page = 1 }) {
             });
         }, 500);
         delayed();
-        return () => delayed.cancel(); // Cleanup debounce on unmount
+        return () => delayed.cancel();
     };
 
-    // Form initialization for creating a new topic
     const { data, setData, post, errors, processing, reset } = useForm({
         title: ''
     });
 
-    // Modal state
     const [isAddTopicOpen, setIsAddTopicOpen] = useState(false);
     const closeAddTopicModal = () => setIsAddTopicOpen(false);
 
-    // Submit form function
     function submit(e) {
         e.preventDefault();
         post('/health_workers/forum', {
-            onFinish: () => reset(),       // Clear input after submit
-            onSuccess: () => closeAddTopicModal(), // Close modal on success
+            onFinish: () => reset(),
+            onSuccess: () => closeAddTopicModal(),
         });
     }
 
     return (
         <WorkerLayout>
             {/* Create new topic modal */}
-            <Modal show={isAddTopicOpen} onClose={() => setIsAddTopicOpen(false)} maxWidth="lg">
+            <Modal show={isAddTopicOpen} onClose={closeAddTopicModal} maxWidth="lg">
                 <div className="p-6 gap-y-4">
                     <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,19 +71,22 @@ export default function ForumIndex({ search, page = 1 }) {
                             <InputLabel htmlFor="title" value="Discussion Title" className="mb-1 text-sm text-gray-700" />
                             <input
                                 type="text"
+                                id="title"
                                 value={data.title}
                                 onChange={e => setData('title', e.target.value)}
                                 placeholder="Enter a clear and concise topic title..."
                                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
+                                aria-describedby="title-error"
                             />
                             {errors.title && (
-                                <p className="text-red-500 text-xs mt-1">{errors.title}</p>
+                                <p id="title-error" className="text-red-500 text-xs mt-1">{errors.title}</p>
                             )}
                         </div>
 
                         <div className="flex justify-end gap-2">
                             <button
-                                onClick={() => setIsAddTopicOpen(false)}
+                                type="button"
+                                onClick={closeAddTopicModal}
                                 className="bg-white border border-green-500 hover:bg-green-600 text-green-500 hover:text-white text-sm px-5 py-2 rounded-md transition duration-150"
                                 disabled={processing}
                             >
@@ -107,47 +104,47 @@ export default function ForumIndex({ search, page = 1 }) {
                 </div>
             </Modal>
 
-
             {/* Page content */}
-            <div className="flex flex-col p-4 min-h-screen">
+            <div className="flex flex-col p-4 min-h-screen max-w-7xl mx-auto">
                 {/* Header and search bar */}
-                <div className="flex flex-col justify-between items-center space-x-4">
-                    <h1 className="text-2xl md:text-3xl  font-bold text-[#66CA6A]">Nutrisafary Discussion</h1>
-                    <p className="text-sm">All questions can be discussed here.</p>
-                    <div className="relative w-full max-w-xl">
+                <div className="mb-6">
+                    <h1 className="text-3xl font-bold text-green-600 mb-1">Nutrisafary Discussion</h1>
+                    <p className="text-sm text-gray-600 mb-4">All questions can be discussed here.</p>
+                    <div className="relative max-w-xl w-full">
                         <input
                             value={searchTerm}
                             onChange={(e) => handleSearchTermChange(e.target.value)}
-                            type="text"
+                            type="search"
                             name="search"
                             placeholder="Search discussions..."
-                            className="border-2 border-green-500 rounded-md h-10 px-4 pl-10 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                            className="border-2 border-green-500 rounded-md h-11 px-4 pl-11 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500 w-full transition"
+                            aria-label="Search discussions"
                         />
-                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" />
+                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500 pointer-events-none" />
                     </div>
                 </div>
 
                 {/* Breadcrumb and button */}
-                <div className="flex justify-between items-center mt-6">
+                <div className="flex justify-between items-center mb-6">
                     <nav aria-label="Breadcrumb" className="flex">
                         <ol role="list" className="flex items-center space-x-4">
                             <li>
-                                <a href="#" className="text-gray-400 hover:text-gray-500">
-                                    <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
+                                <Link href="/" className="text-gray-400 hover:text-gray-500 flex items-center">
+                                    <HomeIcon aria-hidden="true" className="h-5 w-5" />
                                     <span className="sr-only">Home</span>
-                                </a>
+                                </Link>
                             </li>
                             {pages.map((page) => (
                                 <li key={page.name}>
                                     <div className="flex items-center">
-                                        <ChevronRightIcon className="size-5 shrink-0 text-gray-400" />
-                                        <a
+                                        <ChevronRightIcon className="h-5 w-5 text-gray-400" />
+                                        <Link
                                             href={page.href}
                                             aria-current={page.current ? 'page' : undefined}
                                             className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                                         >
                                             {page.name}
-                                        </a>
+                                        </Link>
                                     </div>
                                 </li>
                             ))}
@@ -155,14 +152,14 @@ export default function ForumIndex({ search, page = 1 }) {
                     </nav>
                     <button
                         onClick={() => setIsAddTopicOpen(true)}
-                        className="bg-green-500 text-white px-4 py-1 rounded-md"
+                        className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md transition focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
                     >
                         Create New Discussion
                     </button>
                 </div>
 
                 {/* Discussion topics */}
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                     <AnimatePresence>
                         {topics.data.length > 0 ? (
                             topics.data.map((topic, index) => (
@@ -172,20 +169,24 @@ export default function ForumIndex({ search, page = 1 }) {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: -10 }}
                                     transition={{ delay: index * 0.05, duration: 0.6 }}
-                                    whileHover={{ scale: 1.02 }}
-                                    className="bg-white border border-gray-200 rounded-md p-4 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer hover:bg-green-50"
+                                    whileHover={{ scale: 1.03 }}
+                                    className="bg-white border border-gray-200 rounded-md p-5 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer hover:bg-green-50 flex flex-col justify-between"
                                 >
-                                    <Link href={`/health_workers/forum/${topic.id}`} className="flex flex-col h-full justify-between">
-                                        <div className="flex justify-between items-center mb-2">
-                                            <span className="text-green-600 text-xs font-medium"># Question {topic.id}</span>
-                                            <p className="flex items-center gap-1 text-xs text-gray-400">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    <Link href={`/health_workers/forum/${topic.id}`} className="flex flex-col h-full">
+                                        <div className="flex justify-between items-center mb-3">
+                                            <span className="text-green-700 text-xs font-semibold">
+                                                # Question {topic.id}
+                                            </span>
+                                            <p className="flex items-center gap-1 text-xs text-gray-400" aria-label={`Posted ${dayjs(topic.created_at).fromNow()}`}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
                                                 {dayjs(topic.created_at).fromNow()}
                                             </p>
                                         </div>
-                                        <h2 className="text-base font-semibold text-gray-800 text-center">{topic.title}</h2>
+                                        <h2 className="text-base font-semibold text-gray-900 line-clamp-3">
+                                            {topic.title}
+                                        </h2>
                                     </Link>
                                 </motion.div>
                             ))
@@ -197,7 +198,6 @@ export default function ForumIndex({ search, page = 1 }) {
                                 svgPath="M12 4v16m8-8H4"
                                 onClick={() => setIsAddTopicOpen(true)}
                             />
-
                         )}
                     </AnimatePresence>
                 </div>
