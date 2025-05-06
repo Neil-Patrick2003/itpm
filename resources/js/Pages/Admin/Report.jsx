@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -11,10 +11,11 @@ import {
     Legend,
     Filler,
 } from 'chart.js';
-import { Head, Link } from '@inertiajs/react';
+import {Head, Link, useForm} from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import SponsorshipStats from "@/Components/Graph/SponsorshipStats.jsx";
 import PieChartComponent from "@/Components/Graph/PieChartComponent.jsx";
+import {Inertia} from "@inertiajs/inertia";
 
 ChartJS.register(
     LineElement,
@@ -34,6 +35,9 @@ const AdminDashboard = ({ averageWeights, sponsorshipStats, beneficiaryMonthlySt
         Number(programStatusCounts?.in_progress || 0),
         Number(programStatusCounts?.incoming || 0),
     ];
+
+
+
 
     const monthly_beneficiary = beneficiaryMonthlyStats.map(item => item.beneficiaries_count);
 
@@ -87,6 +91,21 @@ const AdminDashboard = ({ averageWeights, sponsorshipStats, beneficiaryMonthlySt
     const Last = dataPoints[dataPoints.length - 1]?.toFixed(1);
 
 
+    const{ data, setData, post, processing, errors, reset } = useForm({
+        start_date: '',
+        end_date: '',
+    })
+
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+
+    const handleDownload = () => {
+        const url = route('reports.export', {
+            start: startDate,
+            end: endDate,
+        });
+        window.open(url, '_blank');
+    };
 
 
 
@@ -100,9 +119,60 @@ const AdminDashboard = ({ averageWeights, sponsorshipStats, beneficiaryMonthlySt
                 </h1>
 
                 {/* Top stats */}
-                <a href={window.routes.downloadInvoice} className="btn btn-primary">
-                    Download Invoice PDF
-                </a>
+                <div className="p-6 bg-white rounded-lg shadow-lg">
+                    <h2 className="text-xl font-semibold mb-4">Generate Report</h2>
+                    <form onSubmit={handleDownload}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="col-span-1">
+                                <label htmlFor="start_date" className="block text-sm font-medium text-gray-700">Start Date</label>
+                                <input
+                                    type="date"
+                                    id="start_date"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                    required
+                                />
+                            </div>
+                            <div className="col-span-1">
+                                <label htmlFor="end_date" className="block text-sm font-medium text-gray-700">End Date</label>
+                                <input
+                                    type="date"
+                                    id="end_date"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="mt-4 flex justify-end">
+                            <button
+                                type="submit"
+                                className="px-4 py-2 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700"
+                            >
+                                Generate Report
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                {/*<button*/}
+                {/*    onClick={() => {*/}
+                {/*        const url = route('reports.export', {*/}
+                {/*            start: startDate,*/}
+                {/*            end: endDate,*/}
+                {/*        });*/}
+                {/*        window.open(url, '_blank');*/}
+                {/*    }}*/}
+                {/*    className="btn btn-primary"*/}
+                {/*>*/}
+                {/*    Download Filtered PDF*/}
+                {/*</button>*/}
+
+                {/*<a href={window.routes.downloadInvoice} className="btn btn-primary">*/}
+                {/*    Download Invoice PDF*/}
+                {/*</a>*/}
 
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
