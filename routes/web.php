@@ -91,6 +91,8 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
 
     Route::get('/reports/export', [\App\Http\Controllers\Admin\ReportController::class, 'generatePdf'])->name('reports.export');
+    Route::get('/reports/nutrition', [\App\Http\Controllers\Admin\ReportController::class, 'nutritionReport'])->name('reports.nutrition_report');
+
 
 
 

@@ -174,4 +174,45 @@ class ReportController extends Controller
         $pdf = PDF::loadView('Report.SummaryReport', $data);
         return $pdf->download('summary_report.pdf');
     }
+
+
+    public function budgetAndExpenses(){
+        $start = Carbon::parse(now()->subMonth()->toDateString())->startOfDay();
+        $end = Carbon::parse(now()->toDateString())->endOfDay();
+
+        $totalFunds = Donation::where('type', 'cash')
+            ->whereBetween('created_at', [$start, $end])
+            ->sum('amount');
+
+        $expenses = Expenses::whereBetween('created_at', [$start, $end])->get();
+        $totalExpenses = $expenses->sum('amount');
+    }
+
+    public function nutritionReport()
+    {
+        $now = now();
+        $start = $now->copy()->subMonth()->startOfDay();
+        $end = $now->copy()->endOfDay();
+
+        $records = Children::with([
+            'parent',
+            'program',
+            'record' => function($query) use ($start, $end) {
+                $query->whereBetween('created_at', [$start, $end]);
+            }
+        ])
+            ->has('program')
+            ->get()
+            ->groupBy('parent.address');
+
+        $data = [
+            'records' => $records,
+            'start_date' => $start->toDateString(),
+            'end_date' => $end->toDateString(),
+        ];
+
+        $pdf = PDF::loadView('Report.ChildrenHealthReport', $data);
+        return $pdf->download('child_monitoring_report.pdf');
+    }
+
 }
