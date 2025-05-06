@@ -29,7 +29,7 @@ export default function Dashboard({
         };
     };
 
-    console.log(incoming_program.length);
+    console.log(childrens);
 
     return (
         <AuthenticatedLayout>
@@ -70,21 +70,14 @@ export default function Dashboard({
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-100">
                                 {childrens.length > 0 ? (
-                                    childrens.map((expense) => (
-                                        <tr key={expense.id} className="hover:bg-gray-50">
-                                            <TableData>{expense.id}</TableData>
-                                            <TableData>{expense.purpose}</TableData>
-                                            <TableData>{/* formatCurrency(expense.amount) */}</TableData>
-                                            <TableData>{new Date(expense.date_spent).toLocaleDateString()}</TableData>
-                                            <TableData>{expense.notes || '—'}</TableData>
-                                            <TableData className="text-right">
-                                                <button
-                                                    onClick={() => openEditModal(expense)}
-                                                    className="text-indigo-600 hover:text-indigo-900 transition"
-                                                >
-                                                    Edit
-                                                </button>
-                                            </TableData>
+                                    childrens.map((children) => (
+                                        <tr key={children.id} className="hover:bg-gray-50">
+                                            <TableData>{children.id}</TableData>
+                                            <TableData>{children.name}</TableData>
+                                            <TableData>{children.parent.address}</TableData>
+                                            <TableData>{children.gender}</TableData>
+                                            <TableData>{children.latest_record?.height ?? 'N/A'} cm</TableData>
+                                            <TableData>{children.latest_record?.weight ?? 'N/A'} kg</TableData>
                                         </tr>
                                     ))
                                 ) : (
@@ -94,7 +87,6 @@ export default function Dashboard({
                                                 title="No expenses yet"
                                                 description="Add a new expense and track your spending."
                                                 actionLabel="Add New Expense"
-                                                onActionClick={openAddModal}
                                             />
                                         </td>
                                     </tr>

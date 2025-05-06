@@ -18,7 +18,9 @@ class AdminController extends Controller
     public function dashboard()
     {
 
-        $childrens = Children::latest()->take(5)->get();
+        $childrens = Children::with('parent', 'latestRecord')
+            ->
+        latest()->take(5)->get();
 
         $total_programs = Program::count();
 
@@ -135,7 +137,7 @@ class AdminController extends Controller
                 DB::raw("DATE_FORMAT(childrens.created_at, '%Y-%m') as month"),
                 DB::raw("COUNT(childrens.id) as beneficiaries_count")
             )
-            ->groupBy('month')  
+            ->groupBy('month')
             ->orderBy('month')
             ->get();
 
