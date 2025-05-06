@@ -50,20 +50,34 @@ export default function AuthenticatedLayout({ header, children, logoUrl }) {
     return (
         <div className="flex h-screen">
             {/* Sidebar */}
-            <aside className="hidden lg:flex lg:flex-col lg:w-72 bg-white p-4 border-r overflow-y-auto">
+            <aside className="hidden lg:flex lg:flex-col lg:w-72 bg-white py-4 border-r overflow-y-auto">
                 <nav className="flex-1 space-y-4">
+                    <div className="flex items-center px-5  mb-2  gap-x-4">
+                        <button
+                            className="lg:hidden text-gray-500"
+                            onClick={() => setSidebarOpen(true)}
+                        >
+                            <Bars3Icon className="h-6 w-6" />
+                        </button>
+                        <img src={logoUrl || Logo} alt="Logo" className="h-8 w-auto" />
+                        <img src={Text} alt="Text Logo" className="h-8 w-auto" />
+                    </div>
+
                     {navigation.map(item => (
                         <Link
                             key={item.name}
                             href={item.href}
                             className={classNames(
-                                url?.startsWith(item.href) ? 'bg-[#01DA9F] text-white' : 'text-gray-700 hover:bg-[#01DA9F] hover:text-white',
-                                'flex items-center gap-x-3 rounded-lg px-6 py-2 text-lg font-medium transition-all'
+                                url?.startsWith(item.href)
+                                    ? 'border-l-8 border-green-400 bg-green-200 text-green-700'
+                                    : 'text-gray-700 hover:bg-green-200 hover:text-white',
+                                'flex items-center gap-x-3  px-6 py-2 font-medium transition-all'
                             )}
                         >
                             <item.icon className="h-6 w-6" />
                             {item.name}
                         </Link>
+
                     ))}
 
                     {/* Children Menu */}
@@ -123,17 +137,7 @@ export default function AuthenticatedLayout({ header, children, logoUrl }) {
             <div className="flex flex-col flex-1 overflow-hidden">
                 {/* Header (Fixed only in main area) */}
                 <header className="bg-white border-b shadow z-20 w-full top-0 right-0 left-0">
-                    <div className="flex items-center justify-between px-4 py-2">
-                        <div className="flex items-center gap-x-4">
-                            <button
-                                className="lg:hidden text-gray-500"
-                                onClick={() => setSidebarOpen(true)}
-                            >
-                                <Bars3Icon className="h-6 w-6" />
-                            </button>
-                            <img src={logoUrl || Logo} alt="Logo" className="h-8 w-auto" />
-                            <img src={Text} alt="Text Logo" className="h-8 w-auto" />
-                        </div>
+                    <div className="flex items-center justify-end px-4 py-2">
 
                         <div className="flex items-center gap-x-4">
                             <Link href="announcements" className="flex items-center gap-x-2">
