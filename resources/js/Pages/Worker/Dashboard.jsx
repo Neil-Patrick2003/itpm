@@ -68,7 +68,7 @@ const Dashboard = ({
                     total_overweight_count,
                     total_obese_count,
                 ],
-                backgroundColor: ['#81C784', '#A5D6A7', '#4DB6AC', '#E57373'],
+                backgroundColor: ['#5ebf75', '#66ce7f', '#8dd99e', '#b4e3bd'],
                 borderColor: '#FFFFFF',
                 borderWidth: 1,
             },
@@ -105,64 +105,39 @@ const Dashboard = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
-                className="p-4 h-screen font-sans flex flex-col"
+                className="p-2  font-sans flex flex-col"
                 style={{ fontFamily: '"Roboto", "Helvetica Neue", Arial, sans-serif' }}
             >
-                {/* Header */}
-                {/*<div className="flex items-center gap-5 p-6 bg-white border border-gray-200 rounded-xl shadow-sm mb-10 flex-shrink-0">*/}
-                {/*    {auth.user.profile_photo_url ? (*/}
-                {/*        <img*/}
-                {/*            src={auth.user.profile_photo_url}*/}
-                {/*            alt={auth.user.name}*/}
-                {/*            className="w-16 h-16 rounded-full object-cover border-2 border-green-700"*/}
-                {/*        />*/}
-                {/*    ) : (*/}
-                {/*        <Avatar {...stringAvatar(auth.user.name)} />*/}
-                {/*    )}*/}
-                {/*    <div>*/}
-                {/*        <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">*/}
-                {/*            {auth.user.name}*/}
-                {/*        </h2>*/}
-                {/*        <p className="text-md text-gray-600 font-medium">*/}
-                {/*            Assigned to: {auth.user.assign_address}*/}
-                {/*        </p>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-
                 {/* Content and footer container */}
                 <div className="flex flex-col flex-grow overflow-hidden">
-
                     {/* Stats Cards */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 mb-12 flex-shrink-0">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-6 md:gap-8 mb-6">
                         {stats.map((stat, idx) => (
                             <div
                                 key={idx}
-                                className="bg-green-50 border border-green-200 rounded-xl p-4 flex flex-col items-center shadow hover:shadow-md transition-shadow duration-300 cursor-default"
+                                className="bg-green-50 border border-green-200 rounded-xl p-4 flex flex-row md:flex-col justify-between items-center hover:shadow-md transition-shadow duration-300 cursor-default"
                                 aria-label={`${stat.title} is ${stat.value}`}
                                 title={`${stat.title}: ${stat.value}`}
                             >
-                                <div className="mb-3">{stat.icon}</div>
-                                <h4 className="text-sm font-semibold  mb-1">
-                                    {stat.title}
-                                </h4>
-                                <p className="text-2xl font-extrabold ">{stat.value}</p>
+                                <div className="m-0 md:mb-3 ">{stat.icon}</div>
+                                <h4 className="text-sm font:medium md:font-semibold mb-1">{stat.title}</h4>
+                                <p className="text-2xl font-extrabold">{stat.value}</p>
                             </div>
                         ))}
                     </div>
 
                     {/* Main Content */}
-                    <div className="flex flex-col lg:flex-row gap-6 flex-grow overflow-auto">
+                    <div className="flex flex-col lg:flex-row gap-6 flex-grow">
                         {/* Program Calendar */}
-                        <section className="w-full lg:w-2/3 px-4 border border-green-200 bg-green-50 rounded-xl shadow-md">
-                            {/*<h3 className="text-2xl font-bold ">Program Calendar</h3>*/}
-                            <ProgramCalendar programs={programs}  className="borde"/>
+                        <section className="w-full lg:w-2/3 px-4 border border-green-200 bg-green-50 rounded-xl ">
+                            <ProgramCalendar programs={programs} className="borde" />
                         </section>
 
                         {/* Right Panel */}
-                        <aside className="w-full lg:w-1/3 space-y-10 flex-shrink-0 overflow-auto max-h-full">
+                        <aside className="w-full lg:w-1/3 space-y-6 flex-shrink-0 overflow-auto max-h-full">
                             {/* Announcements */}
-                            <section className="bg-white p-6 rounded-xl shadow-md max-h-[320px] overflow-y-auto">
-                                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                            <section className="bg-green-50 border-2 border-green-100 p-2 md:p-6 rounded-xl ">
+                                <h3 className="text-2xl font-bold ">
                                     Latest Announcements
                                 </h3>
                                 <ul className="space-y-5">
@@ -194,19 +169,16 @@ const Dashboard = ({
                             </section>
 
                             {/* BMI Distribution Chart */}
-                            <section className="bg-white p-6 rounded-xl shadow-md h-[340px]">
-                                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                            <section className="bg-green-50 border-2 border-green-100 p-2 md:p-6 rounded-xl">
+                                <h3 className="text-2xl font-bold ">
                                     BMI Category Distribution
                                 </h3>
                                 <div className="h-[260px]">
-                                    <Pie data={pieData} options={pieOptions} />
+                                    <Pie data={pieData} options={pieOptions}  />
                                 </div>
                             </section>
                         </aside>
                     </div>
-
-                    {/* Future Insights Section */}
-
                 </div>
             </motion.div>
         </WorkerLayout>

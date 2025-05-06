@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useLocation } from 'react-router-dom'
 import {
     Dialog,
     DialogBackdrop,
@@ -24,6 +24,7 @@ import {
     ChartPieIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { usePage } from '@inertiajs/react'
 
 const navigation = [
     { name: 'Dashboard', href: '/health_workers/dashboard', icon: HomeIcon },
@@ -44,7 +45,7 @@ function classNames(...classes) {
 
 export default function WorkerLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const pathname = usePathname()
+    const { url } = usePage()
 
     return (
         <>
@@ -75,7 +76,7 @@ export default function WorkerLayout({ children }) {
                                         <li>
                                             <ul role="list" className="-mx-2 space-y-1">
                                                 {navigation.map((item) => {
-                                                    const isActive = pathname?.startsWith(item.href)
+                                                    const isActive = url.startsWith(item.href)
                                                     const Icon = item.icon
 
                                                     return (
@@ -83,18 +84,14 @@ export default function WorkerLayout({ children }) {
                                                             <a
                                                                 href={item.href}
                                                                 className={classNames(
-                                                                    isActive
-                                                                        ? 'bg-lime-600 text-white'
-                                                                        : 'text-white hover:bg-lime-700',
+                                                                    isActive ? 'bg-lime-600 text-white' : 'text-white hover:bg-lime-700',
                                                                     'group flex gap-x-3 rounded-md p-2 text-sm font-semibold'
                                                                 )}
                                                             >
-                                                                <Icon
-                                                                    className={classNames(
-                                                                        isActive ? 'text-white' : 'text-lime-200 group-hover:text-white',
-                                                                        'h-6 w-6'
-                                                                    )}
-                                                                />
+                                                                <Icon className={classNames(
+                                                                    isActive ? 'text-white' : 'text-lime-200 group-hover:text-white',
+                                                                    'h-6 w-6'
+                                                                )} />
                                                                 {item.name}
                                                             </a>
                                                         </li>
@@ -124,17 +121,14 @@ export default function WorkerLayout({ children }) {
                                 <li>
                                     <ul role="list" className="-mx-2 space-y-1">
                                         {navigation.map((item) => {
-                                            const isActive = pathname?.startsWith(item.href)
+                                            const isActive = location.pathname.startsWith(item.href) // Check if current path starts with item href
                                             const Icon = item.icon
-
                                             return (
                                                 <li key={item.name}>
                                                     <a
                                                         href={item.href}
                                                         className={classNames(
-                                                            isActive
-                                                                ? 'bg-lime-600 text-white'
-                                                                : 'text-white hover:bg-lime-700',
+                                                            isActive ? 'bg-lime-600 text-white' : 'text-white hover:bg-lime-700',
                                                             'group flex gap-x-3 rounded-md p-2 text-sm font-semibold'
                                                         )}
                                                     >
@@ -178,11 +172,11 @@ export default function WorkerLayout({ children }) {
                                 <input
                                     type="search"
                                     placeholder="Search"
-                                    className="block w-full rounded-md border-0 bg-gray-100 py-1.5 pl-10 pr-3 text-white placeholder-white/70 focus:outline-none sm:text-sm"
+                                    className="block w-full rounded-md border-0 bg-gray-100 py-1.5 pl-10 pr-3 text-green-900 placeholder-green-700 focus:outline-none sm:text-sm"
                                 />
                             </form>
                             <div className="flex items-center gap-x-4 lg:gap-x-6">
-                                <button className="text-white hover:text-gray-300">
+                                <button className="text-green-900 hover:text-gray-500">
                                     <BellIcon className="h-6 w-6" />
                                 </button>
                                 <Menu as="div" className="relative">
@@ -211,7 +205,7 @@ export default function WorkerLayout({ children }) {
                             </div>
                         </div>
                     </div>
-                    <main className="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen">{children}</main>
+                    <main className="p-4 sm:p-6 lg:p-8 min-h-screen">{children}</main>
                 </div>
             </div>
         </>
