@@ -45,13 +45,13 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-
     Route::get('/programs', [ProgramController::class, 'index']);
     Route::get('/programs/create', [ProgramController::class, 'create']);
     Route::post('/programs/create', [ProgramController::class, 'store']);
     Route::get('/programs/{program}', [ProgramController::class, 'show']);
-    Route::delete('/admin/beneficiaries/{id}', [ProgramController::class, 'destroy']);
 
+
+    Route::delete('/admin/beneficiaries/{id}', [ProgramController::class, 'destroy']);
     Route::get('/programs/{program}/add_beneficiaries',  [ProgramBeneficiariesController::class, 'create']);
     Route::post('/programs/{program}/add_beneficiaries',  [ProgramBeneficiariesController::class, 'store']);
 
@@ -107,7 +107,9 @@ Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function ()
 
     Route::post('/health_workers/records/{program}/add_record/{record}', [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');
     Route::get('/health_workers/records/{id}/add_record',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'create'])->name('records');
-    Route::post('/health_workers/records/{program_id}/add_record/{record_id}',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');
+
+
+//    Route::post('/health_workers/records/{program_id}/add_record/{record_id}',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');
 
     Route::get('/health_workers/records/general/create', [\App\Http\Controllers\HealthWorker\RecordController::class, 'index'])  ;
 

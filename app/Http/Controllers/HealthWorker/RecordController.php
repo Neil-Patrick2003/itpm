@@ -16,8 +16,6 @@ class RecordController extends Controller
 {
     public function index(Request $request){
 
-        dd("hi");
-
         $programs = Program::all();
 
         $records = Children::with('parent', 'latestRecord')
@@ -44,7 +42,6 @@ class RecordController extends Controller
 
     public function store(Request $request){
 
-        dd($request->all());
 
         $validated = $request->validate([
             'children_name' => 'required|max:255|string',

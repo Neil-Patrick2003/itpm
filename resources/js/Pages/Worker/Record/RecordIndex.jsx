@@ -186,7 +186,7 @@ import {DocumentPlusIcon} from "@heroicons/react/16/solid/index.js";
 const RecordIndex = ( {programs} ) => {
     return (
         <WorkerLayout>
-            hahha
+
             <div className="p-4">
                 <h1 className="text-lg font-semibold text-gray-900">Records</h1>
                 <p className="mt-1 text-sm text-gray-700">All child monitoring records listed below.</p>
