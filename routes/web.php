@@ -104,12 +104,14 @@ Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function ()
     Route::get('/health_workers/records/{id}',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'show'])->name('records');
 
 
-
-    Route::post('/health_workers/records/{program}/add_record/{record}', [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');
+    //store record per program
+    Route::post('/health_workers/records/{id}/add_record', [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');
+    //create record per program
     Route::get('/health_workers/records/{id}/add_record',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'create'])->name('records');
 
+    Route::post('/health_workers/records/{program_id}/add_record/{children_id}',  [\App\Http\Controllers\HealthWorker\ChildrenRecordController::class, 'store'])->name('records');
 
-//    Route::post('/health_workers/records/{program_id}/add_record/{record_id}',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');
+
 
     Route::get('/health_workers/records/general/create', [\App\Http\Controllers\HealthWorker\RecordController::class, 'index'])  ;
 

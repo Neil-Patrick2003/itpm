@@ -32,7 +32,8 @@ class Children extends Model
 
     public function latestRecord()
     {
-        return $this->hasOne('App\Models\ChildrenRecord')->latest();
+        return $this->hasOne('App\Models\ChildrenRecord')->latestOfMany();
+
     }
 
 

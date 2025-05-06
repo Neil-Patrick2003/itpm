@@ -8,7 +8,6 @@
 import Modal from "@/Components/Modal.jsx";
     const RecordPerProgram = ({program, records}) => {
 
-        console.log(records);
         const { data, setData, post, processing, errors, reset } = useForm({
             height: '',
             weight: '',
@@ -32,8 +31,9 @@ import Modal from "@/Components/Modal.jsx";
 
         function updateRecord(e) {
             e.preventDefault();
+            console.log(selectedRecord.children_id);
 
-            post(`/health_workers/records/${program.id}/add_record/${selectedRecord.id}`, {
+            post(`/health_workers/records/${program.id}/add_record/${selectedRecord.children_id}`, {
                 onSuccess: () => {
                     closeAddRecordModal();
                     reset(); // This resets all fields defined in useForm
@@ -106,7 +106,6 @@ import Modal from "@/Components/Modal.jsx";
                 </Modal>
 
 
-                eto ba
 
 
                 <div className="flex flex-col gap-4" >

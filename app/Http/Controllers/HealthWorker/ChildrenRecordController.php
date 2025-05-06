@@ -5,11 +5,12 @@ namespace App\Http\Controllers\HealthWorker;
 use App\Http\Controllers\Controller;
 use App\Models\Children;
 use App\Models\ChildrenRecord;
+use App\Models\Program;
 use Illuminate\Http\Request;
 
 class ChildrenRecordController extends Controller
 {
-    public function store(Request $request, $id)
+    public function store($program_id,  $children_id,  Request $request,)
     {
 
         $validated = $request->validate([
@@ -30,7 +31,7 @@ class ChildrenRecordController extends Controller
             'weight' => $weight,
             'height' => $heightCm,
             'bmi' => $bmi,
-            'children_id' => $id,
+            'children_id' => $children_id,
         ]);
 
         return back()->with('message', 'Record saved successfully!');

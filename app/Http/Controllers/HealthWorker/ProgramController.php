@@ -47,6 +47,7 @@ class ProgramController extends Controller
 
 
 
+
         return Inertia::render('Worker/Program/RecordPerProgram', [
             'program' => $program,
             'records' => $records,
@@ -55,9 +56,7 @@ class ProgramController extends Controller
 
     public function store(Request $request, $id)
     {
-
-
-
+        //ha
 
         $program = Program::findOrFail($id);
         $validated = $request->validate([
@@ -112,7 +111,7 @@ class ProgramController extends Controller
 
 
 
-        return Inertia::render('Worker/Program/CreateProgramRecord')
+        return redirect()->back()
             ->with('message', 'Record created successfully.');
     }
 
