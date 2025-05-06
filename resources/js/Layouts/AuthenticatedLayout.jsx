@@ -1,243 +1,240 @@
-import { useState } from 'react'
-import {  Link, usePage } from '@inertiajs/react';
-import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react'
+import React, { useState } from 'react';
+import { Link, usePage } from '@inertiajs/react';
+import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
+import Logo from '../../assets/image/new-logo.png';
+import Text from '../../assets/image/Text.png';
 import {
-    Bars3Icon,
     CalendarIcon,
     ChartPieIcon,
+    BellAlertIcon,
     DocumentDuplicateIcon,
     FolderIcon,
     HomeIcon,
     UsersIcon,
     XMarkIcon,
-} from '@heroicons/react/24/outline'
-
-const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
-    { name: 'Manage User', href: '/users', icon: UsersIcon, current: false },
-    { name: 'Children Record', href: '/childrens', icon: FolderIcon, current: false },
-    { name: 'Sponsorship', href: '/sponsorships', icon: CalendarIcon, current: false },
-    { name: 'Analytics', href: '/reports', icon: DocumentDuplicateIcon, current: false },
-    { name: 'Funds & Budget', href: '/funds', icon: ChartPieIcon, current: false },
-]
-const teams = [
-    { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-    { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-    { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-]
+    Bars3Icon,
+    ChevronDownIcon,
+    ChevronUpIcon,
+    MegaphoneIcon
+} from '@heroicons/react/24/outline';
+import { Menu, MenuItem, Fade } from '@mui/material';
+import FlashMessage from "@/Components/FlashMessage.jsx";
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
 }
 
+export default function AuthenticatedLayout({ header, children, logoUrl }) {
+    const { auth } = usePage().props;
+    const userName = auth?.user?.name;
 
-export default function AuthenticatedLayout({ header, children }) {
-    const user = usePage().props.auth.user;
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [isChildrenMenuOpen, setIsChildrenMenuOpen] = useState(false);
 
-    const [sidebarOpen, setSidebarOpen] = useState(false)
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
+
+    const { url } = usePage();
+
+    const navigation = [
+        { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+        { name: 'Manage User', href: '/users', icon: UsersIcon },
+        { name: 'Manage Program', href: '/programs', icon: CalendarIcon },
+        { name: 'Sponsorship', href: '/sponsorships', icon: CalendarIcon },
+        { name: 'Analytics', href: '/reports', icon: DocumentDuplicateIcon },
+        { name: 'Funds & Budget', href: '/funds', icon: ChartPieIcon },
+    ];
 
     return (
-        <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```d
-      */}
-            <div className='min-h-full bg-green-100'>
-                <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
-                    <DialogBackdrop
-                        transition
-                        className="fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear data-closed:opacity-0"
-                    />
-
-                    <div className="fixed inset-0 flex">
-                        <DialogPanel
-                            transition
-                            className="relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out data-closed:-translate-x-full"
+        <div className="flex h-screen">
+            {/* Sidebar */}
+            <aside className="hidden lg:flex lg:flex-col lg:w-72 bg-white py-4 border-r overflow-y-auto">
+                <nav className="flex-1 space-y-4">
+                    <div className="flex items-center px-5  mb-2  gap-x-4">
+                        <button
+                            className="lg:hidden text-gray-500"
+                            onClick={() => setSidebarOpen(true)}
                         >
-                            <TransitionChild>
-                                <div className="absolute top-0 left-full flex w-16 justify-center pt-5 duration-300 ease-in-out data-closed:opacity-0">
-                                    <button type="button" onClick={() => setSidebarOpen(false)} className="-m-2.5 p-2.5">
-                                        <span className="sr-only">Close sidebar</span>
-                                        <XMarkIcon aria-hidden="true" className="size-6 text-white" />
-                                    </button>
-                                </div>
-                            </TransitionChild>
-                            {/* Sidebar component, swap this element with another sidebar if you like */}
-                            <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-2">
-                                <div className="flex h-16 shrink-0 items-center">
-                                    <img
-                                        alt="Your Company"
-                                        src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=white"
-                                        className="h-8 w-auto"
-                                    />
-                                </div>
-                                <nav className="flex flex-1 flex-col">
-                                    <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                                        <li>
-                                            <ul role="list" className="-mx-2 space-y-1">
-                                                {navigation.map((item) => (
-                                                    <li key={item.name}>
-                                                        <Link
-                                                            to={item.href}
-                                                            className={classNames(
-                                                                item.current
-                                                                    ? 'bg-indigo-700 text-white'
-                                                                    : 'text-indigo-200 hover:bg-indigo-700 hover:text-white',
-                                                                'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
-                                                            )}
-                                                        >
-                                                            <item.icon
-                                                                aria-hidden="true"
-                                                                className={classNames(
-                                                                    item.current ? 'text-white' : 'text-indigo-200 group-hover:text-white',
-                                                                    'size-6 shrink-0',
-                                                                )}
-                                                            />
-                                                            {item.name}
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <div className="text-xs/6 font-semibold text-indigo-200">Your teams</div>
-                                            <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                                {teams.map((team) => (
-                                                    <li key={team.name}>
-                                                        <a
-                                                            href={team.href}
-                                                            className={classNames(
-                                                                team.current
-                                                                    ? 'bg-indigo-700 text-white'
-                                                                    : 'text-indigo-200 hover:bg-indigo-700 hover:text-white',
-                                                                'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
-                                                            )}
-                                                        >
-                                                            <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                                                                {team.initial}
-                                                            </span>
-                                                            <span className="truncate">{team.name}</span>
-                                                        </a>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
+                            <Bars3Icon className="h-6 w-6" />
+                        </button>
+                        <img src={logoUrl || Logo} alt="Logo" className="h-8 w-auto" />
+                        <img src={Text} alt="Text Logo" className="h-8 w-auto" />
+                    </div>
+
+                    {navigation.map(item => (
+                        <Link
+                            key={item.name}
+                            href={item.href}
+                            className={classNames(
+                                url?.startsWith(item.href)
+                                    ? 'border-l-8 border-green-400 bg-green-200 text-green-700'
+                                    : 'text-gray-700 hover:bg-green-200 hover:text-white',
+                                'flex items-center gap-x-3  px-6 py-2 font-medium transition-all'
+                            )}
+                        >
+                            <item.icon className="h-6 w-6" />
+                            {item.name}
+                        </Link>
+
+                    ))}
+
+                    {/* Children Menu */}
+                    <div>
+                        <button
+                            onClick={() => setIsChildrenMenuOpen(!isChildrenMenuOpen)}
+                            className="flex items-center justify-between w-full gap-x-3 rounded-lg px-6 py-2 text-lg font-medium text-gray-700 hover:bg-[#01DA9F] hover:text-white transition-all"
+                        >
+                            <div className="flex items-center gap-x-3">
+                                <FolderIcon className="h-6 w-6" />
+                                <span>Children</span>
                             </div>
+                            {isChildrenMenuOpen ? <ChevronUpIcon className="h-5 w-5" /> : <ChevronDownIcon className="h-5 w-5" />}
+                        </button>
+                        {isChildrenMenuOpen && (
+                            <ul className="ml-10 mt-2 space-y-2">
+                                <li>
+                                    <Link
+                                        href="/childrens"
+                                        className={classNames(
+                                            url?.startsWith('/childrens') ? 'text-[#01DA9F] font-bold' : 'text-gray-600',
+                                            'hover:text-[#01DA9F] block'
+                                        )}
+                                    >
+                                        All Records
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href="/childrens/beneficiary"
+                                        className={classNames(
+                                            url?.startsWith('/children') ? 'text-[#01DA9F] font-bold' : 'text-gray-600',
+                                            'hover:text-[#01DA9F] block'
+                                        )}
+                                    >
+                                        All Beneficiaries
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href="/childrens/profile"
+                                        className={classNames(
+                                            url?.startsWith('/children') ? 'text-[#01DA9F] font-bold' : 'text-gray-600',
+                                            'hover:text-[#01DA9F] block'
+                                        )}
+                                    >
+                                        Childrens Profile
+                                    </Link>
+                                </li>
+                            </ul>
+                        )}
+                    </div>
+                </nav>
+            </aside>
+
+            {/* Main Content */}
+            <div className="flex flex-col flex-1 overflow-hidden">
+                {/* Header (Fixed only in main area) */}
+                <header className="bg-white border-b shadow z-20 w-full top-0 right-0 left-0">
+                    <div className="flex items-center justify-end px-4 py-2">
+
+                        <div className="flex items-center gap-x-4">
+                            <Link href="announcements" className="flex items-center gap-x-2">
+                                <MegaphoneIcon className="h-10 w-10 hover:bg-green-600 hover:text-white text-green-600 border border-green-600 rounded-full p-1" />
+                            </Link>
+                            <BellAlertIcon className="h-10 w-10 hover:bg-green-600 hover:text-white text-green-600 border border-green-600 rounded-full p-1" />
+                            <button onClick={handleClick} className="flex items-center bg-green-50 px-4 py-1 rounded-full">
+                                <span className="h-10 w-10 rounded-full bg-gray-300"></span>
+                                <span className="ml-2 hidden md:block text-green-600">{userName}</span>
+                            </button>
+                            <Menu
+                                id="fade-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                TransitionComponent={Fade}
+                            >
+                                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                <MenuItem onClick={handleClose}>
+                                    <Link href="/logout" method="post" as="button">Logout</Link>
+                                </MenuItem>
+                            </Menu>
+                        </div>
+                    </div>
+                </header>
+
+                {/* Mobile Sidebar */}
+                <Dialog open={sidebarOpen} onClose={() => setSidebarOpen(false)} className="lg:hidden z-50">
+                    <DialogBackdrop className="fixed inset-0 bg-black/50 z-50" />
+                    <div className="fixed inset-0 flex z-50">
+                        <DialogPanel className="w-72 bg-white p-4 overflow-y-auto z-50">
+                            <div className="flex justify-between mb-4">
+                                <img src={logoUrl || Logo} alt="Logo" className="h-8 w-auto" />
+                                <button onClick={() => setSidebarOpen(false)}>
+                                    <XMarkIcon className="h-6 w-6 text-gray-500" />
+                                </button>
+                            </div>
+
+                            <nav className="space-y-4">
+                                {navigation.map(item => (
+                                    <Link
+                                        key={item.name}
+                                        href={item.href}
+                                        className={classNames(
+                                            url?.startsWith(item.href) ? 'bg-[#01DA9F] text-white' : 'text-gray-700 hover:bg-[#01DA9F] hover:text-white',
+                                            'flex items-center gap-x-3 rounded-lg px-6 py-3 text-lg font-medium transition-all'
+                                        )}
+                                    >
+                                        <item.icon className="h-6 w-6" />
+                                        {item.name}
+                                    </Link>
+                                ))}
+
+                                {/* Mobile Children Submenu */}
+                                <div>
+                                    <button
+                                        onClick={() => setIsChildrenMenuOpen(!isChildrenMenuOpen)}
+                                        className="flex items-center justify-between w-full gap-x-3 rounded-lg px-6 py-3 text-lg font-medium text-gray-700 hover:bg-[#01DA9F] hover:text-white transition-all"
+                                    >
+                                        <div className="flex items-center gap-x-3">
+                                            <FolderIcon className="h-6 w-6" />
+                                            <span>Children</span>
+                                        </div>
+                                        {isChildrenMenuOpen ? <ChevronUpIcon className="h-5 w-5" /> : <ChevronDownIcon className="h-5 w-5" />}
+                                    </button>
+                                    {isChildrenMenuOpen && (
+                                        <ul className="ml-10 mt-2 space-y-2">
+                                            <li>
+                                                <Link
+                                                    href="/childrens"
+                                                    className="block text-gray-600 hover:text-[#01DA9F]"
+                                                >
+                                                    All Records
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link
+                                                    href="/beneficiaries"
+                                                    className="block text-gray-600 hover:text-[#01DA9F]"
+                                                >
+                                                    All Beneficiaries
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    )}
+                                </div>
+                            </nav>
                         </DialogPanel>
                     </div>
                 </Dialog>
 
-                {/* Static sidebar for desktop */}
-                <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col p-6">
-                    {/* Sidebar component, swap this element with another sidebar if you like */}
-                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 rounded-lg">
-                        <div className="flex h-16 shrink-0 items-center">
-                            <img
-                                alt="Your Company"
-                                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=white"
-                                className="h-8 w-auto"
-                            />
-                        </div>
-                        <nav className="flex flex-1 flex-col">
-                            <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                                <li>
-                                    <ul role="list" className="-mx-2 space-y-1">
-                                        {navigation.map((item) => (
-                                            <li key={item.name}>
-                                                <Link
-                                                    href={item.href}
-                                                    className={classNames(
-                                                        item.current
-                                                            ? 'bg-green-700 text-white'
-                                                            : 'text-gray-400 hover:bg-green-700 hover:text-white',
-                                                        'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
-                                                    )}
-                                                >
-                                                    <item.icon
-                                                        aria-hidden="true"
-                                                        className={classNames(
-                                                            item.current ? 'text-white' : 'text-gray-400 group-hover:text-white',
-                                                            'size-6 shrink-0',
-                                                        )}
-                                                    />
-                                                    {item.name}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                                <li>
-                                    <div className="text-xs/6 font-semibold text-indigo-200">Your teams</div>
-                                    <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                        {teams.map((team) => (
-                                            <li key={team.name}>
-                                                <a
-                                                    href={team.href}
-                                                    className={classNames(
-                                                        team.current
-                                                            ? 'bg-indigo-700 text-white'
-                                                            : 'text-indigo-200 hover:bg-indigo-700 hover:text-white',
-                                                        'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
-                                                    )}
-                                                >
-                                                    <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                                                        {team.initial}
-                                                    </span>
-                                                    <span className="truncate">{team.name}</span>
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                                <li className="-mx-6 mt-auto">
-                            
-
-                                    <a
-                                        href="#"
-                                        className="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white hover:bg-indigo-700"
-                                    >
-                                        <img
-                                            alt=""
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                            className="size-8 rounded-full bg-indigo-700"
-                                        />
-                                        <span className="sr-only">Your profile</span>
-                                        <span aria-hidden="true">Tom Cook</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-
-                <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-indigo-600 px-4 py-4 shadow-xs sm:px-6 lg:hidden">
-                    <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-indigo-200 lg:hidden">
-                        <span className="sr-only">Open sidebar</span>
-                        <Bars3Icon aria-hidden="true" className="size-6" />
-                    </button>
-                    <div className="flex-1 text-sm/6 font-semibold text-white">Dashboard</div>
-                    <a href="#">
-                        <span className="sr-only">Your profile</span>
-                        <img
-                            alt=""
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            className="size-8 rounded-full bg-indigo-700"
-                        />
-                        
-                    </a>
-                    
-                </div>
-
-                <main className="py-10 lg:pl-72">
-                    <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+                {/* Main Content Below Fixed Header */}
+                <main className="flex-1 overflow-y-auto bg-gray-50 p-2 md:p-4">
+                    <FlashMessage />
+                    {children}
                 </main>
             </div>
-        </>
+        </div>
     );
 }
