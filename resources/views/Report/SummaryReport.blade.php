@@ -177,7 +177,7 @@
     </div>
 
     <div class="footer">
-        © {{ \Carbon\Carbon::now()->year }} Your Organization. All rights reserved.    </div>
+        © {{ \Carbon\Carbon::now()->year }} Nutrisafari. All rights reserved.    </div>
 
 @endif
 
