@@ -68,9 +68,6 @@ class ChildrenRecordController extends Controller
 //    }
 
  public function store(Request $request, ChildrenRecord $record, Program $program){
-        dd($record->toArray());
-
-
 
         $heightInMeters = $request->height / 100;
 

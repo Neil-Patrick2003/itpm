@@ -48,8 +48,6 @@ class ProgramBeneficiariesController extends Controller
             ];
         });
 
-
-
         return Inertia::render('Admin/Program/AddBeneficiaries', [
             'program' => $program,
             'records' => $records,
