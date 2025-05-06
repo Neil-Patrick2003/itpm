@@ -22,6 +22,7 @@ const SponsorshipStats = ({ labels, barLabel, barData, lineLabel, lineData, barC
             backgroundColor: barColor || '#4ade80', // Default to green-400
             borderColor: barColor || '#34d399', // Default to green-300
             borderWidth: 1,
+            height: 12
         }]
     };
 
@@ -69,8 +70,8 @@ const SponsorshipStats = ({ labels, barLabel, barData, lineLabel, lineData, barC
 
     return (
         <div className="flex flex-col space-y-6">
-            <Bar data={barChartData} options={chartOptions} />
-            <Line data={lineChartData} options={chartOptions} />
+            <Bar data={barChartData} options={chartOptions} height={200} width={400} />
+            <Line data={lineChartData} options={chartOptions} height={420} width={600}   />
         </div>
     );
 };
