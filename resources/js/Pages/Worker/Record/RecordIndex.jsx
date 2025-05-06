@@ -10,8 +10,8 @@ const RecordIndex = ({ programs }) => {
 
             <div className="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {/* General Records Card */}
-                <div className="border rounded-md shadow-sm overflow-hidden">
-                    <div className="bg-green-100 p-4 md:p-6 lg:p-8">
+                <div className="border-2 green-100 rounded-md shadow-sm overflow-hidden">
+                    <div className="bg-green-50 p-4 md:p-6 lg:p-8">
                         <h1 className="text-lg md:text-xl font-medium">General Records</h1>
                         <p className="mt-1 text-sm text-gray-700">All initial records of all children.</p>
                     </div>
@@ -26,8 +26,8 @@ const RecordIndex = ({ programs }) => {
 
                 {/* Program Cards */}
                 {programs.map((program) => (
-                    <div key={program.id} className="border rounded-md shadow-sm overflow-hidden">
-                        <div className="bg-green-100 p-8">
+                    <div key={program.id} className="border-2 green-100 rounded-md overflow-hidden">
+                        <div className="bg-green-50 p-8">
                             <h1 className="text-lg md:text-xl font-medium">{program.title}</h1>
                             <p className="mt-1 text-sm text-gray-700">{program.description}</p>
                         </div>
