@@ -13,12 +13,30 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+
+    $today = \Carbon\Carbon::today();
+
+    $programCount = \App\Models\Program::whereRaw("DATE_ADD(start_date, INTERVAL duration DAY) >= ?", [$today])->count();
+
+    $totalBeneficiaries = \App\Models\ChildrenRecord::all()->count();
+
+    $topSponsors = \App\Models\Sponsor::withCount('donations')->orderBy('donations_count', 'desc')->take(3)->get();
+
+    $programs = \App\Models\Program::latest()->take(3)->get();
+
+
+
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
-
         'phpVersion' => PHP_VERSION,
+        'programCount' => $programCount,
+        'totalBeneficiaries' => $totalBeneficiaries,
+        'topSponsors' => $topSponsors,
+        'programs' => $programs,
+
     ]);
 });
 

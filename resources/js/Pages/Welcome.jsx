@@ -8,14 +8,17 @@ import About from '../Components/about';
 import Contact from '../Components/contact';
 import Footer from '../Components/footer';
 import BouncingBall from '../Components/BouncingBall';
+import {BsTransparency} from "react-icons/bs";
+import Transparency from '../Components/Transparency';
 
 
-const Welcome = () => {
+const Welcome = ({ programCount, totalBeneficiaries, topSponsors, programs }) => {
     return (
         <>
            <Navbar/>
            <Hero/>
-           <Sponsorship/>
+            <Transparency data={{ topSponsors, programCount, totalBeneficiaries, programs }}/>
+           <Sponsorship />
            <About/>
            <Work/>
            <Contact/>
