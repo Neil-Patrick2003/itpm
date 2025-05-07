@@ -7,7 +7,7 @@ import {
     PhoneIcon,
     EnvelopeIcon
 } from "@heroicons/react/20/solid";
-import boy1 from '../../../../assets/Avatar/boys/boy1.png';
+import boy1 from '../../../../../storage/app/public/images/Avatar/boys/boy1.png';
 import { LineChart } from '@mui/x-charts/LineChart';
 import React from "react";
 

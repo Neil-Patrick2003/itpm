@@ -3,6 +3,7 @@ import {ChevronRightIcon, HomeIcon} from "@heroicons/react/20/solid/index.js";
 import React from "react";
 import children from "@/Pages/Admin/Children/Children.jsx";
 import {Link} from "@inertiajs/react";
+import Avatar from "@mui/material/Avatar";
 
 const  ChildrensProfile = ({childrens}) => {
 
@@ -13,7 +14,18 @@ const  ChildrensProfile = ({childrens}) => {
         { name: 'Profile', href: '/childrens/beneficiary/profiles', current: true },
     ];
 
-    console.log({childrens});
+    const stringAvatar = (name) => {
+        const nameSplit = name.trim().split(' ');
+        const initials = nameSplit.length > 1
+            ? `${nameSplit[0][0]}${nameSplit[1][0]}`
+            : `${nameSplit[0][0]}`;
+        return {
+            sx: { bgcolor: '#43e5a2' },
+            children: initials.toUpperCase(),
+        };
+    };
+
+
     return (
         <AuthenticatedLayout>
             {/*//the nav in the tap */}
@@ -41,13 +53,24 @@ const  ChildrensProfile = ({childrens}) => {
                     ))}
                 </ol>
             </nav>
+
             <div className="grid mt-4 sm:grid-cols-1 gap-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
                 {childrens.data.map((children) => (
                     <div key={children.id} id={`children-${children.id}`} className="border bg-white rounded-lg">
                         <div className="flex border justify-center items-center py-16">
-                            avatar
+                            <Avatar {...stringAvatar(children.name)} sx={{ width: 80, height: 80, mx: 'auto' }} />
+
+
+
+
+
+
+
+
+
+
                         </div>
-                        <div className="flex flex-col justify-between p-2">
+                        <div className="flex flex-col justify-between py-2 px-4">
                             <div>
                                 <h1>{children.name}</h1>
                                 <p className="text-left text-xs font-medium text-gray-700">Address</p>

@@ -25,6 +25,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { usePage, Link } from '@inertiajs/react'
+import FlashMessage from "@/Components/FlashMessage.jsx";
 
 const navigation = [
     { name: 'Dashboard', href: '/health_workers/dashboard', icon: HomeIcon },
@@ -208,7 +209,10 @@ export default function WorkerLayout({ children }) {
                             </div>
                         </div>
                     </div>
-                    <main className="px-4  py-2 sm:p-4 lg:p-8 min-h-screen">{children}</main>
+                    <main className="px-4  py-2 sm:p-4 lg:p-8 min-h-screen">
+                        <FlashMessage />
+                        {children}
+                    </main>
                 </div>
             </div>
         </>
