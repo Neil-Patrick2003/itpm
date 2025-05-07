@@ -15,9 +15,9 @@ const Sponsorship = () => {
     ];
 
     return (
-        <section id='sponsor' className="min-h-screen w-full  flex items-center justify-center">
+        <section id='sponsor' className="min-h-screen w-full p-4 flex items-center justify-center">
             <motion.div
-                className="w-full  max-w-[1400px] bg-white rounded-2xl shadow-xl border border-green-200 p-8 md:p-12"
+                className="w-full  max-w-[1400px] bg-white rounded-2xl shadow-xl border border-green-200  p-4 md:p-12"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
