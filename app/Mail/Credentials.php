@@ -30,7 +30,6 @@ class Credentials extends Mailable
     {
         return new Envelope(
             subject: 'Parents Credentials',
-
         );
     }
 
