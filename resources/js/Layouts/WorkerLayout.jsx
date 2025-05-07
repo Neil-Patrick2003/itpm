@@ -31,7 +31,7 @@ const navigation = [
     { name: 'Record', href: '/health_workers/records', icon: DocumentDuplicateIcon },
     { name: 'Beneficiaries', href: '/health_workers/beneficiary', icon: UsersIcon },
     { name: 'Forum', href: '/health_workers/forum', icon: ChatBubbleLeftRightIcon },
-    { name: 'Diet Plan', href: '/health_workers/diet_plan', icon: ChartPieIcon },
+    { name: 'Diet Plan', href: '/health_workers/nutrition', icon: ChartPieIcon },
 ]
 
 const userNavigation = [

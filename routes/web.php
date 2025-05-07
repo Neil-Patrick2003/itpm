@@ -134,6 +134,11 @@ Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function ()
     Route::get('/health_workers/forum/{topic_id}', [\App\Http\Controllers\TopicController::class, 'show']);
     Route::post('/health_workers/forum/{topic_id}', [\App\Http\Controllers\HealthWorker\PostController::class, 'store']);
 
+    Route::get('/health_workers/nutrition', [\App\Http\Controllers\MealPlanController::class, 'index']);
+    Route::post('/health_workers/nutrition', [\App\Http\Controllers\MealPlanController::class, 'store']);
+
+
+
 
 
 
