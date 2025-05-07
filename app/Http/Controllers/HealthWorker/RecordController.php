@@ -16,6 +16,26 @@ class RecordController extends Controller
 {
     public function index(Request $request){
 
+//        /eto
+
+        $underweight_count = Children::whereHas('latestRecord', function ($q) {
+            $q->where('bmi', '<', 18.5);
+        })->count();
+
+        $normal_count = Children::whereHas('latestRecord', function ($q) {
+            $q->where('bmi', '>=', 18.5)
+                ->where('bmi', '<', 25);
+        })->count();
+
+        $overweight_count = Children::whereHas('latestRecord', function ($q) {
+            $q->where('bmi', '>=', 25)
+                ->where('bmi', '<', 30);
+        })->count();
+
+        $obese_count = Children::whereHas('latestRecord', function ($q) {
+            $q->where('bmi', '>=', 30);
+        })->count();
+
         $programs = Program::all();
 
         $records = Children::with('parent', 'latestRecord')
@@ -32,6 +52,10 @@ class RecordController extends Controller
 
         return Inertia::render('Worker/Record/GeneralRecord', [
             'records' => $records,
+            'underweight_count' => $underweight_count,
+            'normal_count' => $normal_count,
+            'overweight_count' => $overweight_count,
+            'obese_count' => $obese_count,
             ]
         );
     }
