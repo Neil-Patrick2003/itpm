@@ -9,7 +9,7 @@ const ParentLayout = ({children}) => {
     const { user } = page.props.auth;
 
     return <div className="h-screen flex flex-col">
-        <div className={"parent_layout_header flex gap-3 items-center border-b-2 border-[#66CA6A]"}>
+        <div className={"parent_layout_header px-4 flex gap-3 items-center border-b-2 border-[#66CA6A]"}>
             <img className='w-full max-w-[32px] object-cover' src={logo} alt="Nutrisafari Logo"/>
             <p className="text-lg font-bold">Nutrisafari</p>
         </div>
@@ -29,10 +29,10 @@ const ParentLayout = ({children}) => {
                 <span className={"font-semibold text-sm"}>CHILD</span>
             </Link>
 
-            <div className={"flex flex-col justify-center items-center"}>
+            <Link href={route('parent.forum')} className={"flex flex-col justify-center items-center"}>
                 <ChatBubbleBottomCenterIcon className={"w-6 h-6"}/>
                 <span className={"font-semibold text-sm"}>FORUM</span>
-            </div>
+            </Link>
         </div>
     </div>
 }

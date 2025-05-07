@@ -94,6 +94,10 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 Route::middleware(['auth', 'role:parent'])->group(function () {
     Route::get('/parent/home', [\App\Http\Controllers\Parent\HomeController::class, 'index'])->name('parent.home');
     Route::get('/parent/children', [\App\Http\Controllers\Parent\ChildrenController::class, 'index'])->name('parent.children');
+    Route::get('/parent/forum', [\App\Http\Controllers\Parent\ForumController::class, 'index'])->name('parent.forum');
+    Route::post('/parent/forum', [\App\Http\Controllers\Parent\ForumController::class, 'store'])->name('parent.forum.topic.store');
+    Route::get('/parent/forum/{topic}', [\App\Http\Controllers\Parent\ForumController::class, 'show'])->name('parent.forum.topic');
+    Route::post('/parent/forum/{topic}/posts', [\App\Http\Controllers\Parent\PostController::class, 'store'])->name('parent.forum.posts.store');
 });
 
 Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function () {
