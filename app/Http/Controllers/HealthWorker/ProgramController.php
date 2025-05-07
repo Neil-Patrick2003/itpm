@@ -117,16 +117,11 @@ class ProgramController extends Controller
             $program->children()->attach($child->id);
         }
 
-        // Prepare email data
-        $emailData = [
-            'parent_name' => $user->name,
-            'parent_email' => $user->email,
-            'child_name' => $child->name,
-            'program_name' => $program->title,
-        ];
 
         try {
-            Mail::to($user->email)->queue(new Credentials($emailData));
+            Mail::to($user->email)->queue(
+                new Credentials($user->name, $user->email, $child->name, $program->title)
+            );
             return redirect()->back()->with('message', 'Record created successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('message', 'Record created successfully. Email not sent.');
