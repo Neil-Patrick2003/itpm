@@ -8,7 +8,7 @@ const RecordIndex = ({ programs }) => {
         <WorkerLayout>
             <Head title="Records" />
 
-            <div className="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {/* General Records Card */}
                 <div className="border-2 green-100 rounded-md shadow-sm overflow-hidden">
                     <div className="bg-green-50 p-4 md:p-6 lg:p-8">

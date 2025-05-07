@@ -205,7 +205,7 @@ export default function WorkerLayout({ children }) {
                             </div>
                         </div>
                     </div>
-                    <main className="p-4 sm:p-6 lg:p-8 min-h-screen">{children}</main>
+                    <main className="px-4  py-2 sm:p-4 lg:p-8 min-h-screen">{children}</main>
                 </div>
             </div>
         </>

@@ -50,7 +50,7 @@ const ChildrenRecord = ({ beneficiaries, total_children, improved_children, boys
 
     return (
         <WorkerLayout title="Children Record">
-            <div className="p-6 space-y-8">
+            <div className=" space-y-8">
                 {/* Dashboard Stats */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {statCards.map(({ title, value, icon: Icon }) => (

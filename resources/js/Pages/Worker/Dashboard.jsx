@@ -105,7 +105,7 @@ const Dashboard = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
-                className="p-2  font-sans flex flex-col"
+                className=" font-sans flex flex-col"
                 style={{ fontFamily: '"Roboto", "Helvetica Neue", Arial, sans-serif' }}
             >
                 {/* Content and footer container */}
