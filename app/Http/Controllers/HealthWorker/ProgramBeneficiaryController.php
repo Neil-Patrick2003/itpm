@@ -15,15 +15,52 @@ class ProgramBeneficiaryController extends Controller
     {
         $assignmentAddress = Auth::user()->assign_address;
 
-        $beneficiaries = Children::with('program', 'parent')
+        $beneficiaries = Children::with('program', 'parent', 'record')
             ->whereHas('parent', function ($query) use ($assignmentAddress) {
                 $query->where('address', $assignmentAddress);
             })
             ->whereHas('program')
-            ->get();
+            ->orderBy('name', 'asc')
+            ->get(
+            );
+
+
+        $beneficiaries->each(function ($beneficiary) {
+            // Get the latest and current records (assumed to be ordered by created_at)
+            $latestRecord = $beneficiary->record()->latest()->first();
+            $currentRecord = $beneficiary->record()->orderBy('created_at', 'desc')->first();
+
+            if ($latestRecord && $currentRecord) {
+                $beneficiary->latest_bmi = $latestRecord->bmi;
+                $beneficiary->current_bmi = $currentRecord->bmi;
+            } else {
+                $beneficiary->latest_bmi = null;
+                $beneficiary->current_bmi = null;
+            }
+        });
+
+
+        $improvedCount = $beneficiaries->filter(function ($beneficiary) {
+            return $beneficiary->latest_bmi !== null &&
+                $beneficiary->current_bmi !== null &&
+                $beneficiary->current_bmi > $beneficiary->latest_bmi;
+        })->count();
+
+
+        $boys = $beneficiaries->where('gender', 'male')->count();
+
+
+        $girls = $beneficiaries->where('gender', 'female')->count();
+
+
 
         return Inertia::render('Worker/ChildrenRecord/ChildrenRecord', [
             'beneficiaries' => $beneficiaries,
+            'total_children' => $beneficiaries->count(),
+            'improved_children' => $improvedCount,
+            'boys' => $boys,
+            'girls' => $girls
+
         ]);
 
     }
