@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\HealthWorker;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendParentCredentials;
 use App\Mail\Credentials;
 use App\Models\Children;
 use App\Models\ChildrenRecord;
@@ -117,15 +118,9 @@ class ProgramController extends Controller
             $program->children()->attach($child->id);
         }
 
+        dispatch(new SendParentCredentials($user, $child->name, $program->title));
 
-        try {
-            Mail::to($user->email)->queue(
-                new Credentials($user->name, $user->email, $child->name, $program->title)
-            );
-            return redirect()->back()->with('message', 'Record created successfully.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('message', 'Record created successfully. Email not sent.');
-        }
+        return redirect()->back()->with('message', 'Record created successfully.');
     }
 
 
