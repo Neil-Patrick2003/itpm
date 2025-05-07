@@ -1,5 +1,5 @@
 import WorkerLayout from "@/Layouts/WorkerLayout.jsx";
-import boy1 from "../../../../../storage/app/public/images/Avatar/boys/boy1.png";
+import boy1 from "../../../../assets/image/Avatar/boys/boy1.png";
 import {
     EnvelopeIcon,
     MapPinIcon,
