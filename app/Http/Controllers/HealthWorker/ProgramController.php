@@ -118,7 +118,7 @@ class ProgramController extends Controller
             $program->children()->attach($child->id);
         }
 
-        dispatch(new SendParentCredentials($user, $child->name, $program->title));
+        SendParentCredentials::dispatch($user, $child->name, $program->title);
 
         return redirect()->back()->with('message', 'Record created successfully.');
     }
