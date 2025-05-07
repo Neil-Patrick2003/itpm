@@ -24,7 +24,7 @@ import {
     ChartPieIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { usePage } from '@inertiajs/react'
+import { usePage, Link } from '@inertiajs/react'
 
 const navigation = [
     { name: 'Dashboard', href: '/health_workers/dashboard', icon: HomeIcon },
@@ -200,6 +200,9 @@ export default function WorkerLayout({ children }) {
                                                 </a>
                                             </MenuItem>
                                         ))}
+                                        <MenuItem >
+                                                <Link href="/logout" method="post" as="button" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Logout</Link>
+                                        </MenuItem>
                                     </MenuItems>
                                 </Menu>
                             </div>
