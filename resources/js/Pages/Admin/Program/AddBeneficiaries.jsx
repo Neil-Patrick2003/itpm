@@ -6,7 +6,6 @@ import Paper from "@mui/material/Paper";
 import { DataGrid } from "@mui/x-data-grid";
 
 const AddBeneficiaries = ({ program, records }) => {
-    console.log(records);
     const { data, setData, post, reset } = useForm({ record_ids: [] });
     const predefinedAddresses = [
         'Acle', 'Bayudbud', 'Bolboc', 'Burgos (Poblacion)', 'Dalima', 'Dao', 'Guinhawa',
@@ -111,24 +110,42 @@ const AddBeneficiaries = ({ program, records }) => {
 
     const rows = filteredRecords.map((record) => {
         let status = 'Unknown';
-        if (record.bmi !== null && record.bmi !== undefined) {
-            if (record.bmi < 18.5) status = 'Underweight';
-            else if (record.bmi < 24.9) status = 'Normal';
-            else if (record.bmi < 29.9) status = 'Overweight';
+        if (record.latest_record?.bmi !== null && record.latest_record?.bmi !== undefined) {
+            if (record.latest_record.bmi < 18.5) status = 'Underweight';
+            else if (record.latest_record.bmi < 25) status = 'Normal';
+            else if (record.latest_record.bmi < 30) status = 'Overweight';
             else status = 'Obese';
         }
 
         return {
             id: record.id,
             name: record.name,
-            age: record.age,
+            age: calculateAge(record.birth_date) + ' years',
             gender: record.gender,
-            address: record.address,
+            address: record.parent.address,
             status: status,
         };
     });
 
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
+
+    function calculateAge(birthday) {
+        const birthDate = new Date(birthday);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+
+        // Check if birthday hasn't occurred yet this year
+        const hasBirthdayPassed =
+            today.getMonth() > birthDate.getMonth() ||
+            (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+
+        if (!hasBirthdayPassed) {
+            age--;
+        }
+
+        return age;
+    }
 
     return (
         <AuthenticatedLayout>
