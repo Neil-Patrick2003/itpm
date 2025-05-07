@@ -24,7 +24,6 @@ class ProgramBeneficiariesController extends Controller
             ->latest()
             ->paginate(20);
 
-
         return inertia('Admin/Beneficiary/AllBeneficiary', [
         'childrens' => $childrens
         ]);

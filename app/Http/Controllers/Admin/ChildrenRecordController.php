@@ -19,59 +19,60 @@ class ChildrenRecordController extends Controller
         return Inertia::render('Admin/Children/CreateChildren');
     }
 
-//    public function store(Request $request){
-//
-//
-//
-//        $validated = $request->validate([
-//            'name' => ['required', 'string'],
-//            'birth_date' => ['required', 'date'],
-//            'gender' => ['required', 'string'],
-//            'weight' => ['required', 'numeric'],
-//            'height' => ['required', 'numeric'],
-//            'parent_name' => ['required', 'string'],
-//            'parent_age' => ['required', 'integer'],
-//            'email' => ['required', 'email', 'max:255'],
-//            'phone_number' => ['required', 'string'], // Or use the phone package
-//        ]);
+    public function Store_child_record(Request $request){
 
-//        $parent = User::create([
-//            'name' => $request->parent_name,
-//            'email' => $request->email,
-//            'password' => hash('sha256', $request->password),
-//            'role' => 'parent',
-//            'phone' => $request->phone_number,
-//            'address' => $request->address,
-//            'age' => $request->parent_age,
-//        ]);
-//
-//        $children = Children::create([
-//            'name' => $request->name,
-//            'birth_date' => $request->birth_date,
-//            'gender' => $request->gender,
-//            'parent_id' => $parent->id,
-//        ]);
-//
-//
-//        $heightInMeters = $request->height / 100;
-//
-//        $bmi = $request->weight / ($heightInMeters * $heightInMeters);
-//
-//        $record = ChildrenRecord::create([
-//            'weight' => $request->weight,
-//            'height' => $request->height,
-//            'bmi' => $bmi,
-//            'children_id' => $children->id,
-//        ]);
-//
-//        return redirect()->back()->with('message', 'Record created.');
-//    }
 
- public function store(Request $request, ChildrenRecord $record, Program $program){
+
+        $validated = $request->validate([
+            'name' => ['required', 'string'],
+            'birth_date' => ['required', 'date'],
+            'gender' => ['required', 'string'],
+            'weight' => ['required', 'numeric'],
+            'height' => ['required', 'numeric'],
+            'parent_name' => ['required', 'string'],
+            'parent_age' => ['required', 'integer'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone_number' => ['required', 'string'], // Or use the phone package
+        ]);
+
+        $parent = User::create([
+            'name' => $request->parent_name,
+            'email' => $request->email,
+            'password' => hash('sha256', $request->password),
+            'role' => 'parent',
+            'phone' => $request->phone_number,
+            'address' => $request->address,
+            'age' => $request->parent_age,
+        ]);
+
+        $children = Children::create([
+            'name' => $request->name,
+            'birth_date' => $request->birth_date,
+            'gender' => $request->gender,
+            'parent_id' => $parent->id,
+        ]);
+
 
         $heightInMeters = $request->height / 100;
 
+
         $bmi = $request->weight / ($heightInMeters * $heightInMeters);
+
+        $record = ChildrenRecord::create([
+            'weight' => $request->weight,
+            'height' => $request->height,
+            'bmi' => $bmi,
+            'children_id' => $children->id,
+        ]);
+
+        return redirect()->back()->with('message', 'Record created.');
+    }
+
+ public function store(Request $request, ChildrenRecord $child_record, Program $program){
+
+
+     $heightInMeters = $request->height / 100;
+    $bmi = $request->weight / ($heightInMeters * $heightInMeters);
 
      $validated = $request->validate([
          'weight' => 'required|numeric',
@@ -82,7 +83,7 @@ class ChildrenRecordController extends Controller
          'weight' => $request->weight,
          'height' => $request->height,
          'bmi' => $bmi,
-         'children_id' => $id,
+         'children_id' => $child_record->id,
      ]);
 
         return redirect()->back()->with('message', 'Record created.');

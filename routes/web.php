@@ -56,11 +56,9 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::post('/programs/{program}/add_beneficiaries',  [ProgramBeneficiariesController::class, 'store']);
 
 
-
     Route::get('/childrens', [\App\Http\Controllers\ChildrenController::class, 'index']);
     Route::get('/childrens/create', [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'create']);
-    Route::post('/childrens/create', [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'store']);
-
+    Route::post('/childrens/create', [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'Store_child_record']);
 
 
     Route::get('/sponsorships', [SponsorController::class, 'index']);
