@@ -23,7 +23,7 @@ const Topic = ({topic , posts}) => {
     return (
         <ParentLayout>
             <div>
-                <Link href={"/parent/forum"} className={"text-xs text-green-600 underline"}>Back to Forum</Link>
+                <Link href={"/parent/forum/topics"} className={"text-xs text-green-600 underline"}>Back to Forum</Link>
                 <div className={"mb-5"}>
                     <h2 className={"text-lg font-semibold"}>{topic.title}</h2>
                     <p className={"text-xs"}>Posted <span>{dayjs(topic.created_at).fromNow()} by {topic.user?.name}</span></p>

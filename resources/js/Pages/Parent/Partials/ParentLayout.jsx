@@ -29,7 +29,7 @@ const ParentLayout = ({children}) => {
                 <span className={"font-semibold text-sm"}>CHILD</span>
             </Link>
 
-            <Link href={route('parent.forum')} className={"flex flex-col justify-center items-center"}>
+            <Link href={route('parent.forum.topics')} className={"flex flex-col justify-center items-center"}>
                 <ChatBubbleBottomCenterIcon className={"w-6 h-6"}/>
                 <span className={"font-semibold text-sm"}>FORUM</span>
             </Link>

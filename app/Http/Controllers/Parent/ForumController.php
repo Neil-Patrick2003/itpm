@@ -20,9 +20,14 @@ class ForumController extends Controller
             ->latest()
             ->get();
 
-        return Inertia::render('Parent/Forum', [
+        return Inertia::render('Parent/Topics/Topics', [
             'topics' => $topics
         ]);
+    }
+
+    public function create()
+    {
+        return Inertia::render('Parent/Topics/Create');
     }
 
     public function store(Request $request)
@@ -33,7 +38,7 @@ class ForumController extends Controller
 
         Topic::create([ 'title' => $request->title, 'user_id' => auth()->id()]);
 
-        return redirect()->back();
+        return redirect(route('parent.forum.topics'));
     }
 
     public function show(Request $request, Topic $topic)

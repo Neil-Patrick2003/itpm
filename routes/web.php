@@ -94,10 +94,18 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 Route::middleware(['auth', 'role:parent'])->group(function () {
     Route::get('/parent/home', [\App\Http\Controllers\Parent\HomeController::class, 'index'])->name('parent.home');
     Route::get('/parent/children', [\App\Http\Controllers\Parent\ChildrenController::class, 'index'])->name('parent.children');
-    Route::get('/parent/forum', [\App\Http\Controllers\Parent\ForumController::class, 'index'])->name('parent.forum');
+
+    Route::get('/parent/forum/blogs', [\App\Http\Controllers\Parent\BlogController::class, 'index'])->name('parent.forum.blogs');
+    Route::get('/parent/forum/blogs/create', [\App\Http\Controllers\Parent\BlogController::class, 'create'])->name('parent.forum.blogs.create');
+    Route::get('/parent/forum/blogs/{blog}', [\App\Http\Controllers\Parent\BlogController::class, 'show'])->name('parent.forum.blogs.show');
+    Route::post('/parent/forum/blogs', [\App\Http\Controllers\Parent\BlogController::class, 'store'])->name('parent.forum.blogs.store');
+    Route::get('/parent/forum/topics', [\App\Http\Controllers\Parent\ForumController::class, 'index'])->name('parent.forum.topics');
+    Route::get('/parent/forum/topics/create', [\App\Http\Controllers\Parent\ForumController::class, 'create'])->name('parent.forum.topics.create');
     Route::post('/parent/forum', [\App\Http\Controllers\Parent\ForumController::class, 'store'])->name('parent.forum.topic.store');
     Route::get('/parent/forum/{topic}', [\App\Http\Controllers\Parent\ForumController::class, 'show'])->name('parent.forum.topic');
     Route::post('/parent/forum/{topic}/posts', [\App\Http\Controllers\Parent\PostController::class, 'store'])->name('parent.forum.posts.store');
+
+
 });
 
 Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function () {
