@@ -38,6 +38,8 @@ class AuthenticatedSessionController extends Controller
         }
         elseif ($request->user()->role == 'health_worker') {
             return redirect()->intended(route('health-workers.dashboard', absolute: false));
+        } elseif ($request->user()->role === 'parent') {
+            return redirect()->intended(route('parent.home'));
         }
         else{
             return redirect()->intended(route('home', absolute: false));

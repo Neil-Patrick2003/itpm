@@ -93,6 +93,11 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
 });
 
+Route::middleware(['auth', 'role:parent'])->group(function () {
+    Route::get('/parent/home', [\App\Http\Controllers\Parent\HomeController::class, 'index'])->name('parent.home');
+    Route::get('/parent/children', [\App\Http\Controllers\Parent\ChildrenController::class, 'index'])->name('parent.children');
+});
+
 Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function () {
 //    health worker
     Route::get('/health_workers/dashboard',  [\App\Http\Controllers\HealthWorkerController::class, 'index'])->name('health-workers.dashboard');
