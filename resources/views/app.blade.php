@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
     <head>
         <!-- Add this directive to include the PWA meta tags -->
-        @if(config('app.env') !== 'local')
+        @if(config('app.pwa'))
             @PwaHead
         @endif
         <meta charset="utf-8">
