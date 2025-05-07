@@ -113,8 +113,6 @@ Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function ()
 
     Route::post('/health_workers/records/{program_id}/add_record/{children_id}',  [\App\Http\Controllers\HealthWorker\ChildrenRecordController::class, 'store'])->name('records');
 
-
-
     Route::get('/health_workers/records/general/create', [\App\Http\Controllers\HealthWorker\RecordController::class, 'index'])  ;
 
     Route::get('/health_workers/records/general/new_record',  [\App\Http\Controllers\HealthWorker\RecordController::class, 'create']);
