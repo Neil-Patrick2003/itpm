@@ -80,15 +80,10 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('/announcements',[\App\Http\Controllers\Admin\AnnouncementController::class, 'index']);
     Route::post('/announcements',[\App\Http\Controllers\Admin\AnnouncementController::class, 'store']);
 
-
-
-
-
     Route::get('/reports',  [ AdminController::class, 'analytics' ]);
     Route::get('/funds', [\App\Http\Controllers\ExpensesController::class, 'index']);
     Route::post('/funds', [\App\Http\Controllers\ExpensesController::class, 'store']);
     Route::patch('/funds/{id}', [\App\Http\Controllers\ExpensesController::class, 'update']);;
-
 
     Route::get('/reports/export', [\App\Http\Controllers\Admin\ReportController::class, 'generatePdf'])->name('reports.export');
     Route::get('/reports/nutrition', [\App\Http\Controllers\Admin\ReportController::class, 'nutritionReport'])->name('reports.nutrition_report');

@@ -35,13 +35,12 @@ const CreateRecord = () => {
         <WorkerLayout>
             <Head title="Add Record" />
             <div>
-                <Link href="/health_workers/records" className="flex items-center text-green-600 hover:underline mb-6">
+                <Link href="/health_workers/records/general/create" className="flex items-center text-green-600 hover:underline mb-6">
                     <FaArrowLeft className="mr-2" />
                     Back
                 </Link>
                 <h2 className="text-center text-3xl font-semibold mb-8 text-gray-800">New Record</h2>
             </div>
-
 
 
             <form onSubmit={submit} className="bg-white shadow-none md:shadow-lg rounded-lg p-2 md:p-8 max-w-full">
