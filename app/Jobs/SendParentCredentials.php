@@ -6,15 +6,16 @@ use App\Mail\Credentials;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendParentCredentials implements ShouldQueue
 {
     use Queueable;
-
-    public int $tries = 3;
-
-    public int $timeout = 120;
+//
+//    public int $tries = 3;
+//
+//    public int $timeout = 120;
 
     /**
      * Create a new job instance.
@@ -29,6 +30,7 @@ class SendParentCredentials implements ShouldQueue
      */
     public function handle(): void
     {
+        Log::error('dispatched');
         Mail::to($this->parent->email)->send(
             new Credentials($this->parent->name, $this->parent->email, $this->child_name, $this->program_title)
         );
