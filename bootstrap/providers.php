@@ -1,8 +1,7 @@
 <?php
 
-use EragLaravelPwa\EragLaravelPwaServiceProvider;
-
 return [
     App\Providers\AppServiceProvider::class,
-    EragLaravelPwaServiceProvider::class,
+    App\Providers\HorizonServiceProvider::class,
+    EragLaravelPwa\EragLaravelPwaServiceProvider::class,
 ];

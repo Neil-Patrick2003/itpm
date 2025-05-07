@@ -126,7 +126,7 @@ class ProgramController extends Controller
         ];
 
         try {
-            Mail::to($user->email)->send(new Credentials($emailData));
+            Mail::to($user->email)->queue(new Credentials($emailData));
             return redirect()->back()->with('message', 'Record created successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('message', 'Record created successfully. Email not sent.');
