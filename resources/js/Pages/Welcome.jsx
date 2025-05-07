@@ -14,6 +14,7 @@ import ProgramSwiper from "@/Components/ProgramSwiper.jsx";
 
 
 const Welcome = ({ programCount, totalBeneficiaries, topSponsors, programs }) => {
+
     return (
         <>
            <Navbar/>
