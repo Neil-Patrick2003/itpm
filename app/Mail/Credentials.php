@@ -16,7 +16,7 @@ class Credentials extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public array $data)
+    public function __construct(public array $info)
     {
     }
 
@@ -39,10 +39,10 @@ class Credentials extends Mailable
         return new Content(
             view: 'CredentialMail',
             with: [
-                'parent_name' => $this->data['parent_name'],
-                'parent_email' => $this->data['parent_email'],
-                'child_name' => $this->data['child_name'],
-                'program_name' => $this->data['program_name'],
+                'parent_name' => $this->info['parent_name'],
+                'parent_email' => $this->info['parent_email'],
+                'child_name' => $this->info['child_name'],
+                'program_name' => $this->info['program_name'],
             ]
         );
     }
