@@ -10,6 +10,7 @@ import Footer from '../Components/footer';
 import BouncingBall from '../Components/BouncingBall';
 import {BsTransparency} from "react-icons/bs";
 import Transparency from '../Components/Transparency';
+import ProgramSwiper from "@/Components/ProgramSwiper.jsx";
 
 
 const Welcome = ({ programCount, totalBeneficiaries, topSponsors, programs }) => {
@@ -17,6 +18,7 @@ const Welcome = ({ programCount, totalBeneficiaries, topSponsors, programs }) =>
         <>
            <Navbar/>
            <Hero/>
+            <ProgramSwiper programs={programs}/>
             <Transparency data={{ topSponsors, programCount, totalBeneficiaries, programs }}/>
            <Sponsorship />
            <About/>
