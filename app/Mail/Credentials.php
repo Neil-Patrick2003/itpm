@@ -42,7 +42,10 @@ class Credentials extends Mailable
         return new Content(
             view: 'CredentialMail',
             with: [
-                'name' => $this->data['name'],
+                'parent_name' => $this->data['parent_name'],
+                'parent_email' => $this->data['parent_email'],
+                'child_name' => $this->data['child_name'],
+                'program_name' => $this->data['program_name'],
             ]
         );
     }
