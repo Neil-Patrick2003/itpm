@@ -4,6 +4,8 @@
 
 .parent_layout_content {
     height: calc(100vh - 128px);
+    overflow-y: scroll;
+    padding-bottom: 36px;
 }
 
 .parent_layout_footer {
