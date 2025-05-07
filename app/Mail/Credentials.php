@@ -12,15 +12,18 @@ use Illuminate\Queue\SerializesModels;
 class Credentials extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public array $info;
-
+    
     /**
      * Create a new message instance.
      */
-    public function __construct(array $info)
+    public function __construct(
+        public string $parent_name,
+        public string $parent_email,
+        public string $child_name,
+        public string $program_name
+    )
     {
-        $this->info = $info;
+
     }
 
 
@@ -42,10 +45,10 @@ class Credentials extends Mailable
         return new Content(
             view: 'CredentialMail',
             with: [
-                'parent_name' => $this->info['parent_name'],
-                'parent_email' => $this->info['parent_email'],
-                'child_name' => $this->info['child_name'],
-                'program_name' => $this->info['program_name'],
+                'parent_name' => $this->parent_name,
+                'parent_email' => $this->parent_email,
+                'child_name' => $this->child_name,
+                'program_name' => $this->program_name,
             ]
         );
     }
