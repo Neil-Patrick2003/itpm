@@ -13,11 +13,14 @@ class Credentials extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public array $info;
+
     /**
      * Create a new message instance.
      */
-    public function __construct(public array $info)
+    public function __construct(array $info)
     {
+        $this->info = $info;
     }
 
 
