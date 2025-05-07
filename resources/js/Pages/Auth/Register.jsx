@@ -72,8 +72,6 @@ export default function Register() {
                         >
                             <option value="">Select your role</option>
                             <option value="health_worker">Health Worker</option>
-                            <option value="parent">Parent</option>
-                            <option value="sponsor">Sponsor</option>
                         </select>
                         {errors.role && <p className="text-sm text-red-500 mt-1">{errors.role}</p>}
                     </div>

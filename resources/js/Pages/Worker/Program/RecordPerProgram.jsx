@@ -163,10 +163,10 @@ import Modal from "@/Components/Modal.jsx";
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-700">{child.gender}</td>
                                     <td className="px-6 py-4 text-sm text-gray-600">
-                                        {child.latest_record.weight} kg
+                                        {child.latest_record?.weight != null ? `${child.latest_record.weight} kg` : 'N/A'}
                                     </td>
                                     <td className="px-6 py-4 flex justify-center gap-3 text-gray-600">
-                                        {child.latest_record.height} cm
+                                        {child.latest_record?.weight != null ? `${child.latest_record.weight} kg` : 'N/A'}
 
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-700">

@@ -56,11 +56,9 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::post('/programs/{program}/add_beneficiaries',  [ProgramBeneficiariesController::class, 'store']);
 
 
-
     Route::get('/childrens', [\App\Http\Controllers\ChildrenController::class, 'index']);
     Route::get('/childrens/create', [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'create']);
-    Route::post('/childrens/create', [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'store']);
-
+    Route::post('/childrens/create', [\App\Http\Controllers\Admin\ChildrenRecordController::class, 'Store_child_record']);
 
 
     Route::get('/sponsorships', [SponsorController::class, 'index']);
@@ -80,20 +78,33 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('/announcements',[\App\Http\Controllers\Admin\AnnouncementController::class, 'index']);
     Route::post('/announcements',[\App\Http\Controllers\Admin\AnnouncementController::class, 'store']);
 
-
-
-
-
     Route::get('/reports',  [ AdminController::class, 'analytics' ]);
     Route::get('/funds', [\App\Http\Controllers\ExpensesController::class, 'index']);
     Route::post('/funds', [\App\Http\Controllers\ExpensesController::class, 'store']);
     Route::patch('/funds/{id}', [\App\Http\Controllers\ExpensesController::class, 'update']);;
 
-
     Route::get('/reports/export', [\App\Http\Controllers\Admin\ReportController::class, 'generatePdf'])->name('reports.export');
     Route::get('/reports/nutrition', [\App\Http\Controllers\Admin\ReportController::class, 'nutritionReport'])->name('reports.nutrition_report');
 
 
+
+
+});
+
+Route::middleware(['auth', 'role:parent'])->group(function () {
+    Route::get('/parent/home', [\App\Http\Controllers\Parent\HomeController::class, 'index'])->name('parent.home');
+    Route::get('/parent/announcement/{announcement}', [\App\Http\Controllers\Parent\HomeController::class, 'show'])->name('parent.announcement');
+    Route::get('/parent/children', [\App\Http\Controllers\Parent\ChildrenController::class, 'index'])->name('parent.children');
+
+    Route::get('/parent/forum/blogs', [\App\Http\Controllers\Parent\BlogController::class, 'index'])->name('parent.forum.blogs');
+    Route::get('/parent/forum/blogs/create', [\App\Http\Controllers\Parent\BlogController::class, 'create'])->name('parent.forum.blogs.create');
+    Route::get('/parent/forum/blogs/{blog}', [\App\Http\Controllers\Parent\BlogController::class, 'show'])->name('parent.forum.blogs.show');
+    Route::post('/parent/forum/blogs', [\App\Http\Controllers\Parent\BlogController::class, 'store'])->name('parent.forum.blogs.store');
+    Route::get('/parent/forum/topics', [\App\Http\Controllers\Parent\ForumController::class, 'index'])->name('parent.forum.topics');
+    Route::get('/parent/forum/topics/create', [\App\Http\Controllers\Parent\ForumController::class, 'create'])->name('parent.forum.topics.create');
+    Route::post('/parent/forum', [\App\Http\Controllers\Parent\ForumController::class, 'store'])->name('parent.forum.topic.store');
+    Route::get('/parent/forum/{topic}', [\App\Http\Controllers\Parent\ForumController::class, 'show'])->name('parent.forum.topic');
+    Route::post('/parent/forum/{topic}/posts', [\App\Http\Controllers\Parent\PostController::class, 'store'])->name('parent.forum.posts.store');
 
 
 });
@@ -113,8 +124,6 @@ Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function ()
 
     Route::post('/health_workers/records/{program_id}/add_record/{children_id}',  [\App\Http\Controllers\HealthWorker\ChildrenRecordController::class, 'store'])->name('records');
 
-
-
     Route::get('/health_workers/records/general/create', [\App\Http\Controllers\HealthWorker\RecordController::class, 'index'])  ;
 
     Route::get('/health_workers/records/general/new_record',  [\App\Http\Controllers\HealthWorker\RecordController::class, 'create']);
@@ -133,6 +142,11 @@ Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function ()
     Route::post('/health_workers/forum', [\App\Http\Controllers\TopicController::class, 'store']);
     Route::get('/health_workers/forum/{topic_id}', [\App\Http\Controllers\TopicController::class, 'show']);
     Route::post('/health_workers/forum/{topic_id}', [\App\Http\Controllers\HealthWorker\PostController::class, 'store']);
+
+    Route::get('/health_workers/nutrition', [\App\Http\Controllers\MealPlanController::class, 'index']);
+    Route::post('/health_workers/nutrition', [\App\Http\Controllers\MealPlanController::class, 'store']);
+
+
 
 
 

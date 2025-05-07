@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\HealthWorker;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Credentials;
 use App\Models\Children;
 use App\Models\ChildrenRecord;
 use App\Models\Program;
@@ -10,6 +11,7 @@ use App\Models\Record;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class ProgramController extends Controller
@@ -56,11 +58,10 @@ class ProgramController extends Controller
 
     public function store(Request $request, $id)
     {
-        //ha
-
         $program = Program::findOrFail($id);
+
         $validated = $request->validate([
-            'name' => 'required|max:255|string', // This is the child's name
+            'name' => 'required|max:255|string', // child's name
             'birth_date' => 'required|date',
             'gender' => 'required|string',
             'parent_name' => 'required|max:255|string',
@@ -73,33 +74,37 @@ class ProgramController extends Controller
 
         $bmi = $this->calculateBmi($request->weight, $request->height);
 
-        // Find or create the parent (User)
-        $user = User::firstOrCreate(
-            ['name' => $validated['name']],
-            [
-                'name' => $request->parent_name,
-                'email' => $request->email,
-                'address' => $request->address,
-                'password' => bcrypt($request->phone), // Use bcrypt for password hashing
+        // Check if the parent already exists by email
+        $user = User::where('email', $validated['email'])->first();
+
+        if (!$user) {
+            // Create parent if not exists
+            $user = User::create([
+                'name' => $validated['parent_name'],
+                'email' => $validated['email'],
+                'address' => $validated['address'],
+                'password' => bcrypt($validated['phone_number']),
                 'role' => 'parent',
-                'phone' => $request->phone_number,
-            ]
-        );
+                'phone' => $validated['phone_number'],
+            ]);
+        }
 
-        // Find or create the child
-        $child = Children::firstOrCreate(
-            [
+        // Check if child already exists for this parent by name and birth date
+        $child = Children::where('name', $validated['name'])
+            ->where('birth_date', $validated['birth_date'])
+            ->where('parent_id', $user->id)
+            ->first();
+
+        if (!$child) {
+            $child = Children::create([
                 'name' => $validated['name'],
-            ],
-            [
-                'name' => $request->name,
-                'birth_date' => $request->birth_date,
-                'gender' => $request->gender,
+                'birth_date' => $validated['birth_date'],
+                'gender' => $validated['gender'],
                 'parent_id' => $user->id,
-            ]
-        );
+            ]);
+        }
 
-        // Create the actual health record tied to the child and program
+        // Create health record
         ChildrenRecord::create([
             'weight' => $validated['weight'],
             'height' => $validated['height'],
@@ -107,13 +112,27 @@ class ProgramController extends Controller
             'children_id' => $child->id,
         ]);
 
-        $program->children()->attach($child->id);
+        // Attach child to the program if not already attached
+        if (!$program->children->contains($child->id)) {
+            $program->children()->attach($child->id);
+        }
 
+        // Prepare email data
+        $emailData = [
+            'parent_name' => $user->name,
+            'parent_email' => $user->email,
+            'child_name' => $child->name,
+            'program_name' => $program->title,
+        ];
 
-
-        return redirect()->back()
-            ->with('message', 'Record created successfully.');
+        try {
+            Mail::to($user->email)->send(new Credentials($emailData));
+            return redirect()->back()->with('message', 'Record created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('message', 'Record created successfully. Email not sent.');
+        }
     }
+
 
     public function calculateBmi($weight, $height)
     {
