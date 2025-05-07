@@ -3,11 +3,11 @@ import { FaSearch } from "react-icons/fa";
 import {ChevronRightIcon, HomeIcon, PaperAirplaneIcon} from "@heroicons/react/20/solid";
 import React from "react";
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+
 import { motion } from "framer-motion";
 import { useForm } from "@inertiajs/react";
 import Avatar from "@mui/material/Avatar";
-
+import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
 export default function ShowTopic({ topic }) {

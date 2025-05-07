@@ -31,7 +31,7 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string|max:1000',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -52,5 +52,10 @@ class BlogController extends Controller
         ]);
 
         return redirect(route('parent.forum.blogs'));
+    }
+
+    public function show(Blog $blog)
+    {
+        return Inertia::render('Parent/Blogs/Show', ['blog' => $blog]);
     }
 }

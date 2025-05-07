@@ -17,4 +17,11 @@ class HomeController extends Controller
             'announcements' => $announcements
         ]);
     }
+
+    public function show(Announcement $announcement)
+    {
+        return Inertia::render('Parent/Annoucement', [
+            'annoucement' => $announcement
+        ]);
+    }
 }

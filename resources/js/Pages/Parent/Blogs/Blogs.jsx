@@ -3,7 +3,6 @@ import ParentLayout from '../Partials/ParentLayout.jsx';
 import dayjs from "dayjs";
 import React from "react";
 import relativeTime from 'dayjs/plugin/relativeTime';
-import {ChatBubbleLeftRightIcon} from "@heroicons/react/24/outline/index.js";
 
 dayjs.extend(relativeTime);
 
@@ -33,7 +32,7 @@ const Blogs = ({blogs}) => {
                                     {blog.title}
                                 </h2>
 
-                                <p className={"text-xs text-gray-700"}>Posted by {blog.user?.name}
+                                <p className={"text-xs text-gray-700"}>Posted by {blog.user?.name} {' - '}
                                     <span>{dayjs(blog.created_at).fromNow()}</span></p>
 
                             </Link>

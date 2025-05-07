@@ -93,6 +93,7 @@ Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
 
 Route::middleware(['auth', 'role:parent'])->group(function () {
     Route::get('/parent/home', [\App\Http\Controllers\Parent\HomeController::class, 'index'])->name('parent.home');
+    Route::get('/parent/announcement/{announcement}', [\App\Http\Controllers\Parent\HomeController::class, 'show'])->name('parent.announcement');
     Route::get('/parent/children', [\App\Http\Controllers\Parent\ChildrenController::class, 'index'])->name('parent.children');
 
     Route::get('/parent/forum/blogs', [\App\Http\Controllers\Parent\BlogController::class, 'index'])->name('parent.forum.blogs');

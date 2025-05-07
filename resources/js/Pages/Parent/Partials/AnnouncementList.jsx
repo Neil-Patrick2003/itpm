@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import {Link} from "@inertiajs/react";
+
 
 const AnnouncementList = ({announcements}) => {
     return <div className={"mt-4"}>
@@ -10,8 +12,10 @@ const AnnouncementList = ({announcements}) => {
                     <div className={"space-y-4"}>
                         {
                             announcements.map(item => <div key={item.id} className={"border px-2 py-2 rounded-md"}>
-                                <p className={"font-medium text-sm"}>{item.title}</p>
-                                <p className={"text-xs text-gray-600"}> { dayjs(item.created_at).format('MMMM D, YYYY') }</p>
+                                <Link href={route('parent.announcement', { announcement: item.id })}>
+                                    <p className={"font-medium text-sm"}>{item.title}</p>
+                                    <p className={"text-xs text-gray-600"}> {dayjs(item.created_at).format('MMMM D, YYYY')}</p>
+                                </Link>
                             </div>)
                         }
                     </div>
