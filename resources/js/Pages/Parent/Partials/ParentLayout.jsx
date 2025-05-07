@@ -2,16 +2,42 @@ import '../layout.css'
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { HomeIcon, UserCircleIcon, ChatBubbleBottomCenterIcon } from '@heroicons/react/20/solid';
 import logo from '../../../../assets/image/logo.png'
-import React from "react";
+import React, {useState} from "react";
+import {Fade, Menu, MenuItem} from "@mui/material";
 
 const ParentLayout = ({children}) => {
     const page = usePage()
     const { user } = page.props.auth;
 
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const open = Boolean(anchorEl);
+
+    const handleClose = () => setAnchorEl(null);
+    const handleClick = (event) => setAnchorEl(event.currentTarget);
+
     return <div className="h-screen flex flex-col">
-        <div className={"parent_layout_header px-4 flex gap-3 items-center border-b-2 border-[#66CA6A]"}>
-            <img className='w-full max-w-[32px] object-cover' src={logo} alt="Nutrisafari Logo"/>
-            <p className="text-lg font-bold">Nutrisafari</p>
+        <div className={"parent_layout_header px-4 flex justify-between gap-3 items-center border-b-2 border-[#66CA6A]"}>
+            <div className={"flex items-center gap-3"}>
+                <img className='w-full max-w-[32px] object-cover' src={logo} alt="Nutrisafari Logo"/>
+                <p className="text-lg font-bold">Nutrisafari</p>
+            </div>
+
+            <button onClick={handleClick}>
+                <UserCircleIcon className="w-8 h-8"/>
+            </button>
+            <Menu
+                id="fade-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                TransitionComponent={Fade}
+            >
+                <MenuItem onClick={handleClose}>
+                    <Link href="/logout" method="post" as="button">Logout</Link>
+                </MenuItem>
+            </Menu>
         </div>
 
         <div className={"parent_layout_content pt-4 pb-2 px-4"}>

@@ -23,12 +23,12 @@ const Blogs = ({blogs}) => {
                 </div>
 
                 {
-                    blogs.length ? <div>
+                    blogs.length ? <div className={"grid grid-cols-2 gap-4"}>
                         {blogs.map(blog => <div key={blog.id} className={"border rounded p-2"}>
                             <Link href={route('parent.forum.blogs.show', {blog: blog.id})}>
                                 <img src={`/storage/${blog.image_url}`}/>
 
-                                <h2 className="text-sm text-gray-900 line-clamp-2 leading-snug mt-2">
+                                <h2 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-snug mt-2">
                                     {blog.title}
                                 </h2>
 
