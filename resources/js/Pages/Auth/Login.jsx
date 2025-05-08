@@ -91,13 +91,13 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-6 flex flex-col gap-4 items-center">
-                    <button
-                        type="submit"
-                        className="w-full bg-[#66CA6A] hover:bg-green-400 transition text-white py-2 rounded-full"
-                        disabled={processing}
-                    >
-                        Log in
-                    </button>
+                    {/*<button*/}
+                    {/*    type="submit"*/}
+                    {/*    className="w-full bg-[#66CA6A] hover:bg-green-400 transition text-white py-2 rounded-full"*/}
+                    {/*    disabled={processing}*/}
+                    {/*>*/}
+                    {/*    Log in*/}
+                    {/*</button>*/}
 
                     {/*<p className="text-sm text-center">*/}
                     {/*    Don’t have an account?{' '}*/}
