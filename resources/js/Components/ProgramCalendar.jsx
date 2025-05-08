@@ -25,7 +25,7 @@ const ProgramCalendar = ({ programs }) => {
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
                 events={events}
-                height="auto"
+                height={500}
             />
         </div>
     );

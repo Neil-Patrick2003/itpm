@@ -75,11 +75,6 @@ const Contact = () => {
                                         name="name"
                                         type="text"
                                         required
-                                        autoComplete="name"
-                                        autoFocus
-                                        autoCorrect="off"
-                                        autoCapitalize="off"
-                                        spellCheck="false"
                                         onChange={e => (data.name = e.target.value)}
                                         placeholder="Your full name"
                                         className="w-full mt-1 py-2 px-3 bg-gray-200 text-gray-700 border-0 border-b-2 border-b-gray-300 focus:border-b-[#66CA6A] focus:outline-none focus:ring-0"

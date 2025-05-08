@@ -1,34 +1,38 @@
+'use client'
+
+import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import {
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
+    Dialog,
+    DialogBackdrop,
+    DialogPanel,
     Menu,
     MenuButton,
     MenuItem,
-    MenuItems
+    MenuItems,
+    TransitionChild,
 } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import {
+    Bars3Icon,
+    BellIcon,
+    Cog6ToothIcon,
+    DocumentDuplicateIcon,
+    HomeIcon,
+    UsersIcon,
+    XMarkIcon,
+    ChatBubbleLeftRightIcon,
+    ChartPieIcon,
+} from '@heroicons/react/24/outline'
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { usePage, Link } from '@inertiajs/react'
 import FlashMessage from "@/Components/FlashMessage.jsx";
-import {Link, router, useForm, usePage} from "@inertiajs/react";
-import React, {useState} from "react";
-import logo from '../../assets/image/logo.png';
-import Modal from "@/Components/Modal.jsx";
-
-const user = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
 
 const navigation = [
-    { name: 'Dashboard', href: '/health_workers/dashboard' },
-    { name: 'Record', href: '/health_workers/records' },
-    { name: 'Beneficiaries', href: '/health_workers/beneficiary' },
-    { name: 'Forum', href: '/health_workers/forum' },
-    { name: 'Diet Plan', href: '/health_workers/diet_plan' },
-
-
-
+    { name: 'Dashboard', href: '/health_workers/dashboard', icon: HomeIcon },
+    { name: 'Record', href: '/health_workers/records', icon: DocumentDuplicateIcon },
+    { name: 'Beneficiaries', href: '/health_workers/beneficiary', icon: UsersIcon },
+    { name: 'Forum', href: '/health_workers/forum', icon: ChatBubbleLeftRightIcon },
+    { name: 'Diet Plan', href: '/health_workers/nutrition', icon: ChartPieIcon },
 ]
 
 const userNavigation = [
@@ -40,251 +44,176 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function WorkerLayout({ children,  }) {
-    const { props } = usePage();
-    const announcements = props.announcements || [];
-    const { data, setData, post, patch, processing, errors, reset } = useForm({
-        is_read: ''
-    })
-    const currentPage = window.location.pathname;
-    const [openAnnouncement, setOpenAnnouncement] = React.useState(false);
-    const [selected, setSelected] = useState(null);
-
-
-    const openAnnouncementModal = (announcement) => {
-        setSelected(announcement);
-        setOpenAnnouncement(true);
-
-        // if (!announcement.is_read) {
-        //     // Mark as read
-        //     router.post(`/health_worker/announcements/${announcement.id}/read`, {}, {
-        //         preserveScroll: true,
-        //         onSuccess: () => {
-        //             // Optional: update local state
-        //             announcement.is_read = true;
-        //         },
-        //     });
-        // }
-    };
+export default function WorkerLayout({ children }) {
+    const [sidebarOpen, setSidebarOpen] = useState(false)
+    const { url } = usePage()
 
     return (
         <>
-
-            <div className="min-h-full">
-                <div className="bg-gray-100 pb-32">
-                    <Disclosure as="nav" className="fix bg-green-900">
-                        <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                            <div className="border-b border-gray-700">
-                                <div className="flex h-16 items-center justify-between px-4 sm:px-0">
-                                    <div className="flex items-center">
-                                        <div className="shrink-0">
-                                            <img className='w-full max-w-[28px] object-cover' src={logo} alt="Healthy Living" />
-                                        </div>
-                                        <div className="hidden md:block">
-                                            <div className="ml-10 flex items-baseline space-x-4">
-                                                {navigation.map((item) => (
-                                                    <a
-                                                        key={item.name}
-                                                        href={item.href}
-                                                        aria-current={item.href === currentPage ? 'page' : undefined}
-                                                        className={classNames(
-                                                            item.href === currentPage
-                                                                ? 'bg-green-700 text-white'
-                                                                : 'text-gray-300 hover:bg-green-700 hover:text-white',
-                                                            'rounded-md px-3 py-2 text-sm font-medium'
-                                                        )}
-                                                    >
-                                                        {item.name}
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="hidden md:block">
-                                        <div className="ml-4 flex items-center md:ml-6">
-                                            <Menu as="div" className="relative ml-3">
-                                                <div>
-                                                    <MenuButton className="relative flex max-w-xs items-center text-sm focus:ring-2 focus:ring-white">
-                                                        <span className="absolute -inset-1.5" />
-                                                        <span className="sr-only">View notifications</span>
-                                                        <BellIcon aria-hidden="true" className="size-8 text-white" />
-                                                    </MenuButton>
-                                                </div>
-
-                                                <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 transition focus:outline-hidden max-h-64 overflow-y-auto">
-                                                    {announcements.map((announcement) => (
-                                                        <MenuItem key={announcement.id}>
-                                                            <button
-                                                                onClick={() => openAnnouncementModal(announcement)} // Open modal with content
-                                                                className={`block w-full text-left px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden ${
-                                                                    announcement.is_read === 0 ? 'font-bold' : 'font-normal'
-                                                                }`}
-                                                            >
-                                                                {announcement.title}
-                                                            </button>
-                                                        </MenuItem>
-                                                    ))}
-
-                                                    <MenuItem>
-                                                        <Link
-                                                            href="/logout"
-                                                            method="post"
-                                                            as="button"
-                                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                                        >
-                                                            See all announcements
-                                                        </Link>
-                                                    </MenuItem>
-                                                </MenuItems>
-
-                                            </Menu>
-
-                                            {/*<button*/}
-                                            {/*    type="button"*/}
-                                            {/*    className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"*/}
-                                            {/*>*/}
-                                            {/*    <span className="absolute -inset-1.5" />*/}
-                                            {/*    <span className="sr-only">View notifications</span>*/}
-                                            {/*    <BellIcon aria-hidden="true" className="size-6" />*/}
-                                            {/*</button>*/}
-
-                                            <Menu as="div" className="relative ml-3">
-                                                <div>
-                                                    <MenuButton className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
-                                                        <span className="absolute -inset-1.5" />
-                                                        <span className="sr-only">Open user menu</span>
-                                                        <img alt="" src={user.imageUrl} className="size-8 rounded-full" />
-                                                    </MenuButton>
-                                                </div>
-                                                <MenuItems
-                                                    transition
-                                                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 transition focus:outline-hidden"
-                                                >
-                                                    {userNavigation.map((item) => (
-                                                        <MenuItem key={item.name}>
-                                                            <a
-                                                                href={item.href}
-                                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                                            >
-                                                                {item.name}
-                                                            </a>
-                                                        </MenuItem>
-                                                    ))}
-                                                    <MenuItem>
-                                                        <Link href="/logout" method="post" as="button" className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden">Logout</Link>
-                                                    </MenuItem>
-                                                </MenuItems>
-                                            </Menu>
-                                        </div>
-                                    </div>
-                                    <div className="-mr-2 flex md:hidden">
-                                        <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
-                                            <span className="absolute -inset-0.5" />
-                                            <span className="sr-only">Open main menu</span>
-                                            <Bars3Icon aria-hidden="true" className="block size-6 group-data-open:hidden" />
-                                            <XMarkIcon aria-hidden="true" className="hidden size-6 group-data-open:block" />
-                                        </DisclosureButton>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <DisclosurePanel className="border-b border-gray-700 md:hidden">
-                            <div className="space-y-1 px-2 py-3 sm:px-3">
-                                {navigation.map((item) => (
-                                    <DisclosureButton
-                                        key={item.name}
-                                        as="a"
-                                        href={item.href}
-                                        aria-current={item.href === currentPage ? 'page' : undefined}
-                                        className={classNames(
-                                            item.href === currentPage ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                            'block rounded-md px-3 py-2 text-base font-medium'
-                                        )}
-                                    >
-                                        {item.name}
-                                    </DisclosureButton>
-                                ))}
-                            </div>
-                            <div className="border-t border-gray-700 pt-4 pb-3">
-                                <div className="flex items-center px-5">
-                                    <div className="shrink-0">
-                                        <img alt="" src={user.imageUrl} className="size-10 rounded-full" />
-                                    </div>
-                                    <div className="ml-3">
-                                        <div className="text-base font-medium text-white">{user.name}</div>
-                                        <div className="text-sm font-medium text-gray-400">{user.email}</div>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="relative ml-auto shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
-                                    >
-                                        <span className="absolute -inset-1.5" />
-                                        <span className="sr-only">View notifications</span>
-                                        <BellIcon aria-hidden="true" className="size-6" />
+            <div>
+                {/* Mobile Sidebar */}
+                <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
+                    <DialogBackdrop className="fixed inset-0 bg-black/50" />
+                    <div className="fixed inset-0 flex">
+                        <DialogPanel className="relative mr-16 w-full max-w-xs bg-green-900 text-white">
+                            <TransitionChild>
+                                <div className="absolute top-0 left-full flex w-16 justify-center pt-5">
+                                    <button onClick={() => setSidebarOpen(false)} className="-m-2.5 p-2.5">
+                                        <span className="sr-only">Close sidebar</span>
+                                        <XMarkIcon className="h-6 w-6 text-white" />
                                     </button>
                                 </div>
-                                <div className="mt-3 space-y-1 px-2">
-                                    {userNavigation.map((item) => (
-                                        <DisclosureButton
-                                            key={item.name}
-                                            as="a"
-                                            href={item.href}
-                                            className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                                        >
-                                            {item.name}
-                                        </DisclosureButton>
-                                    ))}
+                            </TransitionChild>
+                            <div className="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4">
+                                <div className="flex h-16 shrink-0 items-center">
+                                    <img
+                                        src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=white"
+                                        alt="Your Company"
+                                        className="h-8 w-auto"
+                                    />
                                 </div>
+                                <nav className="flex flex-1 flex-col">
+                                    <ul role="list" className="flex flex-1 flex-col gap-y-7">
+                                        <li>
+                                            <ul role="list" className="-mx-2 space-y-1">
+                                                {navigation.map((item) => {
+                                                    const isActive = url.startsWith(item.href)
+                                                    const Icon = item.icon
+
+                                                    return (
+                                                        <li key={item.name}>
+                                                            <a
+                                                                href={item.href}
+                                                                className={classNames(
+                                                                    isActive ? 'bg-lime-600 text-white' : 'text-white hover:bg-lime-700',
+                                                                    'group flex gap-x-3 rounded-md p-2 text-sm font-semibold'
+                                                                )}
+                                                            >
+                                                                <Icon className={classNames(
+                                                                    isActive ? 'text-white' : 'text-lime-200 group-hover:text-white',
+                                                                    'h-6 w-6'
+                                                                )} />
+                                                                {item.name}
+                                                            </a>
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
-                        </DisclosurePanel>
-                    </Disclosure>
+                        </DialogPanel>
+                    </div>
+                </Dialog>
 
-
+                {/* Desktop Sidebar */}
+                <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col bg-green-900 text-white">
+                    <div className="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4">
+                        <div className="flex h-16 shrink-0 items-center">
+                            <img
+                                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=white"
+                                alt="Your Company"
+                                className="h-8 w-auto"
+                            />
+                        </div>
+                        <nav className="flex flex-1 flex-col">
+                            <ul role="list" className="flex flex-1 flex-col gap-y-7">
+                                <li>
+                                    <ul role="list" className="-mx-2 space-y-1">
+                                        {navigation.map((item) => {
+                                            const isActive = location.pathname.startsWith(item.href) // Check if current path starts with item href
+                                            const Icon = item.icon
+                                            return (
+                                                <li key={item.name}>
+                                                    <a
+                                                        href={item.href}
+                                                        className={classNames(
+                                                            isActive ? 'bg-lime-600 text-white' : 'text-white hover:bg-lime-700',
+                                                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold'
+                                                        )}
+                                                    >
+                                                        <Icon
+                                                            className={classNames(
+                                                                isActive ? 'text-white' : 'text-lime-200 group-hover:text-white',
+                                                                'h-6 w-6'
+                                                            )}
+                                                        />
+                                                        {item.name}
+                                                    </a>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </li>
+                                <li className="mt-auto">
+                                    <a
+                                        href="#"
+                                        className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold text-white hover:bg-lime-700"
+                                    >
+                                        <Cog6ToothIcon className="h-6 w-6 text-white" />
+                                        Settings
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
 
-                <main className="-mt-32">
-                    <div className="mx-auto max-w-7xl pb-12 sm:px-6 lg:px-8">
-
-                        {selected && (
-                            <Modal show={openAnnouncement} onClose={() => setOpenAnnouncement(false)} maxWidth="lg">
-                                <div className="p-6 bg-white rounded-lg shadow-lg">
-                                    {/* Logo Section */}
-                                    <div className="flex items-center justify-between border-b pb-4 mb-4">
-                                        <div className="flex items-center space-x-3">
-                                            <img src="/images/logo.png" alt="Logo" className="h-10 w-10 object-contain" />
-                                            <h2 className="text-2xl font-bold text-green-700">Announcement</h2>
-                                        </div>
-                                        <button
-                                            onClick={() => setOpenAnnouncement(false)}
-                                            className="text-gray-400 hover:text-gray-600"
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
-                                                 viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                                      d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        </button>
-                                    </div>
-
-                                    {/* Content Section */}
-                                    <div className="space-y-4">
-                                        <h3 className="text-xl font-semibold text-green-800">{selected.title}</h3>
-                                        <p className="text-gray-700 leading-relaxed">{selected.description}</p>
-                                        <p className="text-sm text-gray-500">
-                                            Posted at: {new Date(selected.created_at).toLocaleString()}
-                                        </p>
-                                    </div>
-                                </div>
-                            </Modal>
-
-                        )}
-                        <FlashMessage />
-                        <div className="rounded-lg bg-white px-0 py-6 ">
-                            {children}
+                {/* Main Content */}
+                <div className="lg:pl-72">
+                    <div className="sticky top-0 z-40 flex h-16 items-center gap-x-4 border-b bg-white shadow px-4 text-green-900 sm:gap-x-6 sm:px-6 lg:px-8">
+                        <button onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 lg:hidden">
+                            <span className="sr-only">Open sidebar</span>
+                            <Bars3Icon className="h-6 w-6" />
+                        </button>
+                        <div className="flex flex-1 items-center justify-between">
+                            <form action="#" method="GET" className="relative flex-1">
+                                <MagnifyingGlassIcon className="absolute left-2.5 top-2.5 h-5 w-5 text-green-900" />
+                                <input
+                                    type="search"
+                                    placeholder="Search"
+                                    className="block w-full rounded-md border-0 bg-gray-100 py-1.5 pl-10 pr-3 text-green-900 placeholder-green-700 focus:outline-none sm:text-sm"
+                                />
+                            </form>
+                            <div className="flex items-center gap-x-4 lg:gap-x-6">
+                                <button className="text-green-900 hover:text-gray-500">
+                                    <BellIcon className="h-6 w-6" />
+                                </button>
+                                <Menu as="div" className="relative">
+                                    <MenuButton className="flex items-center gap-x-2">
+                                        <img
+                                            className="h-8 w-8 rounded-full bg-gray-100"
+                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+                                            alt=""
+                                        />
+                                        <span className="hidden lg:block text-sm font-medium">Tom Cook</span>
+                                        <ChevronDownIcon className="h-5 w-5" />
+                                    </MenuButton>
+                                    <MenuItems className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                        {userNavigation.map((item) => (
+                                            <MenuItem key={item.name}>
+                                                <a
+                                                    href={item.href}
+                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                >
+                                                    {item.name}
+                                                </a>
+                                            </MenuItem>
+                                        ))}
+                                        <MenuItem >
+                                                <Link href="/logout" method="post" as="button" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Logout</Link>
+                                        </MenuItem>
+                                    </MenuItems>
+                                </Menu>
+                            </div>
                         </div>
                     </div>
-                </main>
+                    <main className="px-4  py-2 sm:p-4 lg:p-8 min-h-screen">
+                        <FlashMessage />
+                        {children}
+                    </main>
+                </div>
             </div>
         </>
     )

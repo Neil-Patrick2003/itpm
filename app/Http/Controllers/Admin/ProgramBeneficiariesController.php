@@ -21,10 +21,8 @@ class ProgramBeneficiariesController extends Controller
         // Example: Fetch beneficiaries and return a
         $childrens = Children::with('program')
             ->whereHas('program')
-
             ->latest()
             ->paginate(20);
-
 
         return inertia('Admin/Beneficiary/AllBeneficiary', [
         'childrens' => $childrens
@@ -33,20 +31,12 @@ class ProgramBeneficiariesController extends Controller
 
     public function create(Request $request, $id)
     {
+
         $program = Program::find($id);
-        $records = Record::all()->map(function ($record) {
-            return [
-                'id' => $record->id,
-                'name' => $record->children_name,
-                'birth_date' => $record->birth_date,
-                'gender' => $record->gender,
-                'address' => $record->address,
-                'status' => $record->status,
-                'weight' => $record->weight,
-                'height' => $record->height,
-                'bmi' => $this->calculateBmi($record->weight, $record->height),
-            ];
-        });
+
+        $records = Children::with('parent', 'latestRecord')
+            ->orderBy('name')
+            ->get();
 
         return Inertia::render('Admin/Program/AddBeneficiaries', [
             'program' => $program,
@@ -71,52 +61,14 @@ class ProgramBeneficiariesController extends Controller
         $childrenIdsToAttach = [];  // Array to store children IDs for the program attachment
 
         foreach ($recordIds as $record_id) {
-            $record = Record::find($record_id);
-            $existing_user = User::where('name', $record->parent_name)->first();
-            $bmi = $this->calculateBmi($record->weight, $record->height);
+            $children = Children::with('latestRecord')->find($record_id);
 
-            // Check if user exists
-            if (!$existing_user) {
-                // Create a new user if it doesn't exist
-                $user = User::create([
-                    'name' => $record->parent_name,
-                    'email' => $record->email,
-                    'address' => $record->address,
-                    'password' => bcrypt($request->phone), // Use bcrypt for password hashing
-                    'role' => 'parent',
-                    'phone' => $record->phone_number,
-                ]);
-            } else {
-                $user = $existing_user;
+            if ($children) {
+                $childrenIdsToAttach[] = $children->id;
             }
-
-            // Check if the child exists
-            $existing_children = Children::where('name', $record->children_name)->first();
-
-            // Create or get the child record
-            if (!$existing_children) {
-                $children = Children::create([
-                    'name' => $record->children_name,
-                    'birth_date' => $record->birth_date,
-                    'gender' => $record->gender,
-                    'parent_id' => $user->id,
-                ]);
-            } else {
-                $children = $existing_children;
-            }
-
-            // Create or update the children record
-            ChildrenRecord::create([
-                'weight' => $record->weight,
-                'height' => $record->height,
-                'bmi' => $bmi,
-                'children_id' => $children->id,
-            ]);
-
-            $childrenIdsToAttach[] = $children->id;
         }
 
-        // Attach all children to the program, avoiding duplicates
+
         if (!empty($childrenIdsToAttach)) {
             $program->children()->syncWithoutDetaching($childrenIdsToAttach);
         } else {
@@ -125,7 +77,6 @@ class ProgramBeneficiariesController extends Controller
 
         // Redirect with a success message
         return redirect("/programs/{$program->id}")->with('message', 'Added successfully.');
-//        return Inertia::render('Admin/Program/AddBeneficiaries')->with('message', 'Add Beneficiaries Successfully');
     }
 
 

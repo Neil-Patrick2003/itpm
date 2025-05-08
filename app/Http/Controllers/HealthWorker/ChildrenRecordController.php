@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class ChildrenRecordController extends Controller
 {
-    public function store($program_id,  $children_id,  Request $request,)
+    public function store( $children_id,  Request $request,)
     {
 
         $validated = $request->validate([

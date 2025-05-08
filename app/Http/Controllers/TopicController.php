@@ -11,15 +11,24 @@ class TopicController extends Controller
 
     public function index(Request $request)
     {
-        $topics = Topic::with('user')
+        $topics = Topic::with('user', 'posts')
+            ->withCount('posts') // adds 'posts_count' attribute
             ->when($request->search, function ($q) use ($request) {
                 return $q->where('title', 'like', '%' . $request->search . '%');
             })
             ->latest()
             ->paginate(20, ['*'], 'page', $request->input('page', 1));
+
+
+
+
+
+
         return Inertia::render('Worker/Forum/ForumIndex', [
             'topics' => $topics,
         ]);
+
+
     }
 
     public function store(Request $request){

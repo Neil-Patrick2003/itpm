@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import WorkerLayout from "@/Layouts/WorkerLayout.jsx";
-import {Head, Link, useForm} from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel.jsx";
 import TextInput from "@/Components/TextInput.jsx";
 import InputError from "@/Components/InputError.jsx";
@@ -23,11 +23,10 @@ const CreateRecord = () => {
         e.preventDefault();
         post('/health_workers/records/general/new_record', {
             onSuccess: () => {
-                reset(); // Clear the form data on success
-                // Optionally add success notification or redirect
+                reset();
             },
             onError: () => {
-                // Optionally handle error state or display a message
+                // Optionally handle errors here
             },
         });
     }
@@ -35,186 +34,170 @@ const CreateRecord = () => {
     return (
         <WorkerLayout>
             <Head title="Add Record" />
+            <div>
+                <Link href="/health_workers/records/general/create" className="flex items-center text-green-600 hover:underline mb-6">
+                    <FaArrowLeft className="mr-2" />
+                    Back
+                </Link>
+                <h2 className="text-center text-3xl font-semibold mb-8 text-gray-800">New Record</h2>
+            </div>
 
-            <Link href="/health_workers/records">
-                <FaArrowLeft />
-            </Link>
 
-            <h2 className="text-center">New Record</h2>
-            <form onSubmit={submit}>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 px-4">
+            <form onSubmit={submit} className="bg-white shadow-none md:shadow-lg rounded-lg p-2 md:p-8 max-w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     {/* Children Name */}
-                    <div className="col-span-3 md:col-span-2 ">
-                        <div className="w-full mt-4">
-                            <InputLabel htmlFor="children_name" value="Children Name" />
-                            <TextInput
-                                id="children_name"
-                                type="text"
-                                name="children_name"
-                                value={data.children_name}
-                                className="mt-1 block w-full"
-                                autoComplete="username"
-                                onChange={(e) => setData('children_name', e.target.value)}
-                                required
-                                icon={FaUser}
-                            />
-                            <InputError message={errors.children_name} className="mt-2" />
-                        </div>
+                    <div>
+                        <InputLabel htmlFor="children_name" value="Children Name" />
+                        <TextInput
+                            id="children_name"
+                            type="text"
+                            name="children_name"
+                            value={data.children_name}
+                            className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                            onChange={(e) => setData('children_name', e.target.value)}
+                            required
+                            icon={FaUser}
+                        />
+                        <InputError message={errors.children_name} className="mt-2" />
                     </div>
 
                     {/* Birth Date */}
-                    <div className="cols-span-3 md:col-span-1">
-                        <div className="w-full mt-4">
-                            <InputLabel htmlFor="birth_date" value="Birth Date" />
-                            <TextInput
-                                id="birth_date"
-                                type="date"
-                                name="birth_date"
-                                value={data.birth_date}
-                                className="mt-1 block w-full text-gray-400"
-                                onChange={(e) => setData('birth_date', e.target.value)}
-                                required
-                                icon={FaBirthdayCake}
-                            />
-                            <InputError message={errors.birth_date} className="mt-2" />
-                        </div>
+                    <div>
+                        <InputLabel htmlFor="birth_date" value="Birth Date" />
+                        <TextInput
+                            id="birth_date"
+                            type="date"
+                            name="birth_date"
+                            value={data.birth_date}
+                            className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                            onChange={(e) => setData('birth_date', e.target.value)}
+                            required
+                            icon={FaBirthdayCake}
+                        />
+                        <InputError message={errors.birth_date} className="mt-2" />
                     </div>
 
                     {/* Weight */}
-                    <div className="col-span-3 md:col-span-1">
-                        <div className="w-full mt-4">
-                            <InputLabel htmlFor="weight" value="Weight (kg)" />
-                            <TextInput
-                                id="weight"
-                                type="number"
-                                name="weight"
-                                value={data.weight}
-                                className="mt-1 block w-full"
-                                onChange={(e) => setData('weight', e.target.value)}
-                                required
-                                icon={FaWeight}
-                            />
-                            <InputError message={errors.weight} className="mt-2" />
-                        </div>
+                    <div>
+                        <InputLabel htmlFor="weight" value="Weight (kg)" />
+                        <TextInput
+                            id="weight"
+                            type="number"
+                            name="weight"
+                            value={data.weight}
+                            className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                            onChange={(e) => setData('weight', e.target.value)}
+                            required
+                            icon={FaWeight}
+                        />
+                        <InputError message={errors.weight} className="mt-2" />
                     </div>
 
                     {/* Height */}
-                    <div className="col-span-3 md:col-span-1">
-                        <div className="w-full mt-4">
-                            <InputLabel htmlFor="height" value="Height (cm)" />
-                            <TextInput
-                                id="height"
-                                type="number"
-                                name="height"
-                                value={data.height}
-                                className="mt-1 block w-full"
-                                onChange={(e) => setData('height', e.target.value)}
-                                required
-                                icon={FaRuler}
-                            />
-                            <InputError message={errors.height} className="mt-2" />
-                        </div>
+                    <div>
+                        <InputLabel htmlFor="height" value="Height (cm)" />
+                        <TextInput
+                            id="height"
+                            type="number"
+                            name="height"
+                            value={data.height}
+                            className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                            onChange={(e) => setData('height', e.target.value)}
+                            required
+                            icon={FaRuler}
+                        />
+                        <InputError message={errors.height} className="mt-2" />
                     </div>
 
                     {/* Gender */}
-                    <div className="col-span-3 md:col-span-1">
-                        <div className="w-full mt-4">
-                            <InputLabel htmlFor="gender" value="Gender" />
-                            <select
-                                className="mt-1 block border-gray-300 rounded-md w-full text-gray-400"
-                                name="gender"
-                                value={data.gender}
-                                onChange={(e) => setData('gender', e.target.value)}
-                            >
-                                <option>--Select--</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                            <InputError message={errors.gender} className="mt-2" />
-                        </div>
+                    <div>
+                        <InputLabel htmlFor="gender" value="Gender" />
+                        <select
+                            id="gender"
+                            name="gender"
+                            value={data.gender}
+                            onChange={(e) => setData('gender', e.target.value)}
+                            required
+                            className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                        >
+                            <option value="">-- Select --</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        <InputError message={errors.gender} className="mt-2" />
                     </div>
 
                     {/* Guardian Name */}
-                    <div className="col-span-3 md:col-span-2">
-                        <div className="w-full mt-4">
-                            <InputLabel htmlFor="parent_name" value="Guardian Name" />
-                            <TextInput
-                                id="parent_name"
-                                type="text"
-                                name="parent_name"
-                                value={data.parent_name}
-                                className="mt-1 block w-full"
-                                autoComplete="username"
-                                onChange={(e) => setData('parent_name', e.target.value)}
-                                required
-                                icon={FaUser}
-                            />
-                            <InputError message={errors.parent_name} className="mt-2" />
-                        </div>
+                    <div>
+                        <InputLabel htmlFor="parent_name" value="Guardian Name" />
+                        <TextInput
+                            id="parent_name"
+                            type="text"
+                            name="parent_name"
+                            value={data.parent_name}
+                            className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                            onChange={(e) => setData('parent_name', e.target.value)}
+                            required
+                            icon={FaUser}
+                        />
+                        <InputError message={errors.parent_name} className="mt-2" />
                     </div>
 
                     {/* Phone Number */}
-                    <div className="col-span-3 md:col-span-1">
-                        <div className="w-full mt-4">
-                            <InputLabel htmlFor="phone_number" value="Phone Number" />
-                            <TextInput
-                                id="phone_number"
-                                type="text"
-                                name="phone_number"
-                                value={data.phone_number}
-                                className="mt-1 block w-full"
-                                onChange={(e) => setData('phone_number', e.target.value)}
-                                required
-                                icon={FaPhoneAlt}
-                            />
-                            <InputError message={errors.phone_number} className="mt-2" />
-                        </div>
+                    <div>
+                        <InputLabel htmlFor="phone_number" value="Phone Number" />
+                        <TextInput
+                            id="phone_number"
+                            type="text"
+                            name="phone_number"
+                            value={data.phone_number}
+                            className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                            onChange={(e) => setData('phone_number', e.target.value)}
+                            required
+                            icon={FaPhoneAlt}
+                        />
+                        <InputError message={errors.phone_number} className="mt-2" />
                     </div>
 
                     {/* Address */}
-                    <div className="col-span-3 md:col-span-2">
-                        <div className="w-full mt-4">
-                            <InputLabel htmlFor="address" value="Address" />
-                            <TextInput
-                                id="address"
-                                type="text"
-                                name="address"
-                                value={data.address}
-                                className="mt-1 block w-full"
-                                onChange={(e) => setData('address', e.target.value)}
-                                required
-                                icon={FaHome}
-                            />
-                            <InputError message={errors.address} className="mt-2" />
-                        </div>
+                    <div className="md:col-span-2">
+                        <InputLabel htmlFor="address" value="Address" />
+                        <TextInput
+                            id="address"
+                            type="text"
+                            name="address"
+                            value={data.address}
+                            className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                            onChange={(e) => setData('address', e.target.value)}
+                            required
+                            icon={FaHome}
+                        />
+                        <InputError message={errors.address} className="mt-2" />
                     </div>
 
                     {/* Email */}
-                    <div className="col-span-3 md:col-span-1">
-                        <div className="w-full mt-4">
-                            <InputLabel htmlFor="email" value="Email" />
-                            <TextInput
-                                id="email"
-                                type="email"
-                                name="email"
-                                value={data.email}
-                                className="mt-1 block w-full"
-                                autoComplete="username"
-                                onChange={(e) => setData('email', e.target.value)}
-                                required
-                                icon={FaEnvelope}
-                            />
-                            <InputError message={errors.email} className="mt-2" />
-                        </div>
+                    <div className="md:col-span-2">
+                        <InputLabel htmlFor="email" value="Email" />
+                        <TextInput
+                            id="email"
+                            type="email"
+                            name="email"
+                            value={data.email}
+                            className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                            onChange={(e) => setData('email', e.target.value)}
+                            required
+                            icon={FaEnvelope}
+                        />
+                        <InputError message={errors.email} className="mt-2" />
                     </div>
                 </div>
 
                 {/* Submit Button */}
-                <div className="flex w-full justify-center p-4">
+                <div className="mt-8 flex justify-end">
                     <button
                         type="submit"
                         disabled={processing}
-                        className="bg-green-200 w-full md:w-1/3 py-2 rounded-full shadow drop-shadow-xl/25"
+                        className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 transition-colors w-full md:w-1/4 py-3 rounded-lg text-white font-semibold shadow-lg"
                     >
                         {processing ? "Saving..." : "Submit"}
                     </button>
@@ -222,6 +205,6 @@ const CreateRecord = () => {
             </form>
         </WorkerLayout>
     );
-}
+};
 
 export default CreateRecord;

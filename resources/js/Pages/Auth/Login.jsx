@@ -99,12 +99,12 @@ export default function Login({ status, canResetPassword }) {
                         Log in
                     </button>
 
-                    <p className="text-sm text-center">
-                        Don’t have an account?{' '}
-                        <Link href="/register" className="text-green-600 hover:text-green-800">
-                            Signup
-                        </Link>
-                    </p>
+                    {/*<p className="text-sm text-center">*/}
+                    {/*    Don’t have an account?{' '}*/}
+                    {/*    <Link href="/register" className="text-green-600 hover:text-green-800">*/}
+                    {/*        Signup*/}
+                    {/*    </Link>*/}
+                    {/*</p>*/}
                 </div>
             </form>
         </GuestLayout>
