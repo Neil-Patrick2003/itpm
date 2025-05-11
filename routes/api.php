@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Parent\AnnouncementController;
+use App\Http\Controllers\API\Parent\ForumController;
 use App\Http\Controllers\API\Parent\LoginController;
 use App\Http\Controllers\Parent\ChildrenController;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ Route::post('/parent/login', LoginController::class);
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => '/parent'], function () {
     Route::get('/children', ChildrenController::class);
     Route::get('/announcements', AnnouncementController::class);
+    Route::get('/forum', [ForumController::class, 'index']);
 });
 
 

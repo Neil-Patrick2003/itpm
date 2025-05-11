@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Controllers\API\Parent;
+
+use App\Http\Controllers\Controller;
+use App\Models\Children;
+use App\Models\Topic;
+use Request;
+
+
+class ForumController extends Controller
+{
+    public function index(Request $request)
+    {
+        $topics = Topic::with('user')
+            ->withCount(relations: 'posts') // adds 'posts_count' attribute
+            ->when($request->search, function ($q) use ($request) {
+                return $q->where('title', 'like', '%' . $request->search . '%');
+            })
+            ->latest()
+            ->get();
+
+        return [
+            'data' => $topics
+        ];
+    }
+}
