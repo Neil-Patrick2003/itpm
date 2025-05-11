@@ -38,17 +38,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Welcome, {{ $parent_name }}!</h1>
-    <p>Thank you for registering your child <strong>{{ $child_name }}</strong> in the <strong>{{ $program_name }}</strong> program.</p>
-
-    <p>You can now log in using the email address: <strong>{{ $parent_email }}</strong></p>
-    <p><strong>Your default password is the phone number you used during registration.</strong></p>
-
-    <p>If you want to change your password, click the button below:</p>
-
-    <a href="{{ url('/forgot-password') }}" class="button">Reset Your Password</a>
-
-    <p class="footer">If you did not register or received this email by mistake, please ignore it.</p>
+    "hello"
 </div>
 </body>
 </html>
