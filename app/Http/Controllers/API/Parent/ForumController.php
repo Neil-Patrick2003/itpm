@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Parent;
 use App\Http\Controllers\Controller;
 use App\Models\Children;
 use App\Models\Topic;
-use Request;
+use Illuminate\Support\Facades\Request;
 
 
 class ForumController extends Controller
