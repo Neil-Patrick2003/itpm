@@ -12,7 +12,7 @@ class ForumController extends Controller
 {
     public function index(Request $request)
     {
-        $topics = Topic::with('user', ['posts' => 'postedy_by'] )
+        $topics = Topic::with(['user', 'posts.user'] )
             ->withCount( 'posts') // adds 'posts_count' attribute
             ->when($request->input('search'), function ($q) use ($request) {
                 return $q->where('title', 'like', '%' . $request->input('search') . '%');
