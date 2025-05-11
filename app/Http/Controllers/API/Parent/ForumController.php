@@ -14,8 +14,8 @@ class ForumController extends Controller
     {
         $topics = Topic::with('user')
             ->withCount(relations: 'posts') // adds 'posts_count' attribute
-            ->when($request->search, function ($q) use ($request) {
-                return $q->where('title', 'like', '%' . $request->search . '%');
+            ->when($request->input('search'), function ($q) use ($request) {
+                return $q->where('title', 'like', '%' . $request->input('search') . '%');
             })
             ->latest()
             ->get();
