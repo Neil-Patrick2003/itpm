@@ -20,5 +20,5 @@ class PostController extends Controller
         $post = Post::create(['topic_id' => $id, 'body' => $request->body, 'user_id' => auth()->id()]);
 
         return $post;
-    }
+    }   
 }

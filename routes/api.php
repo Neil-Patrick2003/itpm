@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => '/parent'], function (
     Route::get('/nutrition_plans', \App\Http\Controllers\API\Parent\NutritionController::class);
 
     Route::get('/blog', action: [BlogController::class, 'index']);
+    Route::post('/blog', action: [BlogController::class, 'store']);
 });
 
 
