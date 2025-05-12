@@ -17,6 +17,8 @@ class PostController extends Controller
             'body' => 'required'
         ]);
 
-        Post::create(['topic_id' => $id, 'body' => $request->body, 'user_id' => auth()->id()]);
+        $post = Post::create(['topic_id' => $id, 'body' => $request->body, 'user_id' => auth()->id()]);
+
+        return $post;
     }
 }
