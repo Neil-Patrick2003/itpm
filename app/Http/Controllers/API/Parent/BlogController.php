@@ -12,9 +12,9 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::with('users')
-        ->latest()
-        ->get();
+        $blogs = Blog::with('user')
+            ->latest()
+            ->get();
 
          return [
             'data' => $blogs
