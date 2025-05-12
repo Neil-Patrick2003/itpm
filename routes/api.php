@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\Parent\AnnouncementController;
+use App\Http\Controllers\API\Parent\ChildrenController;
 use App\Http\Controllers\API\Parent\LoginController;
-use App\Http\Controllers\Parent\ChildrenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
