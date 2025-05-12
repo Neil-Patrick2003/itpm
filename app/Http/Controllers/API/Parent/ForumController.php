@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Children;
 use App\Models\Topic;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\returnArgument;
 
 
 class ForumController extends Controller
@@ -24,4 +25,16 @@ class ForumController extends Controller
             'data' => $topics
         ];
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required'
+        ]);
+
+        $topic = Topic::create([ 'title' => $request->title, 'user_id' => auth()->id()]);
+
+        return $topic;
+    }
 }
+

@@ -15,6 +15,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => '/parent'], function (
     Route::get('/children', ChildrenController::class);
     Route::get('/announcements', AnnouncementController::class);
     Route::get('/forum', [ForumController::class, 'index']);
+    Route::post('/forum', [ForumController::class, 'store']);
     Route::get('/blog', [BlogController::class, 'index']);
 });
 
