@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => '/parent'], function (
     Route::get('/forum', [ForumController::class, 'index']);
     Route::post('/forum', [ForumController::class, 'store']);
     Route::post('/forum/{id}/post', PostController::class);
+    Route::get('/nutrition_plans', \App\Http\Controllers\API\Parent\NutritionController::class);
 
     Route::get('/blog', action: [BlogController::class, 'index']);
 });
