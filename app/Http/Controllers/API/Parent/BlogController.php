@@ -35,12 +35,11 @@ class BlogController extends Controller
             $image_url = $request->file('image')->storeAs($destination_path, $photo_name, 'public');
         }
 
-        Blog::create([
+       return Blog::create([
             'title' => $request->title,
             'body' => $request->body,
             'user_id' => auth()->id(),
             'image_url' => $image_url
         ]);
-
     }
 }
