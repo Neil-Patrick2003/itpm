@@ -19,7 +19,8 @@ class AnnouncementController extends Controller
         $announcements = Announcement::get();
 
         return [
-            'data' => $announcements
+            'announcements' => $announcements,
+            'incoming_events' => $incoming_events
         ];
     }
 }
