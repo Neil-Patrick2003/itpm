@@ -41,7 +41,11 @@ Route::get('/', function () {
 });
 
 Route::get('/download/app', function () {
-    return Response::download(public_path('downloads/nutrisafary.apk'), 'nutrisafary.apk');
+    $file = public_path('downloads/nutrisafary.apk');
+    
+    return response()->download($file, 'nutrisafary.apk', [
+        'Content-Type' => 'application/vnd.android.package-archive',
+    ]);
 });
 
 
