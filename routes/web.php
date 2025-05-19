@@ -54,7 +54,7 @@ Route::get('/email-1', function () {
 );
 
 
-
+    
 Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
 
@@ -133,7 +133,6 @@ Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function ()
 
     Route::get('/health_workers/records',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'index'])->name('records');
     Route::get('/health_workers/records/{id}',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'show'])->name('records');
-
 
     //store record per program
     Route::post('/health_workers/records/{id}/add_record', [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');

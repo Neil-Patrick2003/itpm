@@ -11,6 +11,8 @@ import {
 } from "@heroicons/react/24/outline";
 
 const ChildrenRecord = ({ beneficiaries, total_children, improved_children, boys, girls }) => {
+
+    console.log(beneficiaries);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredBeneficiaries, setFilteredBeneficiaries] = useState(beneficiaries);
     const [isLoading, setIsLoading] = useState(false);
@@ -139,10 +141,10 @@ const ChildrenRecord = ({ beneficiaries, total_children, improved_children, boys
                                         </td>
                                         <td className="px-4 py-4 text-green-700 whitespace-nowrap">
                                             {beneficiary.latest_bmi != null && beneficiary.current_bmi != null ? (
-                                                beneficiary.current_bmi > beneficiary.latest_bmi
+                                                beneficiary.current_bmi < beneficiary.latest_bmi
                                                     ? "Improved"
                                                     : beneficiary.current_bmi < beneficiary.latest_bmi
-                                                        ? "Declined"
+                                                        ? "Declined"    
                                                         : "No Change"
                                             ) : (
                                                 "No BMI Data"

@@ -9,11 +9,9 @@ use Carbon\Carbon;
 
 
 class AnnouncementController extends Controller
-{
+    {
     public function __invoke()
     {
-        
-
         $incoming_events = Program::where('start_date', '>', Carbon::now())->get();
 
         $announcements = Announcement::get();

@@ -34,6 +34,8 @@ class HealthWorkerController extends Controller
             ->whereHas('parent', function ($query) use ($user) {
                 $query->where('address', $user->assign_address);
             })
+            ->whereHas('program')  // This ensures children have a related program
+
             ->count();
 
         $beneficiary_count_incoming = Children::with('program', 'parent')

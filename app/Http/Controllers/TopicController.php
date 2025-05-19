@@ -19,11 +19,6 @@ class TopicController extends Controller
             ->latest()
             ->paginate(20, ['*'], 'page', $request->input('page', 1));
 
-
-
-
-
-
         return Inertia::render('Worker/Forum/ForumIndex', [
             'topics' => $topics,
         ]);
@@ -47,7 +42,9 @@ class TopicController extends Controller
 
     public function show($id){
 
-        $topic = Topic::with('user', 'posts')
+
+
+        $topic = Topic::with(['user', 'posts.user'])
             ->findOrFail($id);
 
 

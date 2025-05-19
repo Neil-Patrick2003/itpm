@@ -137,16 +137,18 @@ export default function Dashboard({
                                     <h3 className="text-lg font-semibold  mb-4 border-b pb-2">On going Program</h3>
 
                                     <p className="text-base  leading-relaxed">
-                                        {in_progress_program[0].Title}
-                                    </p>
-                                    <p className="text-base
-                                     leading-relaxed">
-                                        {in_progress_program[0].description.length > 100
-                                            ? `${in_progress_program[0].description.slice(0, 100)}...`
-                                            : in_progress_program[0].description}
+                                        <p className=" text-xl  leading-relaxed">
+                                            {in_progress_program?.[0]?.title ?? 'No upcoming program available'}
+                                        </p>
+
                                     </p>
                                     <p className="text-base leading-relaxed">
-                                        {in_progress_program[0].start_date}
+                                        {in_progress_program?.[0]?.description?.length > 100
+                                            ? `${in_progress_program[0].description.slice(0, 100)}...`
+                                            : in_progress_program?.[0]?.description ?? 'No description available'}
+                                    </p>
+                                    <p className="text-base leading-relaxed">
+                                        {in_progress_program?.[0]?.start_date ?? 'No start date available'}
                                     </p>
                                 </div>
                             ) : (
@@ -154,17 +156,20 @@ export default function Dashboard({
                                     <div className="flex flex-col gap-2">
                                         <h3 className="text-lg font-semibold mb-4 border-b pb-2">Upcoming Program</h3>
 
-                                        <p className="text-base text-xl  leading-relaxed">
-                                            {incoming_program[0].title}
+                                        <p className="text-base  leading-relaxed">
+                                        <p className=" text-xl  leading-relaxed">
+                                            {incoming_program?.[0]?.title ?? 'No upcoming program available'}
                                         </p>
-                                        <p className="text-base leading-relaxed">
-                                            {incoming_program[0].description.length > 100
-                                                ? `${incoming_program[0].description.slice(0, 100)}...`
-                                                : incoming_program[0].description}
-                                        </p>
-                                        <p className="text-base leading-relaxed">
-                                            {incoming_program[0].start_date}
-                                        </p>
+
+                                    </p>
+                                    <p className="text-base leading-relaxed">
+                                        {incoming_program?.[0]?.description?.length > 100
+                                            ? `${incoming_program[0].description.slice(0, 100)}...`
+                                            : incoming_program?.[0]?.description ?? 'No description available'}
+                                    </p>
+                                    <p className="text-base leading-relaxed">
+                                        {incoming_program?.[0]?.start_date ?? 'No start date available'}
+                                    </p>
                                     </div>
                                 </div>
 

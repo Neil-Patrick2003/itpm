@@ -25,10 +25,18 @@ class ProgramBeneficiaryController extends Controller
             );
 
 
-        $beneficiaries->each(function ($beneficiary) {
+        $beneficiaries->each(function (Children $beneficiary) {
             // Get the latest and current records (assumed to be ordered by created_at)
             $latestRecord = $beneficiary->record()->latest()->first();
             $currentRecord = $beneficiary->record()->orderBy('created_at', 'desc')->first();
+
+            
+        //  dump($latestRecord->toArray());
+
+        // dump($currentRecord->toArray());
+
+        // dump($beneficiary->toArray());
+           
 
             if ($latestRecord && $currentRecord) {
                 $beneficiary->latest_bmi = $latestRecord->bmi;
@@ -38,6 +46,7 @@ class ProgramBeneficiaryController extends Controller
                 $beneficiary->current_bmi = null;
             }
         });
+
 
 
         $improvedCount = $beneficiaries->filter(function ($beneficiary) {
