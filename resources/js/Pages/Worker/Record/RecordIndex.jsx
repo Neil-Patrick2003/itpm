@@ -37,7 +37,7 @@ const RecordIndex = ({ programs }) => {
                             <p className="mt-2 text-sm text-gray-600 line-clamp-1">
                                 {program.description}
                             </p>
-                        </div>
+                        </div>  
                         <div className="border-t p-4 flex justify-end">
                             <Link
                                 href={`/health_workers/records/${program.id}`}

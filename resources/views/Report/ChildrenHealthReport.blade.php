@@ -3,102 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <title>Children Beneficiaries Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            color: #333;
+            font-family: 'Segoe UI', 'Inter', sans-serif;
+            color: #2e3d2f;
             font-size: 14px;
-            margin: 40px;
-            background-color: #f9f9f9;
+            margin: 40px auto;
+            max-width: 1000px;
+            background-color: #f4fdf5;
+            line-height: 1.6;
         }
-
         h1, h2, h3 {
             text-align: center;
+            color: #256d42;
             margin-bottom: 10px;
-            color: #2c3e50;
         }
-
+        .header-meta {
+            text-align: center;
+            font-size: 13px;
+            margin-bottom: 30px;
+            color: #5d6e5a;
+        }
         .section {
-            margin-top: 40px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 24px 28px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 128, 0, 0.05);
+            margin-bottom: 30px;
         }
-
-        p, li {
-            line-height: 1.8;
-            margin: 5px 0;
+        .info-list p {
+            margin: 6px 0;
         }
-
         ul {
             margin: 10px 0 0 20px;
         }
-
+        .bold {
+            font-weight: 600;
+            color: #256d42;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
-            background: #fff;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px 12px;
-            text-align: left;
+            margin-top: 16px;
             font-size: 13px;
         }
-
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border: 1px solid #e0f1e7;
+        }
         th {
-            background: #f2f4f7;
-            color: #34495e;
+            background: #d7f0dd;
+            color: #1e4b30;
+            font-weight: 600;
         }
-
         tr:nth-child(even) {
-            background-color: #f9fafc;
+            background-color: #f7fcf9;
         }
-
         tr:hover {
-            background-color: #f0f4f8;
+            background-color: #e9f8ed;
         }
-
         .label {
             padding: 4px 8px;
             font-size: 11px;
+            font-weight: 600;
             border-radius: 4px;
-            color: #fff;
             display: inline-block;
             margin-left: 6px;
+            text-transform: uppercase;
         }
-
-        .underweight { background: #e74c3c; }
-        .normal { background: #2ecc71; }
-        .overweight { background: #f1c40f; color: #333; }
-        .obese { background: #e67e22; }
-
+        .underweight {
+            background-color: #f8d7da;
+            color: #a94442;
+        }
+        .normal {
+            background-color: #b2e6c7;
+            color: #1f542e;
+        }
+        .overweight {
+            background-color: #fff3cd;
+            color: #8a6d3b;
+        }
+        .obese {
+            background-color: #f5c6a5;
+            color: #944d20;
+        }
         .footer {
             text-align: center;
             font-size: 12px;
             margin-top: 60px;
-            color: #7f8c8d;
-        }
-
-        .bold {
-            font-weight: 600;
-        }
-
-        .info-list {
-            margin-top: 15px;
-        }
-
-        .info-list p {
-            margin: 6px 0;
-        }
-
-        .header-meta {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #555;
+            color: #6e826f;
+            padding-top: 20px;
+            border-top: 1px solid #cde9d6;
         }
     </style>
 </head>
@@ -121,7 +118,6 @@
 
     $remarkStats = ['Improved' => 0, 'Needs Improvement' => 0, 'No Change' => 0];
     $bmiSum = 0; $bmiCount = 0;
-
     $ages = [];
     $bmiTypes = ['Underweight' => 0, 'Normal' => 0, 'Overweight' => 0, 'Obese' => 0];
     $barangayCounts = [];
@@ -173,31 +169,35 @@
 <div class="header-meta">Generated on: {{ now()->toDayDateTimeString() }}</div>
 
 <div class="section">
-    <p>This report summarizes BMI trends and beneficiary demographics across barangays.</p>
+    <p>This report summarizes BMI trends and demographic data of children beneficiaries across barangays.</p>
 
     <div class="info-list">
-        <p><span class="bold">Total Children:</span> {{ $total }}</p>
-        <p><span class="bold">Gender:</span> {{ $male }} Male, {{ $female }} Female</p>
-        <p><span class="bold">Youngest Age:</span> {{ $youngest }} years</p>
-        <p><span class="bold">Oldest Age:</span> {{ $oldest }} years</p>
+        <p><span class="bold">Total Beneficiaries:</span> {{ $total }}</p>
+        <p><span class="bold">Gender Distribution:</span> {{ $male }} Male, {{ $female }} Female</p>
+        <p><span class="bold">Age Range:</span> Youngest: {{ $youngest }} years, Oldest: {{ $oldest }} years</p>
         <p><span class="bold">Average BMI:</span> {{ $avgBmi }}</p>
-        <p><span class="bold">BMI Trends:</span> Improved: {{ $remarkStats['Improved'] }}, Needs Improvement: {{ $remarkStats['Needs Improvement'] }}, No Change: {{ $remarkStats['No Change'] }}</p>
-        <p><span class="bold">Most Common BMI Classification:</span> {{ $mostCommonBmiType }}</p>
+        <p><span class="bold">BMI Trend Summary:</span></p>
+        <ul>
+            <li>Improved: {{ $remarkStats['Improved'] }}</li>
+            <li>Needs Improvement: {{ $remarkStats['Needs Improvement'] }}</li>
+            <li>No Change: {{ $remarkStats['No Change'] }}</li>
+        </ul>
+        <p><span class="bold">Most Common BMI Category:</span> {{ $mostCommonBmiType }}</p>
+
+        <p><span class="bold">Top 3 Barangays with Most Beneficiaries:</span></p>
+        <ul>
+            @foreach($topBarangays as $barangay => $count)
+                <li>{{ $barangay }} – {{ $count }} beneficiaries</li>
+            @endforeach
+        </ul>
+
+        <p><span class="bold">Age Group Breakdown:</span></p>
+        <ul>
+            @foreach($ageGroups as $label => $count)
+                <li>{{ $label }} – {{ $count }} children</li>
+            @endforeach
+        </ul>
     </div>
-
-    <p><span class="bold">Top 3 Barangays by Beneficiaries:</span></p>
-    <ul>
-        @foreach($topBarangays as $barangay => $count)
-            <li>{{ $barangay }} – {{ $count }} beneficiaries</li>
-        @endforeach
-    </ul>
-
-    <p><span class="bold">Age Group Distribution:</span></p>
-    <ul>
-        @foreach($ageGroups as $label => $count)
-            <li>{{ $label }} – {{ $count }} children</li>
-        @endforeach
-    </ul>
 </div>
 
 @foreach ($records as $address => $group)
@@ -205,48 +205,48 @@
         <h2>{{ $address }} ({{ count($group) }} Beneficiaries)</h2>
         <table>
             <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Birth Date</th>
-                <th>Gender</th>
-                <th>Latest BMI</th>
-                <th>Remark</th>
-            </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Birth Date</th>
+                    <th>Gender</th>
+                    <th>Latest BMI</th>
+                    <th>Trend</th>
+                </tr>
             </thead>
             <tbody>
-            @foreach ($group as $child)
-                @php
-                    $recordsSorted = collect($child['record'])->sortBy('created_at');
-                    $latestRecord = $recordsSorted->last();
-                    $firstBmi = optional($recordsSorted->first())['bmi'];
-                    $lastBmi = optional($latestRecord)['bmi'];
-                    $bmiStatus = $lastBmi ? classifyBmi($lastBmi) : ['Unknown', ''];
-                    $bmiLabel = $bmiStatus[0];
-                    $bmiClass = $bmiStatus[1];
+                @foreach ($group as $child)
+                    @php
+                        $recordsSorted = collect($child['record'])->sortBy('created_at');
+                        $latestRecord = $recordsSorted->last();
+                        $firstBmi = optional($recordsSorted->first())['bmi'];
+                        $lastBmi = optional($latestRecord)['bmi'];
+                        $bmiStatus = $lastBmi ? classifyBmi($lastBmi) : ['Unknown', ''];
+                        $bmiLabel = $bmiStatus[0];
+                        $bmiClass = $bmiStatus[1];
 
-                    if ($firstBmi && $lastBmi) {
-                        $remark = $lastBmi > $firstBmi ? 'Improved' : ($lastBmi < $firstBmi ? 'Needs Improvement' : 'No Change');
-                    } else {
-                        $remark = 'Insufficient Data';
-                    }
-                @endphp
-                <tr>
-                    <td>{{ $child['id'] }}</td>
-                    <td>{{ $child['name'] }}</td>
-                    <td>{{ $child['birth_date'] }}</td>
-                    <td>{{ ucfirst($child['gender']) }}</td>
-                    <td>
-                        @if ($lastBmi)
-                            {{ $lastBmi }}
-                            <span class="label {{ $bmiClass }}">{{ $bmiLabel }}</span>
-                        @else
-                            N/A
-                        @endif
-                    </td>
-                    <td>{{ $remark }}</td>
-                </tr>
-            @endforeach
+                        if ($firstBmi && $lastBmi) {
+                            $remark = $lastBmi > $firstBmi ? 'Improved' : ($lastBmi < $firstBmi ? 'Needs Improvement' : 'No Change');
+                        } else {
+                            $remark = 'Insufficient Data';
+                        }
+                    @endphp
+                    <tr>
+                        <td>{{ $child['id'] }}</td>
+                        <td>{{ $child['name'] }}</td>
+                        <td>{{ $child['birth_date'] }}</td>
+                        <td>{{ ucfirst($child['gender']) }}</td>
+                        <td>
+                            @if ($lastBmi)
+                                {{ $lastBmi }}
+                                <span class="label {{ $bmiClass }}">{{ $bmiLabel }}</span>
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>{{ $remark }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
