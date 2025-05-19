@@ -97,7 +97,7 @@ const MealIndex = ({announcements}) => {
 
 
             <div className="shadow p-4 bg-white rounded-md min-h-screen ">
-                <div className="flex justify-between border items-center mb-4">
+                <div className="flex justify-between items-center mb-4">
                     <div className="flex gap-4 items-center">
                         <div className="bg-gray-200 rounded-full p-2 flex justify-center items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
@@ -124,8 +124,8 @@ const MealIndex = ({announcements}) => {
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                     <tr>
-                        <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Ty</th>
-                        <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Announcement</th>
+                        <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider"></th>
+                        <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Plan</th>
                         <th className="px-6 py-3 text-center text-xs font-bold text-green-700 uppercase tracking-wider"></th>
                     </tr>
                     </thead>
@@ -147,11 +147,19 @@ const MealIndex = ({announcements}) => {
                         announcements.map((announcement) => (
                             <tr key={announcement.id}>
                                 <td>
-                                    { dayjs(announcement.created_at).format('MMMM D, YYYY') }
+                                    <h1 className="text-lg font-semi-bold text-gray-800">
+                                       {announcement.title}
+                                    </h1>
+                                    <span className="flex text-xs">
+                                       { dayjs(announcement.created_at).format('MMMM D, YYYY') }
+                                    </span>
+                                    
+                                    
+                                    
                                 </td>
                                 <td className="px-6 py-4 text-sm text-gray-900">
 
-                                            <div className="font-semibold">{announcement.title}</div>
+                                            <div className="font-semibold">{announcement.goal_type}</div>
                                             <div className="text-gray-500 text-sm">
                                                 <div dangerouslySetInnerHTML={{ __html: announcement.description }} />
                                             </div>
