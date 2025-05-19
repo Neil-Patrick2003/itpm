@@ -71,7 +71,7 @@ const Hero = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 1, delay: 1.3 }}
                     >
-                        Signup & get started today.
+                         Parent Companion App – Track, share, and engage with your child’s programs.
                     </motion.p>
                 </div>
 
