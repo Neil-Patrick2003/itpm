@@ -40,6 +40,12 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/download/app', function () {
+    return Response::download(public_path('downloads/nutrisafary.apk'), 'nutrisafary.apk');
+});
+
+
+
 Route::post('/send-message', [\App\Http\Controllers\Email\EmailController::class, 'sendContactEmail'])->name('email.store');;
 
 
@@ -54,7 +60,7 @@ Route::get('/email-1', function () {
 );
 
 
-    
+
 Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
 

@@ -32,7 +32,7 @@ const Hero = () => {
                         Your support builds stronger, healthier rural communities.
                     </motion.p>
 
-                    <Link href="/login" className="mt-4 w-full flex justify-center lg:justify-start">
+                    <a  href="/download/app" download className="mt-4 w-full flex justify-center lg:justify-start">
                         <motion.div
                             className="relative flex items-center w-full sm:w-[220px] bg-white rounded-full overflow-hidden shadow-md"
                             onMouseEnter={() => setIsHover(true)}
@@ -52,7 +52,7 @@ const Hero = () => {
                                 className="z-10 w-full text-center py-2 font-semibold text-lg"
                                 animate={{ color: isHover ? "#fff" : "#166534" }}
                             >
-                                Get Started
+                                Download App
                             </motion.p>
                             <motion.div
                                 className="absolute right-6 z-10"
@@ -63,7 +63,7 @@ const Hero = () => {
                                 </svg>
                             </motion.div>
                         </motion.div>
-                    </Link>
+                    </a>
 
                     <motion.p
                         className="text-sm md:text-base mt-6 text-gray-600"
