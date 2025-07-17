@@ -45,11 +45,11 @@ class Children extends Model
 
     }
 
+
     public function getAgeAttribute()
     {
         return $this->birth_date ?  Carbon::parse($this->birth_date)->age : 0;
     }
-
 
 
 }

@@ -40,6 +40,16 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/download/app', function () {
+    $file = public_path('downloads/nutrisafary.apk');
+    
+    return response()->download($file, 'nutrisafary.apk', [
+        'Content-Type' => 'application/vnd.android.package-archive',
+    ]);
+});
+
+
+
 Route::post('/send-message', [\App\Http\Controllers\Email\EmailController::class, 'sendContactEmail'])->name('email.store');;
 
 
@@ -133,7 +143,6 @@ Route::middleware(['auth', 'verified', 'role:health_worker'])->group(function ()
 
     Route::get('/health_workers/records',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'index'])->name('records');
     Route::get('/health_workers/records/{id}',  [\App\Http\Controllers\HealthWorker\ProgramController::class, 'show'])->name('records');
-
 
     //store record per program
     Route::post('/health_workers/records/{id}/add_record', [\App\Http\Controllers\HealthWorker\ProgramController::class, 'store'])->name('records');

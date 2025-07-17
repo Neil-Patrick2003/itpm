@@ -66,7 +66,6 @@ class RecordController extends Controller
 
     public function store(Request $request){
 
-
         $validated = $request->validate([
             'children_name' => 'required|max:255|string',
             'birth_date' => 'required|max:255|date',
@@ -79,7 +78,7 @@ class RecordController extends Controller
             'gender' => 'required|max:255|string|in:male,female',
         ]);
 
-            $parent = User::create([
+        $parent = User::create([
             'name' => $request->parent_name,
             'email' => $request->email,
             'password' => hash('sha256', $request->phone_number),

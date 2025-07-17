@@ -11,7 +11,7 @@ class PostController extends Controller
     public function store(Request $request, $id)
     {
 
-
+        // dd(auth()->user()->toArray());
         $request->validate([
             'body' => 'required',
         ]);
@@ -21,6 +21,7 @@ class PostController extends Controller
             'user_id' => auth()->id(),
             'topic_id' => $id
         ]);
+
 
         return redirect()->back()->with('message', 'Post saved successfully!');
     }

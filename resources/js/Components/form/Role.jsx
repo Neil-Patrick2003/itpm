@@ -9,9 +9,9 @@ export default function Role({ data, setData }) {
                     onChange={(e) => setData('role', e.target.value)}
                 >
                     <option>--please select--</option>
-                    <option>Admin</option>
-                    <option>Health Worker</option>
-                    <option>Parent</option>
+                    <option value="Admin">Admin</option>
+                    <option value="health_worker">Health Worker</option>
+                    <option value="parent">Parent</option>
                 </select>
             </div>
             <hr className="my-4" />
